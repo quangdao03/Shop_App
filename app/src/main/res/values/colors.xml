@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="color_app">#9D44B5</color>
+    <color name="color_secondary">#4494B5</color>
+    <color name="blue_light">#DFF6FF</color>
+    <color name="color_app_dark">#002a72</color>
+    <color name="color_app_accent">#bfa8f8</color>
+    <color name="color_window">#f3f6fb</color>
+    <color name="rgb_53b0f6">#53b0f6</color>
+    <color name="blue">#0454FF</color>
+    <color name="color_payment">#007CCC</color>
+    <color name="bg_payment">#4AAEEF</color>
+    <color name="bg_payment_30">#4D4AAEEF</color>
+    <color name="bg_013E58">#013E58</color>
+    <color name="bg_start_gradient">#AAE1F7</color>
+
+    <color name="rgb_FF1201">#FF1201</color>
+    <color name="rgb_033544">#033544</color>
+
+    <color name="color_text_fb">#033544</color>
+    <color name="colorTransparent">#00FFFFFF</color>
+    <color name="green">#03FD3B</color>
+    <color name="green_color">#00FF0A</color>
+    <color name="blue_color">#008EFF</color>
+</resources>
