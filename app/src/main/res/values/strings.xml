@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Shop App</string>
+    <string name="app_home">Trang chủ</string>
+    <string name="app_favorite">Yêu thích</string>
+    <string name="app_history">Lịch sử</string>
+    <string name="app_account">Tài khoản</string>
+    <string name="app_profile">Tài khoản</string>
+    <string name="app_password">Change Password</string>
+    <string name="shop">Shop</string>
+    <string name="explore">Explore</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="account">Tài khoản</string>
+</resources>

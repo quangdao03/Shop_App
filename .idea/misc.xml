@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Documents/GitHub/Shop_App/app/src/main/res/drawable/ic_hoa4.xml" value="0.2085" />
+        <entry key="..\:/Documents/GitHub/Shop_App/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Documents/GitHub/Shop_App/app/src/main/res/layout/item_danhmuc_home.xml" value="0.25" />
+        <entry key="..\:/Documents/GitHub/Shop_App/app/src/main/res/layout/toolbar.xml" value="0.25" />
+        <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/drawable/ic_frame_223.xml" value="0.2085" />
+        <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/drawable/ic_hoa1.xml" value="0.2085" />
+        <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/drawable/ic_hoa4.xml" value="0.2085" />
+        <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/layout/item_danhmuc_home.xml" value="0.2359375" />
+        <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/layout/toolbar.xml" value="0.2359375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

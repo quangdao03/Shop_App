@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_marginTop="@dimen/dp50"
+        android:layout_width="362dp"
+        android:layout_gravity="center"
+        android:layout_height="351dp"
+        android:src="@drawable/on3" />
+
+    <TextView
+        android:layout_marginTop="@dimen/dp20"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:layout_gravity="center"
+        android:text="Achieve Higher Goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:alpha="0.8"
+        android:layout_marginTop="@dimen/dp10"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp16"
+        android:layout_gravity="center"
+        android:text="By boosting your producivity we help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:alpha="0.8"
+
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp16"
+        android:layout_gravity="center"
+        android:text="you achieve higher goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</LinearLayout>
