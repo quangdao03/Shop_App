@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'me.relex:circleindicator:2.1.6'
+    implementation 'com.google.firebase:firebase-database-ktx'
 }
