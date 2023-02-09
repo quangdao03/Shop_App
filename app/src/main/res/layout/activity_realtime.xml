@@ -37,6 +37,13 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/btnUpdate"
+        android:layout_margin="@dimen/dp20"
+        android:text="Update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
         android:id="@+id/btnDelete"
         android:layout_margin="@dimen/dp20"
         android:text="Xóa"
