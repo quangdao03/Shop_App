@@ -11,7 +11,14 @@
         android:id="@+id/etText"
         android:layout_margin="@dimen/dp20"
         android:padding="@dimen/dp20"
-        android:hint="Nhập dữ liệu"
+        android:hint="ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etTextName"
+        android:layout_margin="@dimen/dp20"
+        android:padding="@dimen/dp20"
+        android:hint="Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
@@ -30,7 +37,6 @@
 
     <TextView
         android:id="@+id/txtGet"
-        android:padding="@dimen/dp10"
         android:layout_margin="@dimen/dp16"
         android:textSize="@dimen/sp16"
         android:layout_width="match_parent"
@@ -45,9 +51,22 @@
 
     <Button
         android:id="@+id/btnDelete"
-        android:layout_margin="@dimen/dp20"
+
         android:text="Xóa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <Button
+
+        android:id="@+id/btnUser"
+        android:text="Add User"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="@dimen/dp10"
+        android:id="@+id/rcyUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
 
 </LinearLayout>

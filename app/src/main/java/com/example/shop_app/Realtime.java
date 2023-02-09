@@ -14,19 +14,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shop_app.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Realtime extends AppCompatActivity {
 
-    EditText etText;
-    Button btnAdd,btnDelete,btnUpdate;
+    EditText etText,etTextName;
+    Button btnAdd,btnDelete,btnUpdate,btnUser;
     TextView txtGet;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,10 +39,12 @@ public class Realtime extends AppCompatActivity {
 
         Button btnGet = findViewById(R.id.btnGet);
         etText = findViewById(R.id.etText);
+        etTextName = findViewById(R.id.etTextName);
         txtGet = findViewById(R.id.txtGet);
         btnAdd = findViewById(R.id.btnAdd);
         btnDelete = findViewById(R.id.btnDelete);
         btnUpdate = findViewById(R.id.btnUpdate);
+        btnUser = findViewById(R.id.btnUser);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +71,35 @@ public class Realtime extends AppCompatActivity {
                 onClickDelete();
             }
         });
+        btnUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                int id = Integer.parseInt(etText.getText().toString().trim());
+//                String name = etTextName.getText().toString().trim();
+//                User user = new User(id,name);
+//                onClickAddUser(user);
+
+                onClickAddAllUser();
+            }
+        });
+    }
+
+    private void onClickAddUser(User user) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("list_users");
+        String pathObject = String.valueOf(user.getId());
+        myRef.child(pathObject).setValue(user);
+    }
+
+    private void onClickAddAllUser(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("list_users");
+        List<User> list = new ArrayList<>();
+
+        list.add(new User(1,"Quang Dao1"));
+        list.add(new User(2,"Quang Dao2"));
+        list.add(new User(3,"Quang Dao3"));
+        myRef.setValue(list);
     }
 
     private void onClickUpdate() {
