@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.shop_app.MainActivity;
+import com.example.shop_app.activity.MainActivity;
 import com.example.shop_app.R;
 import com.example.shop_app.utils.DatalocalManager;
 

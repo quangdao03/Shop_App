@@ -1,5 +1,8 @@
 package com.example.shop_app.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
     private int id;
     private String name;
@@ -36,5 +39,10 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+    public Map<String,Object> toMap(){
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("name",name);
+        return result;
     }
 }

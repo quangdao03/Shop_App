@@ -4,20 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Realtime"
+    tools:context=".activity.Realtime"
     android:orientation="vertical">
 
     <EditText
         android:id="@+id/etText"
-        android:layout_margin="@dimen/dp20"
-        android:padding="@dimen/dp20"
         android:hint="ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/etTextName"
-        android:layout_margin="@dimen/dp20"
-        android:padding="@dimen/dp20"
         android:hint="Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -30,14 +26,13 @@
 
     <Button
         android:id="@+id/btnGet"
-        android:layout_margin="@dimen/dp20"
         android:text="Get dữ liệu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/txtGet"
-        android:layout_margin="@dimen/dp16"
+
         android:textSize="@dimen/sp16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

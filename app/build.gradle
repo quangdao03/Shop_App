@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.mikhaellopez:circularimageview:4.3.0'
 }

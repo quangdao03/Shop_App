@@ -1,4 +1,4 @@
-package com.example.shop_app;
+package com.example.shop_app.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.shop_app.R;
 import com.example.shop_app.fragment.AccountFragment;
 import com.example.shop_app.fragment.FavoriteFragment;
 import com.example.shop_app.fragment.HistoryFragment;

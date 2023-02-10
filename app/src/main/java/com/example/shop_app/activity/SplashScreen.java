@@ -1,4 +1,4 @@
-package com.example.shop_app;
+package com.example.shop_app.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -6,6 +6,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.shop_app.R;
 import com.example.shop_app.utils.DatalocalManager;
 
 

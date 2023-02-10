@@ -1,4 +1,4 @@
-package com.example.shop_app;
+package com.example.shop_app.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
+import com.example.shop_app.R;
 import com.example.shop_app.adapter.ViewPagerAdapter;
 
 import me.relex.circleindicator.CircleIndicator;

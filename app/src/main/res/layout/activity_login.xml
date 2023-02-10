@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    tools:context=".activity.LoginActivity"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"/>
 
     <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edt_Email"
         android:textSize="@dimen/sp14"
         android:hint="Email"
         android:layout_marginTop="@dimen/dp20"
@@ -47,6 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"/>
     <androidx.appcompat.widget.AppCompatEditText
+        android:inputType="textPassword"
+        android:id="@+id/edt_Password"
         android:textSize="@dimen/sp14"
         android:hint="Password"
         android:layout_marginTop="@dimen/dp20"
