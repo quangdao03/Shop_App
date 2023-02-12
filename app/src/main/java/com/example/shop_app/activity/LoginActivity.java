@@ -5,41 +5,63 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shop_app.R;
+import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    ImageView btnlogin;
+    ImageView img_Login;
+
+    TextView txt_Create;
     EditText edt_Email,edt_Password;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private String email, password;
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
         firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setCanceledOnTouchOutside(false);
 
-        btnlogin.setOnClickListener(new View.OnClickListener() {
+        img_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginUser();
+            }
+        });
+
+
+        txt_Create.setPaintFlags(txt_Create.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        txt_Create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(LoginActivity.this,RegisterUser.class));
             }
         });
 
@@ -71,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser() {
-        if (!validateEmail()|validatePassword()){
+        if (!validateEmail()|!validatePassword()){
             return;
         }
         email = edt_Email.getText().toString().trim();
@@ -104,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-//                        checkUserType();
+                        checkUserType();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -115,10 +137,35 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void checkUserType() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            String accountType = ""+ds.child("accountType").getValue();
+                            if (accountType.equals("User")){
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(LoginActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+    }
 
     private void init(){
-        btnlogin = findViewById(R.id.btnlogin);
+        img_Login = findViewById(R.id.img_Login);
         edt_Email = findViewById(R.id.edt_Email);
         edt_Password = findViewById(R.id.edt_Password);
+        txt_Create = findViewById(R.id.txt_Create);
     }
 }
