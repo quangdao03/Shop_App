@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProductDetail"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/toolbar"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:background="#F5E090"
+                android:src="@drawable/banner_product"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp200"/>
+
+            <TextView
+                android:layout_marginStart="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp34"
+                android:alpha="0.7"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp20"
+                android:padding="@dimen/dp10"
+                android:text="Daisy Eau de Toilette"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginStart="@dimen/dp20"
+                android:alpha="0.6"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp16"
+                android:padding="@dimen/dp10"
+                android:text="Marc Jacobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginStart="@dimen/dp10"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp16"
+                android:padding="@dimen/dp10"
+                android:text="Variants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_marginStart="@dimen/sp18"
+                    android:background="@drawable/bg_button_normal_login"
+                    android:drawableEnd="@drawable/ic_icon_check__style_stroke"
+                    style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                    android:text="100 ml"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:layout_marginStart="@dimen/sp18"
+                    android:background="@drawable/bg_button_normal_login"
+                    android:drawableEnd="@drawable/ic_icon_check__style_stroke"
+                    style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                    android:text="100 ml"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginStart="@dimen/dp10"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp16"
+                android:padding="@dimen/dp10"
+                android:text="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+
+                    android:id="@+id/txt_Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="@dimen/dp10"
+                    android:padding="@dimen/dp10"
+                    android:text="This fresh scent, created by master perfumer Alberto Morillas, is infused with succulent wild berries and soft white violets. A heart of velvety jasmine gives way to sandalwood to deliver a dreamy, lingering finish.
+Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twist, as charming and unique as the woman who wears the fragrance. The easy-to-use rollerball is the perfect travel size."
+                    android:textSize="@dimen/sp16" />
+
+
+                <LinearLayout
+
+                    android:id="@+id/ll_Price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/txt_Desc"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp20">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Price"
+                            android:textSize="@dimen/sp16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="Rp 567.000"
+                            android:textSize="@dimen/sp16" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dp20"
+                            android:layout_weight="1"
+                            android:text="Buy Now" />
+
+                        <Button
+                            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Buy Now" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>
