@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dp20"
+    android:background="@drawable/bg_left_right">
+
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp18"
+            android:text="Add to Cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_gravity="center|end"
+            android:padding="@dimen/dp5"
+            android:src="@drawable/ic_icons_close"
+            android:layout_width="@dimen/dp36"
+            android:layout_height="@dimen/dp36"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp20"
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+
+            android:background="@color/green"
+            android:src="@drawable/icon_hoa"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp20"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+
+                android:text="Sauvage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/sp14"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/dp10"
+                android:text="Dior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginEnd="@dimen/dp10"
+            android:textColor="@color/color_app"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp13"
+            android:text="View Detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <View
+        android:background="#E4E4E4"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp14"
+        android:layout_marginTop="@dimen/dp20"
+        android:text="Variant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp20"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_marginEnd="@dimen/dp10"
+            android:drawableEnd="@drawable/ic_icon_check__style_stroke"
+            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:text="100 ml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:drawableEnd="@drawable/ic_icon_check__style_stroke"
+            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:text="100 ml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp20"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            android:text="Quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp10"
+                android:background="@drawable/bg_edt_login"
+                android:text="-" />
+            <TextView
+                android:layout_marginEnd="@dimen/dp10"
+                android:textColor="@color/black"
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:background="@drawable/bg_edt_login"
+                android:layout_marginEnd="@dimen/dp10"
+                android:text="+"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp20"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_marginEnd="@dimen/dp20"
+            android:layout_weight="1"
+            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:text="Buy Now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_weight="1"
+            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:text="Add to Cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+</LinearLayout>

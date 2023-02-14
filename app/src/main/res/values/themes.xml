@@ -31,4 +31,24 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="TextInputSupport">
+        <item name="android:fontFamily">@font/readex</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/dp16</item>
+        <item name="android:textColorHint">@color/rgb_033544</item>
+        <item name="hintTextAppearance">@style/TextLabelSupport</item>
+    </style>
+    <style name="TextLabelSupport" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">@dimen/sp13</item>
+    </style>
+    <style name="EditTextBase">
+        <item name="android:fontFamily">@font/readex</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/rgb_033544</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textSize">@dimen/sp16</item>
+    </style>
 </resources>

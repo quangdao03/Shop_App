@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_margin="@dimen/dp10"
+            android:background="#FDC27A"
+            android:src="@drawable/item_hoa"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"/>
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp10"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp15"
+                android:text="Full of Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+
+                android:layout_marginTop="@dimen/dp10"
+                android:textSize="@dimen/sp13"
+                android:text="Zara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/dp30"
+                android:text="Rp 999.999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp10"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="end"
+                android:padding="@dimen/dp10"
+                android:src="@drawable/ic_heat"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"/>
+            <Button
+                android:layout_marginTop="@dimen/dp10"
+                style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                android:text="Buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
