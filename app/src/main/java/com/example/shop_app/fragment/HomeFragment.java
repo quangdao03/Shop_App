@@ -135,12 +135,12 @@ public class HomeFragment extends Fragment {
 
         listProductAdapter = new ListProductAdapter(getActivity(),productList);
         rcyProduct.setAdapter(listProductAdapter);
-        productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-        productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-        productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-        productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-        productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-        productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+        productList.add(new Product(1,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+        productList.add(new Product(2,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+        productList.add(new Product(3,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+        productList.add(new Product(4,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+        productList.add(new Product(5,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+        productList.add(new Product(6,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
 
     }
     public void SPNew(){
@@ -150,9 +150,9 @@ public class HomeFragment extends Fragment {
 
         listSPNew = new ListSPNew(getActivity(),sanPhamList1);
         rcySpNew.setAdapter(listSPNew);
-        sanPhamList1.add(new Product(R.drawable.fram1,"Essencia","Rp 999.999","(999)"));
-        sanPhamList1.add(new Product(R.drawable.fram2,"Sauvage","Rp 999.999","(999)"));
-        sanPhamList1.add(new Product(R.drawable.fram1,"Soothing","Rp 999.999","(999)"));
+        sanPhamList1.add(new Product(1,R.drawable.fram1,"Essencia","Rp 999.999","(999)"));
+        sanPhamList1.add(new Product(2,R.drawable.fram2,"Sauvage","Rp 999.999","(999)"));
+        sanPhamList1.add(new Product(3,R.drawable.fram1,"Soothing","Rp 999.999","(999)"));
 
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
 

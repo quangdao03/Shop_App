@@ -23,8 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.BrandAdapter;
 import com.example.shop_app.adapter.ListCategoryAdapter;
+import com.example.shop_app.adapter.ListProductAdapter;
 import com.example.shop_app.model.Brand;
 import com.example.shop_app.model.Category;
+import com.example.shop_app.model.Product;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,12 @@ public class Category_Product extends AppCompatActivity {
     ImageView ivToolbarRight, ivToolbarLeft;
     private String categoryID;
     RecyclerView rcyBrand;
+    ListProductAdapter adapter;
+    List<Product> productList = new ArrayList<>();
+
+    String name = "";
+
+
 
     BrandAdapter brandAdapter;
     List<Brand> brandList = new ArrayList<>();
@@ -62,8 +70,11 @@ public class Category_Product extends AppCompatActivity {
         tv_product_name.setText(categoryID);
 
         getBrand();
+        getProduct();
 
     }
+
+
 
     private void getBrand() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( Category_Product.this, RecyclerView.HORIZONTAL, false);
@@ -74,7 +85,6 @@ public class Category_Product extends AppCompatActivity {
 
 //        String pathObject = String.valueOf(user.getId());
 //        myRef.child(pathObject).setValue(user);
-        String name = "";
 
         if (categoryID.equals("Fragrance")){
             name = "Category1";
@@ -113,6 +123,33 @@ public class Category_Product extends AppCompatActivity {
             }
         });
 
+    }
+    private void getProduct() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myProdcut = database.getReference("Category/"+name+"/brand");
+        myProdcut.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (productList != null){
+                    productList.clear();
+                }
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    Product product = dataSnapshot.child("product").getValue(Product.class);
+//                    product.setImage(dataSnapshot.getValue().toString());
+//                }
+
+                snapshot.child("product").getValue();
+                Log.d("AAA",""+snapshot.child("product").getValue());
+                Toast.makeText(Category_Product.this, ""+snapshot.getValue(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void init(){

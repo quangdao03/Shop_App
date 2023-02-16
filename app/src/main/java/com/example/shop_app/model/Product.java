@@ -1,16 +1,30 @@
 package com.example.shop_app.model;
 
 public class Product {
+    private int id;
     private int image;
     private String name;
     private String price;
     private String number;
 
-    public Product(int image, String name, String price, String number) {
+    public Product(){
+
+    }
+
+    public Product(int id, int image, String name, String price, String number) {
+        this.id = id;
         this.image = image;
         this.name = name;
         this.price = price;
         this.number = number;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getImage() {
@@ -48,7 +62,8 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "image=" + image +
+                "id=" + id +
+                ", image=" + image +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", number='" + number + '\'' +

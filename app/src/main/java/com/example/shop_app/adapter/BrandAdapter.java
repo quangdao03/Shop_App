@@ -42,6 +42,12 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ListViewHold
         Brand brand = brandList.get(position);
         String url = brand.getImage();
         Glide.with(context).load(url).into(holder.iv_brand);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
