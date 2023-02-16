@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -138,9 +139,18 @@ public class RegisterUser extends AppCompatActivity {
     }
     private Boolean validatePassword() {
         String val = edt_Password.getText().toString();
+        String passwordVal = "^" +
+                "(?=.*[@#$%^&+=])" +     // at least 1 special character
+                "(?=\\S+$)" +            // no white spaces
+                ".{6,}" +                // at least 4 characters
+                "$";
         if (val.isEmpty()) {
             edt_Password.setError("Vui lòng nhập đầy đủ thông tin");
             edt_Password.requestFocus();
+            return false;
+        } else if (!val.matches(passwordVal)) {
+            edt_Password.setError("Mật khẩu không hợp lệ \n" +
+                    "Ít nhất 6 ký tự và có ít nhất 1 ký tự đặc biệt");
             return false;
         } else {
             edt_Password.setError(null);
@@ -197,7 +207,7 @@ public class RegisterUser extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(RegisterUser.this, "Tạo tài khoản thành công", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterUser.this, LoginActivity.class));
+                            startActivity(new Intent(RegisterUser.this, MainActivity.class));
                             finish();
                         }
                     })
@@ -209,6 +219,7 @@ public class RegisterUser extends AppCompatActivity {
                     });
 
         } else {
+
             String filePathAndName = "profile_images/" + "" + firebaseAuth.getUid();
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
@@ -239,7 +250,7 @@ public class RegisterUser extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 Toast.makeText(RegisterUser.this, "Tạo thành công", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(RegisterUser.this, LoginActivity.class));
+                                                startActivity(new Intent(RegisterUser.this, MainActivity.class));
                                                 finish();
                                             }
                                         })
@@ -256,6 +267,7 @@ public class RegisterUser extends AppCompatActivity {
                         @Override
                         public void onFailure(@androidx.annotation.NonNull Exception e) {
                             Toast.makeText(RegisterUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("AAA",e.getMessage());
                         }
                     });
         }
@@ -297,6 +309,9 @@ public class RegisterUser extends AppCompatActivity {
         return result;
 
     }
+    private void requestStoragePermission(){
+        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
+    }
     private void ImagePickFromCamera() {
 
         ContentValues contentValues = new ContentValues();
@@ -320,9 +335,7 @@ public class RegisterUser extends AppCompatActivity {
     private void requestCameraPermission(){
         ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
-    private void requestStoragePermission(){
-        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
-    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){

@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
+        edt_Email.setText("quangdao5320@gmail.com");
+        edt_Password.setText("123456@");
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Vui lòng đợi");

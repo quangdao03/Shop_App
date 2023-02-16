@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
-    android:layout_margin="5dp"
+
     >
         <LinearLayout
             android:gravity="center"
@@ -14,26 +14,12 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:src="@drawable/ic_hoa1"
+                android:id="@+id/iv_brand"
+                android:layout_width="73dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:id="@+id/productImage"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                 />
-            <TextView
-                android:alpha="0.7"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:id="@+id/productName_TextView"
-                style="@style/TextViewBase"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="6dp"
-                android:theme="@style/textTheme"
-                tools:text="Diet Coke" />
-
-
+                android:src="@drawable/ic_hoa1" />
 
         </LinearLayout>
 

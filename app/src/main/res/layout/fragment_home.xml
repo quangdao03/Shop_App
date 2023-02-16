@@ -7,7 +7,7 @@
     tools:context=".activity.MainActivity"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"></include>
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     style="@style/TextViewBase"
                     android:layout_marginStart="@dimen/dp10"
                     android:layout_marginTop="@dimen/dp10"
-                    android:text="Product Categoies" />
+                    android:text="@string/product_category" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcyCategory"
@@ -73,14 +73,15 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_weight="1"
-                    android:text="Popular Products"
-                    style="@style/TextViewBase"/>
+                    android:text="@string/product_popular"
+                    style="@style/TextViewBase"
+                    android:layout_width="0dp" />
                 <TextView
                     android:layout_gravity="center"
                     android:textSize="@dimen/sp13"
                     android:textColor="@color/color_app"
                     android:gravity="end"
-                    android:text="ViewAll"
+                    android:text="@string/view_all"
                     style="@style/TextViewBase"/>
 
 
@@ -95,13 +96,25 @@
                 android:layout_marginEnd="@dimen/dp10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <View
+                android:background="#EFEFEF"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp3"/>
             <TextView
+
                 style="@style/TextViewBase"
                 android:layout_marginStart="@dimen/dp10"
-                android:layout_marginTop="@dimen/dp10"
-                android:text="Promotion" />
+                android:layout_marginTop="@dimen/dp20"
+                android:text="@string/promotion" />
+
+
 
             <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/dp10"
                 app:cardCornerRadius="@dimen/dp10"
                 android:layout_marginStart="@dimen/dp10"
                 android:layout_marginEnd="@dimen/dp10"
@@ -122,15 +135,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text="New Arrivals"
+                android:text="@string/new_arrivals"
                 style="@style/TextViewBase"/>
             <TextView
                 android:layout_gravity="center"
                 android:textSize="@dimen/sp13"
                 android:textColor="@color/color_app"
                 android:gravity="end"
-                android:text="ViewAll"
+                android:text="@string/view_all"
                 style="@style/TextViewBase"/>
         </LinearLayout>
 

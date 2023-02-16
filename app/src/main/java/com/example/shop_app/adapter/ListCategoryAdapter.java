@@ -1,25 +1,29 @@
 package com.example.shop_app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.Category_Product;
 import com.example.shop_app.model.Category;
 
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ListCategoryAdapter extends RecyclerView.Adapter<ListCategoryAdapter.ListViewHolder> {
+
+
     Context context;
     private List<Category> categoryList;
 
@@ -42,8 +46,20 @@ public class ListCategoryAdapter extends RecyclerView.Adapter<ListCategoryAdapte
         if (category==null){
             return;
         }
-        Picasso.get().load(category.getImage()).into(holder.productImage);
+        String url = category.getImage();
+
+        Glide.with(context).load(url).placeholder(R.drawable.ic_hoa1).into(holder.productImage);
+//        Picasso.get().load(url).placeholder(R.drawable.ic_hoa1).into(holder.productImage);
+
         holder.productName_TextView.setText(category.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Category_Product.class);
+                intent.putExtra("name",category.getName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

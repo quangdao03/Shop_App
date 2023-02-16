@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="@dimen/dp10"
         android:id="@+id/productContainer"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
             android:background="@color/green"
             android:id="@+id/productImage"
             android:src="@drawable/icon_hoa"
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_height="120dp"
  />
 
@@ -37,26 +37,26 @@
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.AppCompatImageView
                 android:src="@drawable/ic_address"
-                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginStart="@dimen/dp20"
                 android:layout_marginEnd="@dimen/dp5"
                 android:layout_gravity="center"
                 android:layout_width="@dimen/dp15"
                 android:layout_height="@dimen/dp15"/>
             <TextView
+                android:textSize="@dimen/sp14"
                 android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:id="@+id/productName_TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/textTheme"
                 android:text="4.5/5"/>
             <TextView
+                android:textSize="@dimen/sp14"
                 android:id="@+id/txnumber"
                 android:alpha="0.4"
                 android:layout_marginStart="@dimen/dp5"
                 android:textColor="@color/black"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/textTheme"
                 tools:text="(999)" />
         </LinearLayout>
 
@@ -73,8 +73,7 @@
                 android:layout_marginStart="@dimen/dp20"
                 android:textSize="@dimen/sp14"
                 android:text="Vert Malachite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
 
             <TextView
                 android:alpha="0.8"
@@ -85,8 +84,7 @@
                 android:layout_marginStart="@dimen/dp20"
                 android:textSize="@dimen/sp14"
                 android:text="Rp 999.999"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
         </LinearLayout>
     </LinearLayout>
     </androidx.cardview.widget.CardView>

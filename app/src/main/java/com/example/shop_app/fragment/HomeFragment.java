@@ -1,5 +1,6 @@
 package com.example.shop_app.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +28,14 @@ import com.example.shop_app.adapter.ListProductAdapter;
 import com.example.shop_app.adapter.ListSPNew;
 import com.example.shop_app.model.Category;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.model.User;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
@@ -37,12 +48,10 @@ public class HomeFragment extends Fragment {
     private ImageSlider imageSlider;
     View view;
     ViewPager viewPager;
-    LinearLayout sliderDotspanel;
     Timer timer;
+    ImageView ivToolbarLeft,ivToolbarRight;
+    TextView tvTitleToolbar;
     int page_position = 0;
-    private int dotscount;
-    private ImageView[] dots;
-    private Integer[] images = {R.drawable.slide, R.drawable.slide, R.drawable.slide, R.drawable.slide, R.drawable.slide};
     RecyclerView rcyCategory;
     ListCategoryAdapter listCategoryAdapter;
     List<Category> categoryList = new ArrayList<>();
@@ -56,42 +65,30 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container,false);
-        imageSlider = view.findViewById(R.id.imgSlider);
-        ArrayList<SlideModel> slideModels = new ArrayList<>();
-        slideModels.add(new SlideModel("https://cdn.shopify.com/s/files/1/0554/5879/1593/products/last_frame.png?v=1648751161", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://media.cnn.com/api/v1/images/stellar/prod/220818135836-ariana-grande-bodycare-lead-image-cnnu.jpg?c=original", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://cdn.shopify.com/s/files/1/0026/2022/7637/collections/master-navigation-image-2500x1750-shop-haircare-collection-1.jpg?v=1666334710", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://tutinminhdep.com/wp-content/uploads/2020/10/nhung-dung-cu-trang-diem-can-thiet.jpg", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://www.elleman.vn/wp-content/uploads/2020/04/01/174970/bia_nuoc-hoa-nam-gioi_0420.jpg", ScaleTypes.FIT));
-        imageSlider.setImageList(slideModels,ScaleTypes.FIT);
         mapping();
+        ArrayList<SlideModel> slideModels = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference().child("Slider")
+               .addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               for (DataSnapshot dataSnapshot:snapshot.getChildren())
+                   slideModels.add(new SlideModel(dataSnapshot.child("url").getValue().toString(),ScaleTypes.FIT));
+               imageSlider.setImageList(slideModels,ScaleTypes.FIT);
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+               Toast.makeText(requireContext(), "Fail Slider", Toast.LENGTH_SHORT).show();
+           }
+        });
+
+        ivToolbarLeft.setVisibility(View.GONE);
+        tvTitleToolbar.setText(R.string.app_home);
+
         Category();
         SP();
         SPNew();
         return  view;
-    }
-    public void scheduleSlider() {
-
-        final Handler handler = new Handler();
-
-        final Runnable update = new Runnable() {
-            public void run() {
-                if (page_position == dotscount) {
-                    page_position = 0;
-                } else {
-                    page_position = page_position + 1;
-                }
-                viewPager.setCurrentItem(page_position, true);
-            }
-        };
-
-        timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        }, 1000, 4000);
     }
 
 
@@ -100,20 +97,36 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.HORIZONTAL, false);
         rcyCategory.setLayoutManager (linearLayoutManager);
         rcyCategory.setHasFixedSize(true);
-
         listCategoryAdapter = new ListCategoryAdapter(getActivity(),categoryList);
         rcyCategory.setAdapter(listCategoryAdapter);
 
-        categoryList.add(new Category(R.drawable.ic_1,"Fragrance"));
-        categoryList.add(new Category(R.drawable.ic_2,"Bodycare"));
-        categoryList.add(new Category(R.drawable.ic_3,"Haircare"));
-        categoryList.add(new Category(R.drawable.ic_4,"Facial"));
-        categoryList.add(new Category(R.drawable.ic_5,"Makeup"));
-        categoryList.add(new Category(R.drawable.ic_6,"Medicine"));
-        categoryList.add(new Category(R.drawable.ic_7,"Men"));
-        categoryList.add(new Category(R.drawable.ic_8,"Others"));
 
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("Category");
+            myRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (categoryList!= null){
+                    categoryList.clear();
+                }
+                for (DataSnapshot getSnapshot: dataSnapshot.getChildren()) {
 
+                    Category category = getSnapshot.getValue(Category.class);
+                    category.setImage(getSnapshot.child("url").getValue().toString());
+                    category.setName(getSnapshot.child("name").getValue().toString());
+                    categoryList.add(category);
+
+                }
+                listCategoryAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "Get Fail Category", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     public void SP(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.HORIZONTAL, false);
@@ -128,8 +141,6 @@ public class HomeFragment extends Fragment {
         productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
         productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
         productList.add(new Product(R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-
-
 
     }
     public void SPNew(){
@@ -151,6 +162,10 @@ public class HomeFragment extends Fragment {
     }
 
     public void mapping(){
+        imageSlider = view.findViewById(R.id.imgSlider);
+        ivToolbarLeft = view.findViewById(R.id.ivToolbarLeft);
+        ivToolbarRight = view.findViewById(R.id.ivToolbarRight);
+        tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);
         rcyCategory = view.findViewById(R.id.rcyCategory);
         rcyProduct = view.findViewById(R.id.rcyProduct);
         rcySpNew = view.findViewById(R.id.rcySpNew);

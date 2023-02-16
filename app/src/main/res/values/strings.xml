@@ -11,4 +11,10 @@
     <string name="cart">Giỏ hàng</string>
     <string name="favorite">Yêu thích</string>
     <string name="account">Tài khoản</string>
+    <string name="product_category">Danh mục sản phẩm</string>
+    <string name="product_popular">Sản phẩm phổ biến</string>
+    <string name="view_all">Tất cả</string>
+    <string name="promotion">Khuyến mãi</string>
+    <string name="new_arrivals">Sản phẩm mới</string>
+    <string name="product">Product</string>
 </resources>

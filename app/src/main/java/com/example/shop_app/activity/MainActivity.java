@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import com.example.shop_app.R;
 import com.example.shop_app.fragment.AccountFragment;
 import com.example.shop_app.fragment.FavoriteFragment;
-import com.example.shop_app.fragment.HistoryFragment;
+import com.example.shop_app.fragment.CartFragment;
 import com.example.shop_app.fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.cartFragment:
                         if(mCurrentFragment != FRAGMENT_HISTORY){
-                            replaceFragment(new HistoryFragment());
+                            replaceFragment(new CartFragment());
                             mCurrentFragment = FRAGMENT_HISTORY;
 
                         }

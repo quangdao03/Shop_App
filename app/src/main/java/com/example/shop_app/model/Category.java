@@ -1,21 +1,35 @@
 package com.example.shop_app.model;
 
 public class Category {
-    private int image;
+    private  int id;
+
+    private String url;
     private String name;
 
+    public  Category(){
 
-    public Category(int image, String name) {
-        this.image = image;
+    }
+
+    public Category(int id, String image, String name) {
+        this.id = id;
+        this.url = image;
         this.name = name;
     }
 
-    public int getImage() {
-        return image;
+    public int getId() {
+        return id;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return url;
+    }
+
+    public void setImage(String image) {
+        this.url = image;
     }
 
     public String getName() {
@@ -29,7 +43,8 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "image=" + image +
+                "id='" + id + '\'' +
+                ", image='" + url + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }

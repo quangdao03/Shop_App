@@ -50,10 +50,19 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true" />
+            android:exported="true" >
+
+        </activity>
         <activity
             android:name=".activity.SplashScreen"
-            android:exported="true"></activity>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".activity.OnboardingActivity"
             android:exported="false" />
@@ -65,13 +74,9 @@
             android:exported="true">
 
         </activity>
-        <activity android:name=".activity.Product_Wishlist"
+        <activity android:name=".activity.Category_Product"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
