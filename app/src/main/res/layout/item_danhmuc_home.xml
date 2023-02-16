@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout">
@@ -9,7 +10,7 @@
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="@dimen/dp10"
         android:id="@+id/productContainer"
-        android:layout_width="160dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +27,7 @@
             android:background="@color/green"
             android:id="@+id/productImage"
             android:src="@drawable/icon_hoa"
-            android:layout_width="160dp"
+            android:layout_width="150dp"
             android:layout_height="120dp"
  />
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.model.Product;
 
@@ -41,7 +42,10 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         if (product==null){
             return;
         }
-        Picasso.get().load(product.getImage()).into(holder.productImage);
+        String url;
+        url = product.geturl();
+        Glide.with(context).load(url).into(holder.productImage);
+       // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());
         holder.txtname.setText(product.getName());
         holder.txtnumber.setText(product.getNumber());

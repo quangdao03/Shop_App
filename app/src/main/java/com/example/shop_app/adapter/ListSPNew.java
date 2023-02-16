@@ -40,7 +40,7 @@ public class ListSPNew extends RecyclerView.Adapter<ListSPNew.ListViewHolder> {
         if (sanPham==null){
             return;
         }
-        Picasso.get().load(sanPham.getImage()).into(holder.productImage);
+        Picasso.get().load(sanPham.geturl()).into(holder.productImage);
         holder.txtprice.setText(sanPham.getPrice());
         holder.txtname.setText(sanPham.getName());
         holder.txtnumber.setText(sanPham.getNumber());

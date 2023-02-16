@@ -2,18 +2,16 @@ package com.example.shop_app.model;
 
 public class Product {
     private int id;
-    private int image;
+    private String url ;
     private String name;
     private String price;
     private String number;
 
-    public Product(){
+    public Product(){}
 
-    }
-
-    public Product(int id, int image, String name, String price, String number) {
+    public Product(int id, String url, String name, String price, String number) {
         this.id = id;
-        this.image = image;
+        this.url = url;
         this.name = name;
         this.price = price;
         this.number = number;
@@ -27,12 +25,12 @@ public class Product {
         this.id = id;
     }
 
-    public int getImage() {
-        return image;
+    public String geturl() {
+        return url;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void seturl(String url) {
+        this.url = url;
     }
 
     public String getName() {
@@ -63,7 +61,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", image=" + image +
+                ", url=" + url +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", number='" + number + '\'' +

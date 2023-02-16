@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +41,9 @@ public class Category_Product extends AppCompatActivity {
     TextView tvTitleToolbar,tv_product_name;
     ImageView ivToolbarRight, ivToolbarLeft;
     private String categoryID;
-    RecyclerView rcyBrand;
+    RecyclerView rcyBrand,rcy_ProdcutCategory;
+
+
     ListProductAdapter adapter;
     List<Product> productList = new ArrayList<>();
 
@@ -68,7 +71,15 @@ public class Category_Product extends AppCompatActivity {
         });
         categoryID = getIntent().getStringExtra("name");
         tv_product_name.setText(categoryID);
-
+        if (categoryID.equals("Fragrance")){
+            name = "Category1";
+        } else if (categoryID.equals("Bodycare")) {
+            name = "Category2";
+        }else if (categoryID.equals("Haircare")) {
+            name = "Category3";
+        }else if (categoryID.equals("Facial")) {
+            name = "Category4";
+        }
         getBrand();
         getProduct();
 
@@ -82,20 +93,6 @@ public class Category_Product extends AppCompatActivity {
         rcyBrand.setHasFixedSize(true);
         brandAdapter = new BrandAdapter(Category_Product.this,brandList);
         rcyBrand.setAdapter(brandAdapter);
-
-//        String pathObject = String.valueOf(user.getId());
-//        myRef.child(pathObject).setValue(user);
-
-        if (categoryID.equals("Fragrance")){
-            name = "Category1";
-        } else if (categoryID.equals("Bodycare")) {
-            name = "Category2";
-        }else if (categoryID.equals("Haircare")) {
-            name = "Category3";
-        }else if (categoryID.equals("Facial")) {
-            name = "Category4";
-        }
-
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Category/"+name);
@@ -125,23 +122,38 @@ public class Category_Product extends AppCompatActivity {
 
     }
     private void getProduct() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager( Category_Product.this,2, GridLayoutManager.VERTICAL, false);
+
+        rcy_ProdcutCategory.setLayoutManager (gridLayoutManager);
+        rcy_ProdcutCategory.setHasFixedSize(true);
+        adapter = new ListProductAdapter(Category_Product.this,productList);
+        rcy_ProdcutCategory.setAdapter(adapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myProdcut = database.getReference("Category/"+name+"/brand");
+        DatabaseReference myProdcut = database.getReference("Category/"+name);
         myProdcut.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (productList != null){
                     productList.clear();
                 }
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    Product product = dataSnapshot.child("product").getValue(Product.class);
-//                    product.setImage(dataSnapshot.getValue().toString());
-//                }
 
-                snapshot.child("product").getValue();
-                Log.d("AAA",""+snapshot.child("product").getValue());
-                Toast.makeText(Category_Product.this, ""+snapshot.getValue(), Toast.LENGTH_SHORT).show();
+                for (DataSnapshot getData : dataSnapshot.child("product").getChildren()){
+                    Product product = getData.getValue(Product.class);
+                   product.seturl(getData.child("url").getValue().toString());
+                   product.setName(getData.child("name").getValue().toString());
+                   product.setPrice(getData.child("price").getValue().toString());
+                   product.setNumber(getData.child("quantity").getValue().toString());
+                    Log.d("AAA",""+getData);
+                    productList.add(product);
+                    Toast.makeText(Category_Product.this, ""+product, Toast.LENGTH_SHORT).show();
+                }
+                adapter.notifyDataSetChanged();
+
+
+
+
 
             }
 
@@ -154,6 +166,7 @@ public class Category_Product extends AppCompatActivity {
 
     private void init(){
 
+        rcy_ProdcutCategory = findViewById(R.id.rcy_ProdcutCategory);
         rcyBrand = findViewById(R.id.rcyBrand);
         tv_product_name = findViewById(R.id.tv_product_name);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
