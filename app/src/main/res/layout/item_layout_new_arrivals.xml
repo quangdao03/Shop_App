@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <TextView
+            android:id="@+id/txt_Creator"
             android:alpha="0.6"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/dp5"

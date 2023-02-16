@@ -107,14 +107,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+//            mDrawerLayout.closeDrawer(GravityCompat.START);
+//        }else{
+//            super.onBackPressed();
+//        }
+//    }
+
     private void replaceFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, fragment);

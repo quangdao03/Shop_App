@@ -141,13 +141,13 @@ public class Category_Product extends AppCompatActivity {
 
                 for (DataSnapshot getData : dataSnapshot.child("product").getChildren()){
                     Product product = getData.getValue(Product.class);
-                   product.seturl(getData.child("url").getValue().toString());
-                   product.setName(getData.child("name").getValue().toString());
-                   product.setPrice(getData.child("price").getValue().toString());
-                   product.setNumber(getData.child("quantity").getValue().toString());
+                    product.setUrl(getData.child("image").getValue().toString());
+                    product.setName(getData.child("name").getValue().toString());
+                    product.setPrice("Rp " +getData.child("price").getValue().toString());
+                    product.setQuantity(getData.child("quantity").getValue().toString());
                     Log.d("AAA",""+getData);
                     productList.add(product);
-                    Toast.makeText(Category_Product.this, ""+product, Toast.LENGTH_SHORT).show();
+
                 }
                 adapter.notifyDataSetChanged();
 

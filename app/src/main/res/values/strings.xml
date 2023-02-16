@@ -1,20 +1,20 @@
 <resources>
     <string name="app_name">Shop App</string>
-    <string name="app_home">Trang chủ</string>
-    <string name="app_favorite">Yêu thích</string>
+    <string name="app_home">Home</string>
+    <string name="app_favorite">WishList</string>
     <string name="app_history">Lịch sử</string>
-    <string name="app_account">Tài khoản</string>
-    <string name="app_profile">Tài khoản</string>
+    <string name="app_account">Account</string>
+    <string name="app_profile">Account</string>
     <string name="app_password">Change Password</string>
     <string name="shop">Shop</string>
     <string name="explore">Explore</string>
-    <string name="cart">Giỏ hàng</string>
-    <string name="favorite">Yêu thích</string>
-    <string name="account">Tài khoản</string>
-    <string name="product_category">Danh mục sản phẩm</string>
-    <string name="product_popular">Sản phẩm phổ biến</string>
-    <string name="view_all">Tất cả</string>
-    <string name="promotion">Khuyến mãi</string>
-    <string name="new_arrivals">Sản phẩm mới</string>
+    <string name="cart">Cart</string>
+    <string name="favorite">WishList</string>
+    <string name="account">Account</string>
+    <string name="product_category">Product Categories</string>
+    <string name="product_popular">Popular Products</string>
+    <string name="view_all">View All</string>
+    <string name="promotion">Promotion</string>
+    <string name="new_arrivals">New Arrivals</string>
     <string name="product">Product</string>
 </resources>

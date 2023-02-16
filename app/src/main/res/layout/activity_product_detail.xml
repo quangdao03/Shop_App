@@ -17,13 +17,15 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_product_detail"
                 android:layout_width="match_parent"
-                android:layout_height="186dp"
+                android:layout_height="200dp"
                 android:background="#F5E090"
                 android:src="@drawable/banner_product" />
 
             <TextView
-                android:layout_marginStart="@dimen/dp20"
+                android:id="@+id/tv_product_name"
+                android:layout_marginStart="@dimen/dp10"
                 android:layout_marginTop="@dimen/dp34"
                 android:alpha="0.7"
                 android:textStyle="bold"
@@ -31,20 +33,20 @@
                 android:textSize="@dimen/sp20"
                 android:padding="@dimen/dp10"
                 android:text="Daisy Eau de Toilette"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
 
             <TextView
-                android:layout_marginStart="@dimen/dp20"
+                android:id="@+id/tv_product_creator"
+                android:layout_marginStart="@dimen/dp10"
                 android:alpha="0.6"
                 android:textColor="@color/black"
-                android:textSize="@dimen/sp16"
+                android:textSize="@dimen/sp14"
                 android:padding="@dimen/dp10"
                 android:text="Marc Jacobs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
 
             <TextView
+                android:alpha="0.8"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/dp16"
                 android:layout_marginStart="@dimen/dp10"
@@ -52,31 +54,26 @@
                 android:textSize="@dimen/sp16"
                 android:padding="@dimen/dp10"
                 android:text="Variants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
+
+                <TextView
+                    android:id="@+id/tv_variant"
+                    style="@style/TextViewBase"
                     android:layout_marginStart="@dimen/sp18"
+                    android:alpha="0.6"
                     android:background="@drawable/bg_button_normal_login"
                     android:drawableEnd="@drawable/ic_icon_check__style_stroke"
-                    style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                    android:padding="@dimen/dp10"
                     android:text="100 ml"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <Button
-                    android:layout_marginStart="@dimen/sp18"
-                    android:background="@drawable/bg_button_normal_login"
-                    android:drawableEnd="@drawable/ic_icon_check__style_stroke"
-                    style="@style/Theme.AppCompat.DayNight.NoActionBar"
-                    android:text="100 ml"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/black" />
             </LinearLayout>
             <TextView
+                android:alpha="0.8"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/dp16"
                 android:layout_marginStart="@dimen/dp10"
@@ -84,17 +81,17 @@
                 android:textSize="@dimen/sp16"
                 android:padding="@dimen/dp10"
                 android:text="Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
             <TextView
-                android:id="@+id/txt_Desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:textColor="@color/black"
+                android:id="@+id/tv_desc"
+                style="@style/TextViewBase"
                 android:layout_marginStart="@dimen/dp10"
                 android:padding="@dimen/dp10"
                 android:text="This fresh scent, created by master perfumer Alberto Morillas, is infused with succulent wild berries and soft white violets. A heart of velvety jasmine gives way to sandalwood to deliver a dreamy, lingering finish.
 Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twist, as charming and unique as the woman who wears the fragrance. The easy-to-use rollerball is the perfect travel size."
-                android:textSize="@dimen/sp16" />
+                android:textSize="@dimen/sp14" />
 
 
                 <LinearLayout
@@ -112,15 +109,16 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            style="@style/TextViewBase"
                             android:layout_weight="1"
                             android:text="Price"
                             android:textSize="@dimen/sp16" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_price"
+                            android:textColor="@color/black"
+                            style="@style/TextViewBase"
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="Rp 567.000"
@@ -146,7 +144,7 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Buy Now" />
+                            android:text="Add to cart" />
                     </LinearLayout>
                 </LinearLayout>
 

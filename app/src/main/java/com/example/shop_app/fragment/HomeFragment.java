@@ -2,15 +2,15 @@ package com.example.shop_app.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,12 +24,11 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.ListCategoryAdapter;
-import com.example.shop_app.adapter.ListProductAdapter;
-import com.example.shop_app.adapter.ListSPNew;
+import com.example.shop_app.adapter.ListProductNew;
+import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.model.Category;
 import com.example.shop_app.model.Product;
-import com.example.shop_app.model.User;
-import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +40,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class HomeFragment extends Fragment {
@@ -57,10 +55,10 @@ public class HomeFragment extends Fragment {
     List<Category> categoryList = new ArrayList<>();
 
     RecyclerView rcyProduct,rcySpNew;
-    ListProductAdapter listProductAdapter;
+    ProductAdapter listProductAdapter;
     List<Product> productList = new ArrayList<>();
-    List<Product> sanPhamList1 = new ArrayList<>();
-    ListSPNew listSPNew;
+    List<Product> productNewList = new ArrayList<>();
+    ListProductNew listProductNew;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,10 +84,19 @@ public class HomeFragment extends Fragment {
         tvTitleToolbar.setText(R.string.app_home);
 
         Category();
-        SP();
-        SPNew();
+        ProductHome();
+        ProductNew();
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
         return  view;
     }
+
+
 
 
 
@@ -128,38 +135,95 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-    public void SP(){
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.HORIZONTAL, false);
-//        rcyProduct.setLayoutManager (linearLayoutManager);
-//        rcyProduct.setHasFixedSize(true);
-//
-//        listProductAdapter = new ListProductAdapter(getActivity(),productList);
-//        rcyProduct.setAdapter(listProductAdapter);
-//        productList.add(new Product(1,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-//        productList.add(new Product(2,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-//        productList.add(new Product(3,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-//        productList.add(new Product(4,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-//        productList.add(new Product(5,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
-//        productList.add(new Product(6,R.drawable.icon_hoa,"Vert Malachite","Rp 999.999","(999)"));
+    public void ProductHome(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.HORIZONTAL, false);
+        rcyProduct.setLayoutManager (linearLayoutManager);
+        rcyProduct.setHasFixedSize(true);
 
+        listProductAdapter = new ProductAdapter(getActivity(),productList);
+        rcyProduct.setAdapter(listProductAdapter);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myProdcut = database.getReference("Product");
+        Query query = myProdcut.orderByChild("rate").startAfter(3);
+        query.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (productList != null){
+                    productList.clear();
+                }
+
+                for (DataSnapshot getData : dataSnapshot.getChildren()){
+                    Product product = getData.getValue(Product.class);
+                    product.setUrl(getData.child("image").getValue().toString());
+                    product.setName(getData.child("name").getValue().toString());
+                    product.setPrice("Rp " +getData.child("price").getValue().toString());
+                    String quantity = "";
+                    quantity = getData.child("quantity").getValue().toString();
+                    product.setQuantity("("+quantity+")");
+                    Log.d("AAA",""+getData);
+                    productList.add(product);
+
+                }
+                listProductAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
-    public void SPNew(){
+    public void ProductNew(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.VERTICAL, false);
         rcySpNew.setLayoutManager (linearLayoutManager);
         rcySpNew.setHasFixedSize(true);
 
-        listSPNew = new ListSPNew(getActivity(),sanPhamList1);
-        rcySpNew.setAdapter(listSPNew);
-//        sanPhamList1.add(new Product(1,R.drawable.fram1,"Essencia","Rp 999.999","(999)"));
-//        sanPhamList1.add(new Product(2,R.drawable.fram2,"Sauvage","Rp 999.999","(999)"));
-//        sanPhamList1.add(new Product(3,R.drawable.fram1,"Soothing","Rp 999.999","(999)"));
-
+        listProductNew = new ListProductNew(getActivity(),productNewList);
+        rcySpNew.setAdapter(listProductNew);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
 
         rcySpNew.addItemDecoration(decoration);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myProdcut = database.getReference("Product");
+
+        //Lọc 2 phẩn tử đầu tiên của bảng dùng Query và limit
+        Query query = myProdcut.limitToFirst(2);
+        query.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (productNewList != null){
+                    productNewList.clear();
+                }
+
+                for (DataSnapshot getData : dataSnapshot.getChildren()){
+                    Product product = getData.getValue(Product.class);
+                    product.setUrl(getData.child("image").getValue().toString());
+                    product.setName(getData.child("name").getValue().toString());
+                    product.setPrice("Rp " +getData.child("price").getValue().toString());
+                    String quantity = "";
+                    quantity = getData.child("quantity").getValue().toString();
+                    product.setQuantity("("+quantity+")");
+                    Log.d("AAA",""+getData);
+                    productNewList.add(product);
+
+                }
+                listProductNew.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
+
 
     public void mapping(){
         imageSlider = view.findViewById(R.id.imgSlider);

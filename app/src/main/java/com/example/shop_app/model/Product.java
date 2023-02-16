@@ -5,16 +5,37 @@ public class Product {
     private String url ;
     private String name;
     private String price;
-    private String number;
+    private String quantity;
+    private int rate;
+    private String variant;
+    private String desc;
+    private String creator;
+    private Boolean favourite;
+
+    private String uid;
 
     public Product(){}
 
-    public Product(int id, String url, String name, String price, String number) {
+    public Product(int id, String url, String name, String price, String quantity, int rate, String variant, String desc, String creator, Boolean favourite,String uid) {
         this.id = id;
         this.url = url;
         this.name = name;
         this.price = price;
-        this.number = number;
+        this.quantity = quantity;
+        this.rate = rate;
+        this.variant = variant;
+        this.desc = desc;
+        this.creator = creator;
+        this.favourite = favourite;
+        this.uid = uid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public int getId() {
@@ -25,11 +46,11 @@ public class Product {
         this.id = id;
     }
 
-    public String geturl() {
+    public String getUrl() {
         return url;
     }
 
-    public void seturl(String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -49,22 +70,68 @@ public class Product {
         this.price = price;
     }
 
-    public String getNumber() {
-        return number;
+    public String getQuantity() {
+        return quantity;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public String getVariant() {
+        return variant;
+    }
+
+    public void setVariant(String variant) {
+        this.variant = variant;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public Boolean getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        this.favourite = favourite;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", url=" + url +
+                ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +
-                ", number='" + number + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", rate=" + rate +
+                ", variant='" + variant + '\'' +
+                ", desc='" + desc + '\'' +
+                ", creator='" + creator + '\'' +
+                ", favourite=" + favourite +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }

@@ -14,45 +14,43 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
-import com.example.shop_app.activity.Category_Product;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.model.Product;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ListViewHolder> {
+public class ListProductNew extends RecyclerView.Adapter<ListProductNew.ListViewHolder> {
     Context context;
-    private List<Product> productList;
+    private List<Product> products;
 
-    public ListProductAdapter(Context context, List<Product> productList) {
+    public ListProductNew(Context context, List<Product> products) {
         this.context = context;
-        this.productList = productList;
+        this.products = products;
     }
 
     @NonNull
     @Override
-    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_danhmuc_home,parent,false);
-        return new ListViewHolder(view);
+    public ListProductNew.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_new_arrivals,parent,false);
+        return new ListProductNew.ListViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-       Product product = productList.get(position);
+    public void onBindViewHolder(@NonNull ListProductNew.ListViewHolder holder, int position) {
+        Product product = products.get(position);
         if (product==null){
             return;
         }
         String url;
         url = product.getUrl();
         Glide.with(context).load(url).into(holder.productImage);
-       // Picasso.get().load(product.getImage()).into(holder.productImage);
+        // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());
         holder.txtname.setText(product.getName());
         holder.txtnumber.setText(product.getQuantity());
-
+        holder.txt_Creator.setText(product.getCreator());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,29 +59,28 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
                 context.startActivity(intent);
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        if(productList!=null){
-            return productList.size();
+        if(products!=null){
+            return products.size();
         }
         return 0;
     }
 
-    public static class ListViewHolder extends RecyclerView.ViewHolder{
+    public class ListViewHolder extends RecyclerView.ViewHolder{
         LinearLayout layout;
         ImageView productImage;
-        TextView productName_TextView,txtname,txtprice,txtnumber;
+        TextView txt_Creator,txtname,txtprice,txtnumber;
 
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);
-            productImage = itemView.findViewById(R.id.productImage);
-            productName_TextView = itemView.findViewById(R.id.productName_TextView);
+            productImage = itemView.findViewById(R.id.imgAnh);
             txtprice = itemView.findViewById(R.id.txtprice);
             txtname = itemView.findViewById(R.id.txtname);
-            txtnumber = itemView.findViewById(R.id.txnumber);
+            txtnumber = itemView.findViewById(R.id.txtnumber);
+            txt_Creator = itemView.findViewById(R.id.txt_Creator);
             layout = itemView.findViewById(R.id.layout);
 
         }

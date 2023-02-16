@@ -113,19 +113,15 @@
 
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_marginTop="@dimen/dp10"
-                app:cardCornerRadius="@dimen/dp10"
-                android:layout_marginStart="@dimen/dp10"
-                android:layout_marginEnd="@dimen/dp10"
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imgAnh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="144dp"
-                    android:src="@drawable/fram" />
-            </androidx.cardview.widget.CardView>
+                android:layout_height="130dp"
+                android:layout_margin="@dimen/dp10"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/fram"
+                app:riv_corner_radius="10dp" />
 
         <LinearLayout
             android:layout_marginStart="@dimen/dp10"

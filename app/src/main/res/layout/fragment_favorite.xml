@@ -10,6 +10,7 @@
     <include layout="@layout/toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_Wishlist"
         tools:itemCount="2"
         tools:listitem="@layout/layout_wishlist"
         android:orientation="vertical"

@@ -14,41 +14,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
-import com.example.shop_app.activity.Category_Product;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.model.Product;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
-public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ListViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ListViewHolder> {
     Context context;
     private List<Product> productList;
 
-    public ListProductAdapter(Context context, List<Product> productList) {
+    public ProductAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
     }
 
     @NonNull
     @Override
-    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_danhmuc_home,parent,false);
-        return new ListViewHolder(view);
+        return new ProductAdapter.ListViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-       Product product = productList.get(position);
+    public void onBindViewHolder(@NonNull ProductAdapter.ListViewHolder holder, int position) {
+        Product product = productList.get(position);
         if (product==null){
             return;
         }
         String url;
         url = product.getUrl();
         Glide.with(context).load(url).into(holder.productImage);
-       // Picasso.get().load(product.getImage()).into(holder.productImage);
+        // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());
         holder.txtname.setText(product.getName());
         holder.txtnumber.setText(product.getQuantity());
