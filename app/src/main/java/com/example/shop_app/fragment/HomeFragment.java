@@ -29,6 +29,7 @@ import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.model.Category;
 import com.example.shop_app.model.Product;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 
 
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
     Timer timer;
     ImageView ivToolbarLeft,ivToolbarRight;
     TextView tvTitleToolbar;
+    private FirebaseAuth firebaseAuth;
     int page_position = 0;
     RecyclerView rcyCategory;
     ListCategoryAdapter listCategoryAdapter;
@@ -64,6 +67,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container,false);
         mapping();
+        firebaseAuth = FirebaseAuth.getInstance();
         ArrayList<SlideModel> slideModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("Slider")
                .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -86,13 +90,7 @@ public class HomeFragment extends Fragment {
         Category();
         ProductHome();
         ProductNew();
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
 
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
         return  view;
     }
 
@@ -155,7 +153,8 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-                    Product product = getData.getValue(Product.class);
+//                    Product product = getData.getValue(Product.class);
+                    Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
                     product.setPrice("Rp " +getData.child("price").getValue().toString());
@@ -191,6 +190,7 @@ public class HomeFragment extends Fragment {
 
         //Lọc 2 phẩn tử đầu tiên của bảng dùng Query và limit
         Query query = myProdcut.limitToFirst(2);
+//        Query query1 = myProdcut.child("uid").equalTo(firebaseAuth.getUid());
         query.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -201,14 +201,14 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-                    Product product = getData.getValue(Product.class);
+//                    Product product = getData.getValue(Product.class);
+                    Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
                     product.setPrice("Rp " +getData.child("price").getValue().toString());
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");
-                    Log.d("AAA",""+getData);
                     productNewList.add(product);
 
                 }

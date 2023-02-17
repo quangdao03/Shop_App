@@ -71,8 +71,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ListView
 
     public static class ListViewHolder extends RecyclerView.ViewHolder{
         LinearLayout layout;
-        ImageView productImage;
-        TextView productName_TextView,txtname,txtprice,txtnumber;
+        ImageView productImage,imag_wishlist;
+        TextView productName_TextView,txtname,txtprice,txtnumber,tv_name,tv_creator,tv_price;
 
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);

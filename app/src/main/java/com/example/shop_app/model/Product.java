@@ -1,6 +1,12 @@
 package com.example.shop_app.model;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Product {
+
     private int id;
     private String url ;
     private String name;
@@ -29,6 +35,8 @@ public class Product {
         this.favourite = favourite;
         this.uid = uid;
     }
+
+
 
     public String getUid() {
         return uid;
@@ -133,5 +141,15 @@ public class Product {
                 ", favourite=" + favourite +
                 ", uid='" + uid + '\'' +
                 '}';
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("favourite", true);
+
+
+        return result;
     }
 }
