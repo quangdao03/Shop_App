@@ -114,6 +114,26 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginEnd="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            android:text="Price"
+            style="@style/TextViewBase"/>
+        <TextView
+            android:id="@+id/tv_price_product"
+            android:layout_marginTop="@dimen/dp20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            android:text="Price"
+            style="@style/TextViewBase"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp20"
         android:orientation="horizontal"
@@ -125,8 +145,16 @@
             android:textColor="@color/black"
             android:textSize="@dimen/sp14"
             android:text="Quantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            style="@style/TextViewBase" />
+        <TextView
+            android:layout_marginEnd="@dimen/dp20"
+            android:layout_gravity="center"
+            android:id="@+id/tv_price_product_final"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            android:text="Price"
+            style="@style/TextViewBase"/>
+
 
         <LinearLayout
             android:layout_gravity="center"
@@ -145,11 +173,10 @@
                 android:id="@+id/tv_quantity"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:textSize="@dimen/sp20"
-                android:layout_marginStart="@dimen/dp10"
-                android:layout_marginEnd="@dimen/dp10"
+                android:textSize="@dimen/sp16"
+                android:layout_marginStart="@dimen/dp20"
+                android:layout_marginEnd="@dimen/dp20"
                 android:textColor="@color/black"
-                android:text="0"
                 style="@style/TextViewBase"/>
 
             <ImageView

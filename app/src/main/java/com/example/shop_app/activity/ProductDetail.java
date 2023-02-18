@@ -138,7 +138,7 @@ public class ProductDetail extends AppCompatActivity {
                 Product product = new Product();
                 tv_product_name.setText(dataSnapshot.child("name").getValue().toString());
                 String image = dataSnapshot.child("image").getValue().toString();
-                Glide.with(ProductDetail.this).load(image).into(img_product_detail);
+                Glide.with(ProductDetail.this).load(image).placeholder(R.drawable.fram1).into(img_product_detail);
                 tv_creator.setText(dataSnapshot.child("creator").getValue().toString());
                 tv_variant.setText(dataSnapshot.child("variant").getValue().toString());
                 tv_desc.setText(dataSnapshot.child("desc").getValue().toString());

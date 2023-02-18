@@ -2,16 +2,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@android:color/holo_blue_dark">
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="History Fragment"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:layout_marginTop="70dp"></TextView>
+
+    <include layout="@layout/toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcy_Cart"
+
+                android:layout_margin="@dimen/dp10"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_checkout_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+
+
+
+            <RelativeLayout
+                android:padding="@dimen/dp20"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/ll_Price"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp16"
+                        android:text="Price Total"
+                        style="@style/TextViewBase"/>
+                    <TextView
+                        android:layout_marginTop="@dimen/dp10"
+                        android:id="@+id/txt_Price"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp18"
+                        android:text="RP 0"
+                        style="@style/TextViewBase"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+
+                    android:id="@+id/btn_BuyCart"
+                    android:layout_alignBottom="@+id/ll_Price"
+                    android:textSize="@dimen/sp16"
+                    style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_buy_now"
+                    android:layout_marginStart="@dimen/dp82"
+                    android:layout_alignParentEnd="true"
+                    android:text="Buy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

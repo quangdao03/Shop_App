@@ -33,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteFragment extends Fragment {
+public class FavoriteFragment extends Fragment  {
     TextView tvTitleToolbar;
     ImageView ivToolbarLeft,ivToolbarRight;
     RecyclerView rcy_Wishlist,rcy_ListProduct_More;

@@ -1,17 +1,20 @@
 package com.example.shop_app.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,8 +24,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.shop_app.OnItemClickListener;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ProductDetail;
+import com.example.shop_app.database.MyDatabaseHelper;
+import com.example.shop_app.fragment.CartFragment;
 import com.example.shop_app.model.Product;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -31,10 +37,17 @@ import java.util.List;
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListViewHolder> {
     Context context;
     private List<Product> productList;
+    private double cost = 0;
+    private double finalCost = 0;
+    private int quantity = 0;
+    String price;
+
+
 
     public WishListAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
+
     }
 
     @NonNull
@@ -46,12 +59,13 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WishListAdapter.ListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WishListAdapter.ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Product product = productList.get(position);
         if (product==null){
             return;
         }
+
         String url;
         url = product.getUrl();
         Glide.with(context).load(url).into(holder.imag_wishlist);
@@ -72,7 +86,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
             @Override
             public void onClick(View view) {
                 ImageView img_Product,count_down,count_add,btn_close;
-                TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity;
+                TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final;
                 Button btn_AddToCart,btn_BuyNow;
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -89,6 +103,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 tv_dialog_creator = dialog.findViewById(R.id.tv_dialog_creator);
                 tv_dialog_variant = dialog.findViewById(R.id.tv_dialog_variant);
                 img_Product = dialog.findViewById(R.id.img_Product);
+                tv_price_product = dialog.findViewById(R.id.tv_price_product);
+                tv_price_product_final = dialog.findViewById(R.id.tv_price_product_final);
                 tv_quantity = dialog.findViewById(R.id.tv_quantity);
                 count_down = dialog.findViewById(R.id.count_down);
                 count_add = dialog.findViewById(R.id.count_add);
@@ -98,7 +114,38 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 tv_dialog_name.setText(product.getName());
                 tv_dialog_creator.setText(product.getCreator());
                 tv_dialog_variant.setText(product.getVariant());
+
+                price = product.getPrice();
+                tv_price_product.setText(price);
                 Glide.with(context).load(url).into(img_Product);
+
+                quantity = 1;
+                tv_quantity.setText(""+quantity);
+                cost = Double.parseDouble(price.replaceAll("$", ""));
+                finalCost = Double.parseDouble(price.replaceAll("$", ""));
+                tv_price_product_final.setText(""+finalCost);
+
+                count_add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finalCost = finalCost + cost;
+                        quantity++;
+                        tv_price_product_final.setText(""+finalCost);
+                        tv_quantity.setText(""+quantity);
+                    }
+                });
+                count_down.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (quantity>1) {
+                            finalCost = finalCost - cost;
+                            quantity--;
+                            tv_price_product_final.setText("" + finalCost);
+                            tv_quantity.setText("" + quantity);
+                        }
+                    }
+                });
+
                 btn_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -106,9 +153,12 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                     }
                 });
 
+
+
                 btn_AddToCart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        dialog.dismiss();
                         final Dialog dialog = new Dialog(context);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.layout);
@@ -122,10 +172,32 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                         Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
                         TextView tv_tap = dialog.findViewById(R.id.tv_tap);
                         tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        String image = url;
+                        String name = tv_dialog_name.getText().toString().trim();
+                        String price_name = price;
+                        String creator = tv_dialog_creator.getText().toString().trim();
+                        String variant = tv_dialog_variant.getText().toString().trim();
+                        String totalprice = tv_price_product_final.getText().toString().trim().replace("$","");
+                        String quantity = tv_quantity.getText().toString().trim();
+                        String idProduct = String.valueOf(product.getId());
+
+
+
+
+
+                        addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
                         btn_Ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 dialog.dismiss();
+
+
+                            }
+                        });
+                        tv_tap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
                             }
                         });
                         dialog.show();
@@ -136,6 +208,12 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 dialog.show();
             }
         });
+
+    }
+
+    private void addToCart(String productID,String image, String name, String creator, String variant, String price, String priceEach, String quantity ){
+        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(context);
+        myDatabaseHelper.addCart(productID,image,name,creator,variant,price,priceEach,quantity);
 
     }
 
