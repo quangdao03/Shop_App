@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,11 +47,15 @@ public class CheckoutActivity extends AppCompatActivity {
     Button btn_submitOder;
     private double cost = 0;
     private double finalCost = 0;
-    public double totalPrice1;
+
     private int Qquantity = 1;
     double ship = 2;
 
+    public double b = 0.0;
+
     public  String shopId, OrderId;
+
+    public double totalpriceAll = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +79,12 @@ public class CheckoutActivity extends AppCompatActivity {
         checkUser();
         loadPaymentCart();
 
+
         a = getIntent().getStringExtra("total");
-//        Toast.makeText(this, ""+a, Toast.LENGTH_SHORT).show();
-        tv_price_total.setText(a);
+
+        totalpriceAll = totalpriceAll + Double.parseDouble(a);
+
+        tv_price_total.setText(String.format("%.0f",totalpriceAll));
         rcy_Payment.setAdapter(paymentAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this, RecyclerView.VERTICAL, false);
         rcy_Payment.setLayoutManager (linearLayoutManager);
@@ -93,19 +101,26 @@ public class CheckoutActivity extends AppCompatActivity {
 
             }
         });
+        double total_ship = Double.parseDouble(tv_price_total.getText().toString().trim());
+        if (total_ship > 0){
+            double totalAll = Double.parseDouble(tv_price_total.getText().toString().trim());
+
+            tv_price_paymentAll.setText(""+String.format("%.0f",totalAll+ship));
+        }else {
+            double totalAll = Double.parseDouble(tv_price_total.getText().toString().trim());
+            tv_price_paymentAll.setText(""+String.format("%.0f",totalAll));
+        }
+
         btn_submitOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cartList == null){
-                    Toast.makeText(CheckoutActivity.this, "Vui lòng thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                }else {
+
+
                     submitOder();
-                }
+
             }
         });
 
-        double b = Double.parseDouble(tv_price_total.getText().toString().trim());
-        tv_price_paymentAll.setText(""+b+ship);
     }
 
 
@@ -159,6 +174,7 @@ public class CheckoutActivity extends AppCompatActivity {
             String price = cursor.getString(6);
             String priceEach = cursor.getString(7);
             String quantity = cursor.getString(8);
+
             Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
             cartList.add(cart);
         }
@@ -167,7 +183,7 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onClickUpdateItem(Cart cart) {
 
             }
-
+            public double totalPrice1;
             @Override
             public void onClickDeleteItem(Cart cart) {
                 String priceEach = cart.getPriceEach();
@@ -179,14 +195,23 @@ public class CheckoutActivity extends AppCompatActivity {
 //                String productID = cart.getProductID();
 //                myDB.deleteData(productID);
 //                paymentAdapter.notifyDataSetChanged();
-                double tx = Double.parseDouble((tv_price_total.getText().toString().trim().replace("$","")));
-                totalPrice1 =  tx - Double.parseDouble(priceEach.replace("$",""));
-                tv_price_total.setText("$"+totalPrice1);
+                double tx = Double.parseDouble(tv_price_total.getText().toString().trim());
+                totalPrice1 =  tx - Double.parseDouble(priceEach);
+
+                double pricefinal = Double.parseDouble(String.valueOf(totalPrice1));
+
+                tv_price_total.setText(String.format("%.0f",pricefinal));
+
+                 b = Double.parseDouble(String.valueOf(pricefinal));
+                if (pricefinal == 0.0){
+                    tv_price_paymentAll.setText(""+String.format("%.0f",b));
+                }else {
+                    tv_price_paymentAll.setText(""+String.format("%.0f",b+ship));
+
+                }
                 if (cartList==null){
                     finish();
                 }
-                // tổng tiền đang không trừ khi xóa mặt hàng
-
 
             }
         });
@@ -194,67 +219,78 @@ public class CheckoutActivity extends AppCompatActivity {
     }
     String nameProduct;
     private void submitOder() {
-        for (int i = 0; i<cartList.size(); i++){
-            nameProduct = cartList.get(i).getName();
-        }
-        String timestamp = ""+ System.currentTimeMillis();
-        String cost = tv_price_paymentAll.getText().toString().trim();
-        String address = tv_address.getText().toString().trim();
-        String name = tv_username.getText().toString().trim();
-        String phone = tv_phone.getText().toString().trim();
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("orderId", timestamp);
-        hashMap.put("orderTime", timestamp);
-        hashMap.put("orderStatus", "Đang xử lý");
-        hashMap.put("orderName", name);
-        hashMap.put("orderPhone", phone);
-        hashMap.put("orderAddress", ""+address);
-        hashMap.put("orderCost", ""+cost);
-        hashMap.put("orderBy", ""+firebaseAuth.getUid());
-        hashMap.put("orderNameProduct", nameProduct);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child("Orders");
-        reference.child(timestamp).setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        for (int i = 0; i<cartList.size(); i++ ){
-                            String id = cartList.get(i).getCart_ID();
-                            String name = cartList.get(i).getName();
-                            String imgage = cartList.get(i).getImage();
-                            String productID = cartList.get(i).getProductID();
-                            String price = cartList.get(i).getPrice();
-                            String priceEach = cartList.get(i).getPriceEach();
-                            String quantity = cartList.get(i).getQuantity();
-                            String variant = cartList.get(i).getVariant();
-                            HashMap<String, String> hashMap1 = new HashMap<>();
-                            hashMap1.put("productID", productID);
-                            hashMap1.put("name", name);
-                            hashMap1.put("price", price);
-                            hashMap1.put("priceEach", priceEach);
-                            hashMap1.put("quantity", quantity);
-                            hashMap1.put("image", imgage);
-                            hashMap1.put("variant", variant);
-                            reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
-                        }
-                        progressDialog.dismiss();
-                        Toast.makeText(CheckoutActivity.this, "Tạo đơn hàng thành công ", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
-                        intent.putExtra("orderId", timestamp);
-                        intent.putExtra("orderTo", shopId);
-                        startActivity(intent);
-                        finish();
+                double total  = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
+                if (total == 0){
+                    Toast.makeText(this, "Vui lòng thêm sản phẩm vào để thanh toán", Toast.LENGTH_SHORT).show();
+                }else {
+                    for (int i = 0; i<cartList.size(); i++){
+                        nameProduct = cartList.get(i).getName();
+                    }
+                    String timestamp = ""+ System.currentTimeMillis();
+                    String cost = tv_price_paymentAll.getText().toString().trim();
+                    String address = tv_address.getText().toString().trim();
+                    String name = tv_username.getText().toString().trim();
+                    String phone = tv_phone.getText().toString().trim();
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("orderId", timestamp);
+                    hashMap.put("orderTime", timestamp);
+                    hashMap.put("orderStatus", "Đang xử lý");
+                    hashMap.put("orderName", name);
+                    hashMap.put("orderPhone", phone);
+                    hashMap.put("orderAddress", ""+address);
+                    hashMap.put("orderCost", ""+cost);
+                    hashMap.put("orderBy", ""+firebaseAuth.getUid());
+                    hashMap.put("orderNameProduct", nameProduct);
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(CheckoutActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
+                    reference.child(timestamp).setValue(hashMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    for (int i = 0; i<cartList.size(); i++ ){
+                                        String id = cartList.get(i).getCart_ID();
+                                        String name = cartList.get(i).getName();
+                                        String imgage = cartList.get(i).getImage();
+                                        String productID = cartList.get(i).getProductID();
+                                        String price = cartList.get(i).getPrice();
+                                        String priceEach = cartList.get(i).getPriceEach();
+                                        String quantity = cartList.get(i).getQuantity();
+                                        String variant = cartList.get(i).getVariant();
+                                        HashMap<String, String> hashMap1 = new HashMap<>();
+                                        hashMap1.put("productID", productID);
+                                        hashMap1.put("name", name);
+                                        hashMap1.put("price", price);
+                                        hashMap1.put("priceEach", priceEach);
+                                        hashMap1.put("quantity", quantity);
+                                        hashMap1.put("image", imgage);
+                                        hashMap1.put("variant", variant);
+                                        reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
+                                    }
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CheckoutActivity.this, "Tạo đơn hàng thành công ", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
+                                    intent.putExtra("orderId", timestamp);
+                                    intent.putExtra("orderTo", shopId);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CheckoutActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+
+
+            }
+
+
 
     private void mapping() {
         rcy_Payment = findViewById(R.id.rcy_Payment);

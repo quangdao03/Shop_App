@@ -78,7 +78,7 @@ public class CartFragment extends Fragment {
             String quantity = cursor.getString(8);
 
             allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
-            totalPrice.setText(""+allTotalPrice);
+            totalPrice.setText(""+String.format("%.0f",allTotalPrice));
             Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
             cartList.add(cart);
             Log.e("cart",cart.toString());
@@ -101,9 +101,9 @@ public class CartFragment extends Fragment {
                 String productID = cart.getProductID();
                 myDB.deleteData(productID);
                 cartAdapter.notifyDataSetChanged();
-                double tx = Double.parseDouble((totalPrice.getText().toString().trim().replace("$","")));
-                totalPrice1 =  tx - Double.parseDouble(priceEach.replace("$",""));
-                totalPrice.setText(""+totalPrice1);
+                double tx = Double.parseDouble((totalPrice.getText().toString().trim().replace("","")));
+                totalPrice1 =  tx - Double.parseDouble(priceEach.replace("",""));
+                totalPrice.setText(""+String.format("%.0f",totalPrice1));
 
             }
         });

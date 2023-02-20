@@ -56,24 +56,18 @@ public class ListDetailOrder extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this, RecyclerView.VERTICAL, false);
         rcy_List_Order.setLayoutManager (linearLayoutManager);
         rcy_List_Order.setHasFixedSize(true);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                orderList.clear();
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    String uid = ""+ds.getRef().getKey();
-                    Log.d("order",uid.toString());
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(uid).child("Orders");
-                    reference.orderByChild("orderBy").equalTo(firebaseAuth.getUid())
-                            .addValueEventListener(new ValueEventListener() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
+            reference.orderByChild("orderBy").equalTo(firebaseAuth.getUid())
+                    .addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (orderList!= null){
+                                        orderList.clear();
+                                    }
                                     for (DataSnapshot ds: snapshot.getChildren()){
                                         Order order = ds.getValue(Order.class);
                                         orderList.add(order);
-                                        // Lỗi chưa load đc ra list order
-
                                     }
                                     orderUserAdapter = new OrderUserAdapter(ListDetailOrder.this,orderList);
                                     rcy_List_Order.setAdapter(orderUserAdapter);
@@ -85,16 +79,13 @@ public class ListDetailOrder extends AppCompatActivity {
 
                                 }
                             });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ListDetailOrder.this, ""+error, Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
+
+
+
+
+
 
     private void mapping() {
 

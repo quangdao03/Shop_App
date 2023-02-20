@@ -66,7 +66,7 @@ public class OrderDetailUser extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this, RecyclerView.VERTICAL, false);
         rcy_Order.setLayoutManager (linearLayoutManager);
         rcy_Order.setHasFixedSize(true);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child("Orders").child(orderId).child("Items")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -92,7 +92,7 @@ public class OrderDetailUser extends AppCompatActivity {
     }
 
     private void loadOrderDetails() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child("Orders").child(orderId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override

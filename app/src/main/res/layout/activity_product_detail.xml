@@ -131,15 +131,10 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <Button
-                            style="@style/Theme.AppCompat.DayNight.NoActionBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dp20"
-                            android:layout_weight="1"
-                            android:text="Buy Now" />
-
-                        <Button
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_Add_to_cart"
+                            android:background="@drawable/bg_buy_now"
+                            android:textColor="@color/white"
                             style="@style/Theme.AppCompat.DayNight.NoActionBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

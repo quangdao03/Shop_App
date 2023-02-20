@@ -58,7 +58,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListView
         Glide.with(context).load(url).into(holder.imag_PaymnetList);
         holder.tv_name_payment.setText(cart.getName());
         holder.tv_variant_payment.setText(cart.getVariant());
-        holder.tv_price_payment.setText(cart.getPriceEach());
+        String price = cart.getPrice();
+        holder.tv_price_payment.setText(price);
         holder.tv_quantity_payment.setText(cart.getQuantity());
         holder.tv_remove.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,6 +3,7 @@ package com.example.shop_app.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -68,15 +70,14 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
 
         holder.tv_order_time.setText(date);
         holder.tv_Order_Status.setText(status);
-        holder.tv_order_id.setText(OrderId);
+        holder.tv_order_id.setText(time);
         holder.tv_Order_Name.setText(order.getOrderNameProduct());
-        holder.tv_Order_Cost.setText(cost);
+        holder.tv_Order_Cost.setText(cost+" $");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderDetailUser.class);
-                intent.putExtra("orderId", OrderId);
-                intent.putExtra("orderTo", orderTo);
+                intent.putExtra("orderId", time);
                 context.startActivity(intent);
             }
         });
@@ -91,7 +92,7 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
     }
 
     public static class ListViewHolder extends RecyclerView.ViewHolder{
-        LinearLayout ll_Order_detail;
+        CardView ll_Order_detail;
         TextView tv_order_time,tv_Order_Name,tv_Order_Cost,tv_Order_Status,tv_order_id;
 
         public ListViewHolder(@NonNull View itemView) {

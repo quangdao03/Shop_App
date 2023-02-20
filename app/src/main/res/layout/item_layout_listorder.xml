@@ -10,12 +10,11 @@
     android:padding="@dimen/dp10">
 
     <LinearLayout
-        android:layout_weight="1"
+        android:padding="@dimen/dp10"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_marginTop="@dimen/dp10"
             android:layout_marginStart="@dimen/dp10"
             android:layout_marginEnd="@dimen/dp10"
             android:orientation="horizontal"
@@ -44,7 +43,7 @@
         <LinearLayout
             android:layout_marginTop="@dimen/dp10"
             android:layout_marginStart="@dimen/dp10"
-            android:layout_marginEnd="@dimen/dp10"
+
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -52,7 +51,7 @@
                 android:layout_marginEnd="@dimen/dp5"
                 android:textSize="@dimen/sp16"
                 android:textColor="@color/black"
-                android:text="Đơn hàng:"
+                android:text="Sản phẩm:"
                 style="@style/TextViewBase"/>
             <TextView
                 android:id="@+id/tv_Order_Name"
@@ -61,6 +60,12 @@
                 android:textColor="@color/black"
                 android:text="Tên sản phẩm"
                 style="@style/TextViewBase"/>
+            <ImageView
+                android:layout_marginStart="@dimen/dp20"
+                android:layout_gravity="center"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_toright" />
 
         </LinearLayout>
         <LinearLayout
@@ -93,11 +98,6 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_marginEnd="@dimen/dp5"
-        android:layout_gravity="center"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_toright" />
+
 
 </androidx.cardview.widget.CardView>

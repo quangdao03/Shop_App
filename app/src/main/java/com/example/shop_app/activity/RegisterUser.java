@@ -41,7 +41,7 @@ public class RegisterUser extends AppCompatActivity {
 
     EditText edt_Username,edt_Email,edt_Password,edt_Phone, edt_Address;
 
-    TextView txt_Create;
+    TextView txt_Login;
     ImageView img_User,img_Register;
     private String[] locationPermissions;
     private String[] cameraPermissions;
@@ -76,6 +76,12 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 inputData();
+            }
+        });
+        txt_Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegisterUser.this,LoginActivity.class));
             }
         });
 
@@ -389,6 +395,6 @@ public class RegisterUser extends AppCompatActivity {
         edt_Address = findViewById(R.id.edt_Address);
         img_User = findViewById(R.id.img_User);
         img_Register = findViewById(R.id.img_Register);
-        txt_Create = findViewById(R.id.txt_Create);
+        txt_Login = findViewById(R.id.txt_Login);
     }
 }

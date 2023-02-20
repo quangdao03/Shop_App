@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.OnItemClickListener;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.CheckoutActivity;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.fragment.CartFragment;
@@ -69,7 +70,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
         String url;
         url = product.getUrl();
         Glide.with(context).load(url).into(holder.imag_wishlist);
-        holder.tv_price.setText(product.getPrice());
+        holder.tv_price.setText(product.getPrice() +" $");
         holder.tv_name.setText(product.getName());
         holder.tv_creator.setText(product.getCreator());
 
@@ -87,7 +88,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
             public void onClick(View view) {
                 ImageView img_Product,count_down,count_add,btn_close;
                 TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final;
-                Button btn_AddToCart,btn_BuyNow;
+                Button btn_AddToCart;
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.layout_dialog_buy);
@@ -109,7 +110,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 count_down = dialog.findViewById(R.id.count_down);
                 count_add = dialog.findViewById(R.id.count_add);
                 btn_AddToCart = dialog.findViewById(R.id.btn_AddToCart);
-                btn_BuyNow = dialog.findViewById(R.id.btn_BuyNow);
+
                 btn_close = dialog.findViewById(R.id.btn_close);
                 tv_dialog_name.setText(product.getName());
                 tv_dialog_creator.setText(product.getCreator());
@@ -154,7 +155,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 });
 
 
-
                 btn_AddToCart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -177,7 +177,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                         String price_name = price;
                         String creator = tv_dialog_creator.getText().toString().trim();
                         String variant = tv_dialog_variant.getText().toString().trim();
-                        String totalprice = tv_price_product_final.getText().toString().trim().replace("$","");
+                        String totalprice = tv_price_product_final.getText().toString().trim().replace("","");
                         String quantity = tv_quantity.getText().toString().trim();
                         String idProduct = String.valueOf(product.getId());
 

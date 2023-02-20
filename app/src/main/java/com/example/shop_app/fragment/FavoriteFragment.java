@@ -189,7 +189,7 @@ public class FavoriteFragment extends Fragment  {
                     Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
-                    product.setPrice("Rp " +getData.child("price").getValue().toString());
+                    product.setPrice(getData.child("price").getValue().toString()+" $");
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");

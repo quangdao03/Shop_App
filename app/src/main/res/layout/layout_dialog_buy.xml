@@ -204,23 +204,12 @@
             android:tooltipText="Add to Cart"
             android:textColor="@color/color_app"
             android:background="@drawable/bg_add_cart"
-            android:layout_marginEnd="@dimen/dp20"
             android:layout_weight="1"
             style="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:text="Add to Cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_BuyNow"
-            android:textSize="@dimen/sp16"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_buy_now"
-            android:layout_weight="1"
-            style="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:text="Buy now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 

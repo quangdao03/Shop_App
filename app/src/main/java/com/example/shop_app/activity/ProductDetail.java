@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
+import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Product;
 
 import com.example.shop_app.utils.CustomToast;
@@ -30,8 +32,10 @@ public class ProductDetail extends AppCompatActivity {
     TextView tv_product_name,tv_creator,tv_variant,tv_desc,tv_price,tvTitleToolbar;
     String name;
     FirebaseAuth firebaseAuth;
+    Button btn_Add_to_cart;
 
     String url;
+    String IDProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,7 @@ public class ProductDetail extends AppCompatActivity {
         ivToolbarLeft = findViewById(R.id.ivToolbarLeft);
         ivToolbarRight = findViewById(R.id.ivToolbarRight);
         img_product_detail = findViewById(R.id.img_product_detail);
+        btn_Add_to_cart = findViewById(R.id.btn_Add_to_cart);
 
 
         tvTitleToolbar.setText("Product Detail");
@@ -69,6 +74,13 @@ public class ProductDetail extends AppCompatActivity {
                 onClickWishList();
             }
         });
+        btn_Add_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addToCart();
+            }
+        });
+
 
     }
 
@@ -83,17 +95,15 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
-//                Product product = dataSnapshot.getValue(Product.class);
                 Product product = new Product();
                 tv_product_name.setText(dataSnapshot.child("name").getValue().toString());
-                String image = dataSnapshot.child("image").getValue().toString();
-                Glide.with(ProductDetail.this).load(image).into(img_product_detail);
+                url = dataSnapshot.child("image").getValue().toString();
+                Glide.with(ProductDetail.this).load(url).into(img_product_detail);
                 tv_creator.setText(dataSnapshot.child("creator").getValue().toString());
                 tv_variant.setText(dataSnapshot.child("variant").getValue().toString());
                 tv_desc.setText(dataSnapshot.child("desc").getValue().toString());
                 tv_price.setText(dataSnapshot.child("price").getValue().toString());
-
+                IDProduct = dataSnapshot.child("id").getValue().toString();
             }
 
             @Override
@@ -114,10 +124,6 @@ public class ProductDetail extends AppCompatActivity {
         mapUpdate.put("favourite",true);
         mapUpdate.put("uid",firebaseAuth.getUid());
 
-//        Boolean value = true;
-//        product.setFavourite(value);
-
-
         data.updateChildren(mapUpdate, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @androidx.annotation.NonNull DatabaseReference ref) {
@@ -128,6 +134,24 @@ public class ProductDetail extends AppCompatActivity {
 
 
     }
+    private void addToCart() {
+        String image = url;
+        String name = tv_product_name.getText().toString().trim();
+        String price_name = tv_price.getText().toString().trim().replace("","");
+        String creator = tv_creator.getText().toString().trim();
+        String variant = tv_variant.getText().toString().trim();
+        String totalprice = tv_price.getText().toString().trim().replace("","");
+        int quantity = 1;
+        String idProduct = IDProduct.toString();
+        addToCart(idProduct,image,name,creator,variant,price_name,totalprice, String.valueOf(quantity));
+        CustomToast.makeText(ProductDetail.this,"Sản phẩm đã được thêm vào giỏ hàng",CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+    }
+    private void addToCart(String productID,String image, String name, String creator, String variant, String price, String priceEach, String quantity ){
+        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);
+        myDatabaseHelper.addCart(productID,image,name,creator,variant,price,priceEach,quantity);
+
+    }
+
 
     private void onClickToWishList() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -174,6 +198,8 @@ public class ProductDetail extends AppCompatActivity {
         });
 
     }
+
+
 
 
 

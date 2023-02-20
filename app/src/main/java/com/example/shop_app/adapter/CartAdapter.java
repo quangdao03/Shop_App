@@ -29,6 +29,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
 
     private CartFragment fragment;
 
+
     iClickListener mClick;
     public interface iClickListener {
         void onClickUpdateItem(Cart cart);
@@ -37,7 +38,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
 
     private double cost = 0;
     private double finalCost = 0;
-    private int Qquantity = 1;
+    private int quantity = 0;
     public CartAdapter(Context context, List<Cart> cartList,iClickListener iClickListener) {
         this.context = context;
         this.cartList = cartList;
@@ -62,16 +63,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         Glide.with(context).load(url).into(holder.imag_CartList);
         holder.tv_name_cart.setText(cart.getName());
         holder.tv_creator_cart.setText(cart.getCreator());
-
         String price = cart.getPriceEach();
         holder.tv_price_cart.setText(price);
 
-        holder.count_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+
+
         holder.tv_quantity.setText(cart.getQuantity());
         holder.item_delete_cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +80,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         });
 
     }
+
 
     @Override
     public int getItemCount() {

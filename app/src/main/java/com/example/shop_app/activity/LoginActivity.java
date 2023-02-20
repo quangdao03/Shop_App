@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.example.shop_app.R;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,13 +33,15 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    ImageView img_Login;
+    ImageView img_Login,imgShowPassword;
 
-    TextView txt_Create;
+    TextView txt_Create,forgotPass;
     EditText edt_Email,edt_Password;
+
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private String email, password;
+    Boolean ishowpass = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,31 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        imgShowPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId()==R.id.imgShowPassword){
+
+                    if(edt_Password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                        //Show Password
+                        imgShowPassword.setImageResource(R.drawable.ic_show);
+                        edt_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    }
+                    else{
+                        imgShowPassword.setImageResource(R.drawable.ic_showpass);
+                        //Hide Password
+                        edt_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                    }
+                }
+            }
+        });
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
+            }
+        });
     }
     private Boolean validateEmail(){
         String val = edt_Email.getText().toString().trim();
@@ -169,5 +199,7 @@ public class LoginActivity extends AppCompatActivity {
         edt_Email = findViewById(R.id.edt_Email);
         edt_Password = findViewById(R.id.edt_Password);
         txt_Create = findViewById(R.id.txt_Create);
+        imgShowPassword = findViewById(R.id.imgShowPassword);
+        forgotPass = findViewById(R.id.forgotPass);
     }
 }

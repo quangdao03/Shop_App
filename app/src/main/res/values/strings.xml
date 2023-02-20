@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Shop App</string>
     <string name="app_home">Home</string>
     <string name="app_favorite">WishList</string>
@@ -17,4 +17,24 @@
     <string name="promotion">Promotion</string>
     <string name="new_arrivals">New Arrivals</string>
     <string name="product">Product</string>
+    <string name="hello">Hello</string>
+    <string name="sign_in">Sign in to your account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="login">Login  </string>
+    <string name="no_account"> Create.</string>
+    <string name="addres_info">Address Information</string>
+    <string name="change">Change</string>
+    <string name="phone">0762132322</string>
+    <string name="address">Hà Nội</string>
+    <string name="address_add">+ Thêm địa chỉ cụ thể</string>
+    <string name="product_list">Product List</string>
+    <string name="purchase_summary">Purchase Summary</string>
+    <string name="total_price">Total Price</string>
+    <string name="price_product">$</string>
+    <string name="ship">Shipping Change</string>
+    <string name="total_payment">Total Payment</string>
+    <string name="payment">Payment</string>
+
 </resources>
