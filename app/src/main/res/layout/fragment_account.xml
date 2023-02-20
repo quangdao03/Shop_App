@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
 
     >
@@ -10,6 +11,7 @@
     <include layout="@layout/toolbar"/>
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/dp10"
         android:layout_marginTop="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"
         android:layout_marginEnd="@dimen/dp20"
@@ -24,7 +26,7 @@
             android:layout_height="80dp"
             android:src="@drawable/profile"
             app:civ_border_color="@color/color_app"
-            app:civ_border_width="1dp" />
+            app:civ_border_width="@dimen/dp2" />
         <LinearLayout
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp20"
@@ -35,26 +37,308 @@
             <TextView
                 android:id="@+id/txt_username"
                 android:textColor="@color/black"
-                android:textSize="@dimen/sp16"
+                android:textSize="@dimen/sp18"
                 android:text="Liam Henderson"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/txt_userphone"
                 android:layout_marginTop="@dimen/dp5"
                 android:textSize="@dimen/sp14"
                 android:text="0762132322"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/txt_email"
                 android:layout_marginTop="@dimen/dp5"
                 android:textSize="@dimen/sp14"
                 android:text="quangdao@gmail.com"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/TextViewBase"/>
         </LinearLayout>
     </LinearLayout>
+    <View
+
+        android:id="@+id/orderLine5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
+    <LinearLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/ll_MyOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp5"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_order" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp15"
+            android:layout_width="0dp"
+            style="@style/TextViewBase"
+            android:layout_margin="8dp"
+            android:layout_weight="9"
+            android:text="My Order"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_toright"
+            app:tint="@color/black" />
+    </LinearLayout>
+    <View
+        android:id="@+id/orderLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/ll_Address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp5"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_delivery_address" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            style="@style/TextViewBase"
+            android:layout_margin="8dp"
+            android:layout_weight="9"
+            android:text="Delivery Address"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_toright"
+            app:tint="@color/black" />
+    </LinearLayout>
+    <View
+        android:id="@+id/orderLine1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
+    <LinearLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/dp5"
+        android:id="@+id/ll_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_settings__style" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            style="@style/TextViewBase"
+            android:layout_margin="8dp"
+            android:layout_weight="9"
+            android:text="Account Settings"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_toright"
+            app:tint="@color/black" />
+    </LinearLayout>
+    <View
+        android:id="@+id/orderLine2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
+    <LinearLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/dp5"
+        android:id="@+id/orderContainer3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_help_icon" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            style="@style/TextViewBase"
+            android:layout_margin="8dp"
+            android:layout_weight="9"
+            android:text="Help"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_toright"
+            app:tint="@color/black" />
+    </LinearLayout>
+    <View
+        android:id="@+id/orderLine3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
+    <LinearLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/orderContainer4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp5"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_about_icon" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            style="@style/TextViewBase"
+            android:layout_margin="8dp"
+            android:layout_weight="9"
+            android:text="About"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_toright"
+            app:tint="@color/black" />
+    </LinearLayout>
+    <View
+        android:id="@+id/orderLine6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/ll_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp5"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:src="@drawable/icons8_logout_rounded_left_48px_1" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            style="@style/TextViewBase"
+            android:layout_margin="8dp"
+            android:layout_weight="9"
+            android:text="Logout"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_toright"
+            app:tint="@color/black" />
+    </LinearLayout>
+    <View
+        android:id="@+id/orderLine4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
 
 
 </LinearLayout>

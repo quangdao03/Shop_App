@@ -16,11 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.EditUser;
+import com.example.shop_app.activity.ListDetailOrder;
 import com.example.shop_app.activity.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +35,7 @@ import java.util.HashMap;
 
 public class AccountFragment extends Fragment {
     View view;
-    LinearLayout orderContainer;
+    LinearLayout ll_logout,ll_Address,ll_MyOrder;
     TextView tvTitleToolbar,txt_username,txt_userphone,txt_email;
     ImageView ivToolbarLeft,ivToolbarRight,userImage_ImageView;
     private FirebaseAuth firebaseAuth;
@@ -51,10 +54,22 @@ public class AccountFragment extends Fragment {
         progressDialog.setTitle("Vui lòng đợi");
         progressDialog.setCanceledOnTouchOutside(false);
         checkUser();
-        ivToolbarRight.setOnClickListener(new View.OnClickListener() {
+        ll_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logOut();
+            }
+        });
+        ll_Address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), EditUser.class));
+            }
+        });
+        ll_MyOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ListDetailOrder.class));
             }
         });
         return view;
@@ -73,7 +88,7 @@ public class AccountFragment extends Fragment {
     private void loadMyInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -118,8 +133,6 @@ public class AccountFragment extends Fragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                // Do nothing
                 dialog.dismiss();
             }
         });
@@ -152,6 +165,9 @@ public class AccountFragment extends Fragment {
 
     private void init() {
 
+        ll_MyOrder = view.findViewById(R.id.ll_MyOrder);
+        ll_logout = view.findViewById(R.id.ll_logout);
+        ll_Address = view.findViewById(R.id.ll_Address);
         tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);
         ivToolbarLeft = view.findViewById(R.id.ivToolbarLeft);
         ivToolbarRight = view.findViewById(R.id.ivToolbarRight);

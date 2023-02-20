@@ -1,5 +1,6 @@
 package com.example.shop_app.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.activity.CheckoutActivity;
 import com.example.shop_app.adapter.CartAdapter;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Cart;
@@ -38,7 +41,7 @@ public class CartFragment extends Fragment {
     public double allTotalPrice = 0.0;
     public TextView totalPrice;
     View view;
-
+    public double totalPrice1;
 
     private double cost = 0;
     private double finalCost = 0;
@@ -75,7 +78,7 @@ public class CartFragment extends Fragment {
             String quantity = cursor.getString(8);
 
             allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
-            totalPrice.setText("$"+allTotalPrice);
+            totalPrice.setText(""+allTotalPrice);
             Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
             cartList.add(cart);
             Log.e("cart",cart.toString());
@@ -99,8 +102,30 @@ public class CartFragment extends Fragment {
                 myDB.deleteData(productID);
                 cartAdapter.notifyDataSetChanged();
                 double tx = Double.parseDouble((totalPrice.getText().toString().trim().replace("$","")));
-                double totalPrice1 =  tx - Double.parseDouble(priceEach.replace("$",""));
-                totalPrice.setText("$"+totalPrice1);
+                totalPrice1 =  tx - Double.parseDouble(priceEach.replace("$",""));
+                totalPrice.setText(""+totalPrice1);
+
+            }
+        });
+
+        btn_BuyCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cartList.size() == 0){
+                    Toast.makeText(getContext(), "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                String total = totalPrice.getText().toString().trim();
+                Intent intent = new Intent(getContext(), CheckoutActivity.class);
+                intent.putExtra("total",total);
+                startActivity(intent);
+//                totalPrice.setText("$"+0.0);
+//                myDatabaseHelper.deleteAllData();
+//                cartList.clear();
+//                cartAdapter.notifyDataSetChanged();
+
 
             }
         });

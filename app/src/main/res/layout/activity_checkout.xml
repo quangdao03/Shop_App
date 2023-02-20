@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CheckoutActivity"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginStart="@dimen/dp20"
+                android:layout_marginEnd="@dimen/dp20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/include">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:text="Address Information"
+                        style="@style/TextViewBase"/>
+                    <TextView
+                        android:id="@+id/tv_edit_location"
+                        android:textColor="@color/color_app"
+                        android:text="Change"
+                        style="@style/TextViewBase"/>
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:textColor="@color/black"
+                    android:text="Liam Henderson"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:alpha="0.5"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="0762132322"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:alpha="0.5"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="Hà Nội"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:id="@+id/tv_addresS_dialog"
+                    android:textSize="@dimen/sp14"
+                    android:alpha="0.5"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="+ Thêm địa chỉ cụ thể"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+            <TextView
+                android:layout_marginStart="@dimen/dp20"
+                android:textSize="@dimen/sp16"
+                android:layout_marginTop="@dimen/dp10"
+                android:textColor="@color/black"
+                android:text="Product List"
+                style="@style/TextViewBase"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcy_Payment"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_payment_product"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginStart="@dimen/dp20"
+                android:textSize="@dimen/sp16"
+                android:layout_marginTop="@dimen/dp10"
+                android:textColor="@color/black"
+                android:text="Purchase Summary"
+                style="@style/TextViewBase"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:alpha="0.5"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/dp20"
+                    android:textSize="@dimen/sp14"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="Total Price"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:layout_marginEnd="@dimen/dp5"
+                    android:id="@+id/tv_price_total"
+                    android:textSize="@dimen/sp14"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="Rp 99"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:alpha="0.8"
+                    android:layout_marginEnd="@dimen/dp20"
+                    android:textSize="@dimen/sp14"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="$"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp10"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:alpha="0.5"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/dp20"
+                    android:textSize="@dimen/sp14"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="Shipping Change"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:id="@+id/tv_price_ship"
+                    android:alpha="0.8"
+                    android:layout_marginEnd="@dimen/dp5"
+                    android:textSize="@dimen/sp14"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="2"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:alpha="0.8"
+                    android:layout_marginEnd="@dimen/dp20"
+                    android:textSize="@dimen/sp14"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="$"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp20"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:alpha="0.7"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/dp20"
+                    android:textSize="@dimen/sp16"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="Total Payment"
+                    style="@style/TextViewBase"/>
+                <TextView
+
+                    android:id="@+id/tv_price_paymentAll"
+                    android:layout_marginEnd="@dimen/dp5"
+                    android:textSize="@dimen/sp16"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="0"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:layout_marginEnd="@dimen/dp20"
+                    android:textSize="@dimen/sp16"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/black"
+                    android:text="$"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_submitOder"
+                android:layout_marginBottom="@dimen/dp10"
+                android:textSize="@dimen/sp16"
+                style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                android:layout_marginTop="@dimen/dp10"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_buy_now"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:text="Payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

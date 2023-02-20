@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/toolbar">
 
     <ImageView
         android:background="?android:attr/actionBarItemBackground"
@@ -37,4 +38,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_marginTop="13dp"
+        android:id="@+id/orderLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleToolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:id="@+id/ll_Order_detail"
+    android:layout_margin="@dimen/dp10"
+    app:cardCornerRadius="@dimen/dp10"
+    android:padding="@dimen/dp10">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginEnd="@dimen/dp5"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Đơn hàng:"
+                style="@style/TextViewBase"/>
+            <TextView
+                android:id="@+id/tv_order_id"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Đơn hàng:"
+                style="@style/TextViewBase"/>
+            <TextView
+                android:id="@+id/tv_order_time"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Đơn hàng"
+                style="@style/TextViewBase"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginEnd="@dimen/dp5"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Đơn hàng:"
+                style="@style/TextViewBase"/>
+            <TextView
+                android:id="@+id/tv_Order_Name"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Tên sản phẩm"
+                style="@style/TextViewBase"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginEnd="@dimen/dp5"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Tổng tiền:"
+                style="@style/TextViewBase"/>
+            <TextView
+                android:id="@+id/tv_Order_Cost"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Đơn hàng:"
+                style="@style/TextViewBase"/>
+            <TextView
+                android:id="@+id/tv_Order_Status"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/black"
+                android:text="Đơn xử lý"
+                style="@style/TextViewBase"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginEnd="@dimen/dp5"
+        android:layout_gravity="center"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_toright" />
+
+</androidx.cardview.widget.CardView>

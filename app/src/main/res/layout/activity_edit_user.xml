@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.EditUser"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_gravity="center"
+        android:id="@+id/img_User"
+        android:layout_width="@dimen/dp100"
+        android:layout_height="@dimen/dp100"
+        android:src="@drawable/profile"
+        app:civ_border_color="@color/color_app"
+        app:civ_border_width="@dimen/dp2" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp16"
+        style="@style/TextViewBase"
+        android:paddingEnd="@dimen/dp5"
+        android:id="@+id/edt_UserName"
+
+        android:hint="Username"
+        android:layout_marginTop="@dimen/dp20"
+        android:paddingStart="18dp"
+        android:drawablePadding="@dimen/dp10"
+        android:drawableStart="@drawable/profile"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:background="@drawable/bg_button_normal_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"/>
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:inputType="phone"
+        style="@style/TextViewBase"
+        android:paddingEnd="@dimen/dp5"
+        android:id="@+id/edt_Phone"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp16"
+        android:hint="Phone"
+        android:layout_marginTop="@dimen/dp20"
+        android:paddingStart="22dp"
+        android:drawablePadding="@dimen/dp15"
+        android:drawableStart="@drawable/address"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:background="@drawable/bg_button_normal_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"/>
+    <androidx.appcompat.widget.AppCompatEditText
+        android:paddingEnd="@dimen/dp5"
+        android:id="@+id/edt_Address"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp16"
+        android:hint="Address"
+        android:layout_marginTop="@dimen/dp20"
+        android:paddingStart="20dp"
+        android:drawablePadding="@dimen/dp10"
+        android:drawableStart="@drawable/profile"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:background="@drawable/bg_button_normal_login"
+        android:layout_width="match_parent"
+        style="@style/TextViewBase"
+        android:layout_height="@dimen/dp50"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_UpdateUser"
+        style="@style/Theme.AppCompat.DayNight.NoActionBar"
+        android:textSize="@dimen/sp16"
+        android:background="@drawable/bg_buy_now"
+        android:textColor="@color/white"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:text="Cập nhật"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
