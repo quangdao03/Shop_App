@@ -114,8 +114,6 @@ public class CheckoutActivity extends AppCompatActivity {
         btn_submitOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                     submitOder();
 
             }
@@ -215,9 +213,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
             }
         });
+        paymentAdapter.notifyDataSetChanged();
 
     }
     String nameProduct;
+    String productID;
     private void submitOder() {
 
                 double total  = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
@@ -273,7 +273,15 @@ public class CheckoutActivity extends AppCompatActivity {
                                     intent.putExtra("orderId", timestamp);
                                     intent.putExtra("orderTo", shopId);
                                     startActivity(intent);
+                                    for (int i = 0; i<cartList.size(); i++){
+                                        productID   = cartList.get(i).getProductID();
+                                    }
+//                                    MyDatabaseHelper myDB = new MyDatabaseHelper(CheckoutActivity.this);
+//                                    myDB.deleteAllData();
+                                    // thanh toán thành công nhưng chưa xóa đc cart list
+
                                     finish();
+
 
                                 }
                             })
@@ -284,6 +292,8 @@ public class CheckoutActivity extends AppCompatActivity {
                                     Toast.makeText(CheckoutActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+
+
                 }
 
 

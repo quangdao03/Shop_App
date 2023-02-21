@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
 
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("Category");
+            DatabaseReference myRef = database.getReference("Categorys");
             myRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment {
                     Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
-                    product.setPrice("Rp " +getData.child("price").getValue().toString());
+                    product.setPrice(getData.child("price").getValue().toString()+" $");
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");
@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment {
                     Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
-                    product.setPrice("Rp " +getData.child("price").getValue().toString());
+                    product.setPrice(getData.child("price").getValue().toString()+ " $");
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");

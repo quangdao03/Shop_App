@@ -4,13 +4,15 @@ public class Brand {
     private int id;
     private String image;
 
-    public Brand(){
+    private String name;
 
+    public Brand() {
     }
 
-    public Brand(int id, String image) {
+    public Brand(int id, String image, String name) {
         this.id = id;
         this.image = image;
+        this.name = name;
     }
 
     public int getId() {
@@ -29,11 +31,11 @@ public class Brand {
         this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "Brand{" +
-                "id='" + id + '\'' +
-                ", image='" + image + '\'' +
-                '}';
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

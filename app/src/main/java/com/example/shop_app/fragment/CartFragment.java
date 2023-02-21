@@ -52,13 +52,14 @@ public class CartFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_cart, container,false);
         mapping();
         loadCart();
-        rcy_Cart.setAdapter(cartAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.VERTICAL, false);
-        rcy_Cart.setLayoutManager (linearLayoutManager);
-        rcy_Cart.setHasFixedSize(true);
+
         tvTitleToolbar.setText("Cart");
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setVisibility(View.GONE);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.VERTICAL, false);
+        rcy_Cart.setLayoutManager (linearLayoutManager);
+        rcy_Cart.setHasFixedSize(true);
+        rcy_Cart.setAdapter(cartAdapter);
         return view;
     }
 
@@ -121,15 +122,15 @@ public class CartFragment extends Fragment {
                 Intent intent = new Intent(getContext(), CheckoutActivity.class);
                 intent.putExtra("total",total);
                 startActivity(intent);
-//                totalPrice.setText("$"+0.0);
-//                myDatabaseHelper.deleteAllData();
-//                cartList.clear();
+
+
 //                cartAdapter.notifyDataSetChanged();
+//                totalPrice.setText(""+0);
 
 
             }
         });
-
+        cartAdapter.notifyDataSetChanged();
 
     }
 

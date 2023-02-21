@@ -71,15 +71,6 @@ public class Category_Product extends AppCompatActivity {
         });
         categoryID = getIntent().getStringExtra("name");
         tv_product_name.setText(categoryID);
-        if (categoryID.equals("Fragrance")){
-            name = "Category1";
-        } else if (categoryID.equals("Bodycare")) {
-            name = "Category2";
-        }else if (categoryID.equals("Haircare")) {
-            name = "Category3";
-        }else if (categoryID.equals("Facial")) {
-            name = "Category4";
-        }
         getBrand();
         getProduct();
 
@@ -95,7 +86,7 @@ public class Category_Product extends AppCompatActivity {
         rcyBrand.setAdapter(brandAdapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Category/"+name);
+        DatabaseReference myRef = database.getReference("Categorys/"+categoryID);
         myRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -107,6 +98,7 @@ public class Category_Product extends AppCompatActivity {
 
                     Brand brand = getSnapshot.getValue(Brand.class);
                     brand.setImage(getSnapshot.child("url").getValue().toString());
+                    brand.setName(categoryID);
                     brandList.add(brand);
 
                 }
@@ -129,7 +121,7 @@ public class Category_Product extends AppCompatActivity {
         adapter = new ListProductAdapter(Category_Product.this,productList);
         rcy_ProdcutCategory.setAdapter(adapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myProdcut = database.getReference("Category/"+name);
+        DatabaseReference myProdcut = database.getReference("Categorys/"+categoryID);
         myProdcut.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -138,7 +130,6 @@ public class Category_Product extends AppCompatActivity {
                 if (productList != null){
                     productList.clear();
                 }
-
                 for (DataSnapshot getData : dataSnapshot.child("product").getChildren()){
                     Product product = getData.getValue(Product.class);
                     product.setUrl(getData.child("image").getValue().toString());
@@ -147,16 +138,9 @@ public class Category_Product extends AppCompatActivity {
                     product.setQuantity(getData.child("quantity").getValue().toString());
                     Log.d("AAA",""+getData);
                     productList.add(product);
-
                 }
                 adapter.notifyDataSetChanged();
-
-
-
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

@@ -51,13 +51,24 @@
                 android:text="Zara"
                 style="@style/TextViewBase"/>
 
-            <TextView
-                android:alpha="0.7"
-                android:id="@+id/tv_price_cart"
-                android:textColor="@color/black"
-                android:layout_marginTop="@dimen/sp18"
-                android:text="Rp 999.999"
-                style="@style/TextViewBase"/>
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:alpha="0.7"
+                    android:id="@+id/tv_price_cart"
+                    android:textColor="@color/black"
+                    android:text="Rp 999.999"
+                    style="@style/TextViewBase"/>
+                <TextView
+                    android:alpha="0.7"
+                    android:textColor="@color/black"
+                    android:text=" $"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

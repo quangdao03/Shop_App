@@ -123,6 +123,12 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                             android:gravity="end"
                             android:text="Rp 567.000"
                             android:textSize="@dimen/sp16" />
+                        <TextView
+                            android:textColor="@color/black"
+                            style="@style/TextViewBase"
+                            android:gravity="end"
+                            android:text=" $"
+                            android:textSize="@dimen/sp16" />
                     </LinearLayout>
 
                     <LinearLayout
