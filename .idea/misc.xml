@@ -13,8 +13,10 @@
         <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/layout/item_danhmuc_home.xml" value="0.2359375" />
         <entry key="..\:/Users/TGDD/AndroidStudioProjects/Shop_App/app/src/main/res/layout/toolbar.xml" value="0.2359375" />
+        <entry key="..\:/do an dao/Shop_App/app/src/main/res/drawable/bg_button_normal.xml" value="0.2085" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/drawable/bg_button_normal_login.xml" value="0.2085" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/drawable/bg_edt_login.xml" value="0.2085" />
+        <entry key="..\:/do an dao/Shop_App/app/src/main/res/drawable/bg_edt_login1.xml" value="0.2085" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/drawable/bg_left_right.xml" value="0.2085" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/drawable/profile.xml" value="0.2085" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -28,12 +30,15 @@
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/item_danhmuc_home.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/item_layout_new_arrivals.xml" value="0.25" />
+        <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layour_changepassword.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layout.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layout_dialog_buy.xml" value="0.264" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layout_item_updateuser.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layout_product_brand.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layout_realtime.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/layout_wishlist.xml" value="0.264" />
+        <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/onboading1.xml" value="0.25" />
+        <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/onboading3.xml" value="0.25" />
         <entry key="..\:/do an dao/Shop_App/app/src/main/res/layout/toolbar.xml" value="0.25" />
       </map>
     </option>

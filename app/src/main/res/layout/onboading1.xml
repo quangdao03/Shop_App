@@ -52,11 +52,11 @@
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/Theme.Design.NoActionBar"
-        android:background="@drawable/bg_button_normal"
+        android:background="@drawable/bg_edt_login1"
         android:layout_marginStart="@dimen/dp82"
         android:layout_marginEnd="@dimen/dp82"
         android:textColor="@color/white"
-
+        android:id="@+id/btn_login"
         android:layout_marginTop="20dp"
         android:layout_gravity="bottom|center"
         android:text="Log in"
