@@ -3,7 +3,7 @@ package com.example.shop_app.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Product_Brand extends AppCompatActivity {
-    TextView tvTitleToolbar,tv_desc_brand,tv_brandname;
+    TextView tvTitleToolbar,tv_desc_brand,tv_brandname,txt_NumberProduct;
     ImageView ivToolbarRight, ivToolbarLeft,img_brand;
     RecyclerView rcy_Product_Brand;
 
@@ -90,6 +91,7 @@ public class Product_Brand extends AppCompatActivity {
                 tv_desc_brand.setText(dataSnapshot.child("desc").getValue().toString());
                 String url = dataSnapshot.child("url").getValue().toString();
                 Glide.with(getApplicationContext()).load(url).into(img_brand);
+
             }
 
             @Override
@@ -121,8 +123,10 @@ public class Product_Brand extends AppCompatActivity {
                     product.setName(getData.child("name").getValue().toString());
                     product.setPrice("Rp " +getData.child("price").getValue().toString());
                     product.setQuantity(getData.child("quantity").getValue().toString());
+
                     productList.add(product);
                 }
+                txt_NumberProduct.setText(productList.size() +" Products");
                 productBrandAdapter.notifyDataSetChanged();
             }
             @Override
@@ -174,5 +178,6 @@ public class Product_Brand extends AppCompatActivity {
         tv_desc_brand = findViewById(R.id.tv_desc_brand);
         rcy_Product_Brand = findViewById(R.id.rcy_Product_Brand);
         search = findViewById(R.id.search);
+        txt_NumberProduct = findViewById(R.id.txt_NumberProduct);
     }
 }

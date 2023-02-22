@@ -206,6 +206,20 @@
                 android:text="@string/payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_submitOderMomo"
+                android:layout_marginBottom="@dimen/dp10"
+                android:textSize="@dimen/sp16"
+                style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                android:layout_marginTop="@dimen/dp10"
+                android:textColor="@color/white"
+                android:background="#b0006d"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:text="Payment Momo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -1,11 +1,11 @@
 package com.example.shop_app.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.view.Gravity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;

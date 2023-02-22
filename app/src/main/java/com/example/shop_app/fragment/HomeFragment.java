@@ -1,6 +1,7 @@
 package com.example.shop_app.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.Product_All;
 import com.example.shop_app.adapter.ListCategoryAdapter;
 import com.example.shop_app.adapter.ListProductNew;
 import com.example.shop_app.adapter.ProductAdapter;
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
     ViewPager viewPager;
     Timer timer;
     ImageView ivToolbarLeft,ivToolbarRight;
-    TextView tvTitleToolbar;
+    TextView tvTitleToolbar,tv_ViewAll;
     private FirebaseAuth firebaseAuth;
     int page_position = 0;
     RecyclerView rcyCategory;
@@ -90,6 +92,12 @@ public class HomeFragment extends Fragment {
         Category();
         ProductHome();
         ProductNew();
+        tv_ViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Product_All.class));
+            }
+        });
 
         return  view;
     }
@@ -233,5 +241,6 @@ public class HomeFragment extends Fragment {
         rcyCategory = view.findViewById(R.id.rcyCategory);
         rcyProduct = view.findViewById(R.id.rcyProduct);
         rcySpNew = view.findViewById(R.id.rcySpNew);
+        tv_ViewAll = view.findViewById(R.id.tv_ViewAll);
     }
 }

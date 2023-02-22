@@ -77,6 +77,7 @@
                     style="@style/TextViewBase"
                     android:layout_width="0dp" />
                 <TextView
+                    android:id="@+id/tv_ViewAll"
                     android:layout_gravity="center"
                     android:textSize="@dimen/sp13"
                     android:textColor="@color/color_app"

@@ -7,6 +7,22 @@
     tools:context=".activity.Product_All"
     android:orientation="vertical">
     <include layout="@layout/toolbar"/>
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="@dimen/dp10"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <androidx.appcompat.widget.SearchView
+            app:queryHint="Seacrch"
+            android:id="@+id/search"
+            style="@style/TextViewBase"
+            android:layout_width="match_parent"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@null"
+            app:searchIcon="@drawable/ic_seach"
+            app:submitBackground="@null" />
+    </androidx.cardview.widget.CardView>
     <TextView
 
         android:textColor="@color/black"
@@ -26,7 +42,6 @@
         android:layout_marginHorizontal="@dimen/dp20"
         android:layout_marginVertical="@dimen/dp10"
         android:background="@drawable/bg_edt_login">
-
         <Spinner
             android:id="@+id/spHistory"
             style="@style/EditTextBase"
@@ -37,6 +52,7 @@
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_ProductAll"
         tools:itemCount="4"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
