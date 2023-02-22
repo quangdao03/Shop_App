@@ -7,31 +7,24 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.shop_app.OnItemClickListener;
 import com.example.shop_app.R;
-import com.example.shop_app.activity.CheckoutActivity;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.database.MyDatabaseHelper;
-import com.example.shop_app.fragment.CartFragment;
 import com.example.shop_app.model.Product;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
 

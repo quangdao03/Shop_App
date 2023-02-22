@@ -1,4 +1,4 @@
-package com.example.shop_app.fragment;
+package com.example.shop_app.dash.userdash;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.activity.EditUser;
 import com.example.shop_app.activity.ListDetailOrder;
 import com.example.shop_app.activity.LoginActivity;
+import com.example.shop_app.activity.Setting;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +71,12 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), ListDetailOrder.class));
+            }
+        });
+        ivToolbarRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Setting.class));
             }
         });
         return view;

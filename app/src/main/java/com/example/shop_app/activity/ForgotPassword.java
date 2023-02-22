@@ -30,6 +30,7 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         mapping();
+        getSupportActionBar().hide();
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {

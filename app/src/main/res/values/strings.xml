@@ -36,5 +36,7 @@
     <string name="ship">Shipping Change</string>
     <string name="total_payment">Total Payment</string>
     <string name="payment">Payment</string>
+    <string name="order">Order</string>
+    <string name="category">Category</string>
 
 </resources>

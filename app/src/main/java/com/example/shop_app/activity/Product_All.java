@@ -41,6 +41,7 @@ public class Product_All extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_all);
         mapping();
+        getSupportActionBar().hide();
         tvTitleToolbar.setText("ListProduct");
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {

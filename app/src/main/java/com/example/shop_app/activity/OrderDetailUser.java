@@ -44,6 +44,7 @@ public class OrderDetailUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail_user);
         mapping();
+        getSupportActionBar().hide();
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
         tvTitleToolbar.setText("Payment Details");

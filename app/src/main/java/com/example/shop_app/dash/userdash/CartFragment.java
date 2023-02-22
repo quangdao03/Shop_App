@@ -1,4 +1,4 @@
-package com.example.shop_app.fragment;
+package com.example.shop_app.dash.userdash;
 
 import android.content.Intent;
 import android.database.Cursor;

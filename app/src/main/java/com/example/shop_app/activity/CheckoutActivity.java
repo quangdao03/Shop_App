@@ -74,6 +74,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT);
         mapping();
+        getSupportActionBar().hide();
         firebaseAuth = FirebaseAuth.getInstance();
         tvTitleToolbar.setText("Shipment");
         ivToolbarRight.setVisibility(View.GONE);

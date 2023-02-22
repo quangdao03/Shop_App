@@ -39,6 +39,7 @@ public class ListDetailOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_detail_order);
         mapping();
+        getSupportActionBar().hide();
         firebaseAuth = FirebaseAuth.getInstance();
         loadOrder();
         ivToolbarRight.setVisibility(View.GONE);

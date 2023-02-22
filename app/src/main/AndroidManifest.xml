@@ -24,7 +24,16 @@
         tools:replace="android:theme"
         tools:targetApi="31">
         <activity
-            android:name=".ProductAll"
+            android:label="@string/app_home"
+            android:name=".activity.MainActivitySeller"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".activity.Setting"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChangePassword"
             android:exported="false" />
         <activity
             android:name=".activity.ForgotPassword"
@@ -50,13 +59,6 @@
         <activity
             android:name=".activity.Realtime"
             android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -67,7 +69,10 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true" />
+            android:exported="true" >
+
+        </activity>
+
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true">

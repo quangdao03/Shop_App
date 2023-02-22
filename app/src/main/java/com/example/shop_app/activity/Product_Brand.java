@@ -51,6 +51,7 @@ public class Product_Brand extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_product_brand);
         mapping();
+        getSupportActionBar().hide();
         id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
         ivToolbarLeft.setImageResource(R.drawable.ic_left);

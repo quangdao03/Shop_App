@@ -64,6 +64,7 @@ public class EditUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
         mapping();
+        getSupportActionBar().hide();
         firebaseAuth = FirebaseAuth.getInstance();
         tvTitleToolbar.setText("Personal Data");
         ivToolbarRight.setVisibility(View.GONE);

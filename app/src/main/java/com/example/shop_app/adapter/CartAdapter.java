@@ -2,7 +2,6 @@ package com.example.shop_app.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
-import com.example.shop_app.database.MyDatabaseHelper;
-import com.example.shop_app.fragment.CartFragment;
+import com.example.shop_app.dash.userdash.CartFragment;
 import com.example.shop_app.model.Cart;
-import com.example.shop_app.model.User;
 
 import java.util.List;
 

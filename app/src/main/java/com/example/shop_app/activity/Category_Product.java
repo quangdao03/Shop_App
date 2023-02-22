@@ -58,7 +58,7 @@ public class Category_Product extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_wishlist);
         init();
-
+        getSupportActionBar().hide();
         tvTitleToolbar.setText(R.string.product);
         ivToolbarRight.setImageResource(R.drawable.icon_shopping_cart);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);

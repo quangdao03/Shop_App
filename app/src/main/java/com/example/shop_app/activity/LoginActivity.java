@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Vui lòng đợi");
         progressDialog.setCanceledOnTouchOutside(false);
-
+        getSupportActionBar().hide();
         img_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,6 +180,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (accountType.equals("User")){
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
+                            }else {
+                                startActivity(new Intent(LoginActivity.this,MainActivitySeller.class));
                             }
 
                         }

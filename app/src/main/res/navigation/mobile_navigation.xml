@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_home_seller">
+
+
+    <fragment
+        android:id="@+id/nav_home_seller"
+        android:name="com.example.shop_app.dash.sellerdash.HomeFragmentSeller"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home_seller" />
+
+    <fragment
+        android:id="@+id/nav_order_seller"
+        android:name="com.example.shop_app.dash.sellerdash.OrderFragmentSeller"
+        android:label="@string/order"
+        tools:layout="@layout/fragment_order_seller" />
+    <fragment
+        android:id="@+id/nav_category_seller"
+        android:name="com.example.shop_app.dash.sellerdash.CategoryFragmentSeller"
+        android:label="@string/category"
+        tools:layout="@layout/fragment_category_seller" />
+    <fragment
+        android:id="@+id/nav_account_seller"
+        android:name="com.example.shop_app.dash.sellerdash.AccountFragmentSeller"
+        android:label="@string/account"
+        tools:layout="@layout/fragment_account_seller" />
+</navigation>
