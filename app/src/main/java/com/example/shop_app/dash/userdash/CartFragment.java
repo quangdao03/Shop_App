@@ -20,10 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
 import com.example.shop_app.activity.CheckoutActivity;
+import com.example.shop_app.activity.LoginActivity;
 import com.example.shop_app.adapter.CartAdapter;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Cart;
 import com.example.shop_app.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,8 @@ public class CartFragment extends Fragment {
     List<Cart> cartList = new ArrayList<>();
     public double allTotalPrice = 0.0;
     public TextView totalPrice;
+
+    FirebaseAuth firebaseAuth;
     View view;
     public double totalPrice1;
 
@@ -50,9 +55,9 @@ public class CartFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_cart, container,false);
+        firebaseAuth = FirebaseAuth.getInstance();
         mapping();
         loadCart();
-
         tvTitleToolbar.setText("Cart");
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setVisibility(View.GONE);
@@ -112,6 +117,8 @@ public class CartFragment extends Fragment {
         btn_BuyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                checkUser();
                 if (cartList.size() == 0){
                     Toast.makeText(getContext(), "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
                     return;
@@ -132,6 +139,12 @@ public class CartFragment extends Fragment {
         });
         cartAdapter.notifyDataSetChanged();
 
+    }
+    private void checkUser() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null){
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
     }
 
     private void mapping() {

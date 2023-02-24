@@ -36,4 +36,5 @@
     <color name="red">#EF4F4F</color>
     <color name="colorGreen">#16C79A</color>
     <color name="primary">#FFC107</color>
+    <color name="fail">#A7A7A7</color>
 </resources>

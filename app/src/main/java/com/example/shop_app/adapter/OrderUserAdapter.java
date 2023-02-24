@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,24 +20,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.OrderDetailUser;
+import com.example.shop_app.model.FilterOrderSeller;
 import com.example.shop_app.model.Order;
 import com.example.shop_app.model.OrderItem;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.ListViewHolder> {
+public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.ListViewHolder> implements Filterable {
     Context context;
-    private List<Order> orderList;
 
-
+    public List<Order> orderList, filterList;
+    public FilterOrderSeller filter;
     private double cost = 0;
     private double finalCost = 0;
     private int Qquantity = 1;
     public OrderUserAdapter(Context context, List<Order> orderList) {
         this.context = context;
         this.orderList = orderList;
+        this.filterList = orderList;
     }
     @NonNull
     @Override
@@ -89,6 +94,14 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
             return orderList.size();
         }
         return 0;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null){
+            filter = new FilterOrderSeller(this, (ArrayList<Order>) filterList);
+        }
+        return filter;
     }
 
     public static class ListViewHolder extends RecyclerView.ViewHolder{

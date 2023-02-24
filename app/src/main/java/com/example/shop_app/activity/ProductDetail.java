@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.shop_app.model.Product;
 
 import com.example.shop_app.utils.CustomToast;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,7 +56,7 @@ public class ProductDetail extends AppCompatActivity {
         img_product_detail = findViewById(R.id.img_product_detail);
         btn_Add_to_cart = findViewById(R.id.btn_Add_to_cart);
 
-
+        checkUser();
         tvTitleToolbar.setText("Product Detail");
         ivToolbarRight.setImageResource(R.drawable.icon_love);
 
@@ -70,15 +72,21 @@ public class ProductDetail extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+
                 ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
                 // onClickToWishList();
+
                 onClickWishList();
             }
         });
+
+
         btn_Add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addToCart();
+                btn_Add_to_cart.setOnClickListener(null);
+                btn_Add_to_cart.setBackgroundResource(R.drawable.bg_buy_fail);
             }
         });
 
@@ -200,7 +208,12 @@ public class ProductDetail extends AppCompatActivity {
 
     }
 
-
+    private void checkUser() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+    }
 
 
 

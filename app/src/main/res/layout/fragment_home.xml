@@ -146,6 +146,7 @@
         </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginBottom="@dimen/dp10"
                 tools:itemCount="2"
                 android:id="@+id/rcySpNew"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

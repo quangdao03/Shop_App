@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="338dp"
-        android:layout_height="352dp"
-        android:text="Seller Home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="36dp"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/net_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcy_Prodcut_Seller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginEnd="@dimen/dp20"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_danhmuc_home" />
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
