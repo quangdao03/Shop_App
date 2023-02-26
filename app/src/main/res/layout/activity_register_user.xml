@@ -32,7 +32,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="25sp"
-                android:text="Create account"
+                android:text="@string/create_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -49,7 +49,7 @@
                 android:paddingEnd="@dimen/dp5"
                 android:id="@+id/edt_UserName"
                 android:textSize="@dimen/sp14"
-                android:hint="Username"
+                android:hint="@string/user_name"
                 android:layout_marginTop="@dimen/dp20"
                 android:paddingStart="18dp"
                 android:drawablePadding="@dimen/dp10"
@@ -64,7 +64,7 @@
                 android:inputType="textPassword"
                 android:id="@+id/edt_Password"
                 android:textSize="@dimen/sp14"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:layout_marginTop="@dimen/dp20"
                 android:paddingStart="20dp"
                 android:drawablePadding="@dimen/dp20"
@@ -78,7 +78,7 @@
                 android:paddingEnd="@dimen/dp5"
                 android:id="@+id/edt_Email"
                 android:textSize="@dimen/sp14"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:layout_marginTop="@dimen/dp20"
                 android:paddingStart="22dp"
                 android:drawablePadding="@dimen/dp15"
@@ -93,7 +93,7 @@
                 android:paddingEnd="@dimen/dp5"
                 android:id="@+id/edt_Phone"
                 android:textSize="@dimen/sp14"
-                android:hint="Phone"
+                android:hint="@string/user_phone"
                 android:layout_marginTop="@dimen/dp20"
                 android:paddingStart="20dp"
                 android:drawablePadding="@dimen/dp15"
@@ -107,7 +107,7 @@
                 android:paddingEnd="@dimen/dp5"
                 android:id="@+id/edt_Address"
                 android:textSize="@dimen/sp14"
-                android:hint="Address"
+                android:hint="@string/user_address"
                 android:layout_marginTop="@dimen/dp20"
                 android:paddingStart="20dp"
                 android:drawablePadding="@dimen/dp15"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginEnd="@dimen/dp10"
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0.8"
-                    android:text="Create "
+                    android:text="@string/create"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -171,13 +171,13 @@
                     android:src="@drawable/login_2" />
                 <TextView
                     android:layout_gravity="center"
-                    android:text="Already have account?"
+                    android:text="@string/already_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/txt_Login"
                     android:layout_gravity="center"
-                    android:text=" Login. "
+                    android:text="@string/login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

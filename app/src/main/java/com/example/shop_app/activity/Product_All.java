@@ -42,7 +42,7 @@ public class Product_All extends AppCompatActivity {
         setContentView(R.layout.activity_product_all);
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText("ListProduct");
+        tvTitleToolbar.setText(getText(R.string.list_product));
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
             @Override

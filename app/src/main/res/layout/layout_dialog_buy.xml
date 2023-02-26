@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:textColor="@color/black"
             android:textSize="@dimen/sp18"
-            android:text="Buy Product"
+            android:text="@string/buy_product"
             style="@style/TextViewBase"/>
 
         <ImageView
@@ -53,21 +53,21 @@
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp20"
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <TextView
                 android:textSize="@dimen/sp16"
                 android:textColor="@color/black"
                 android:id="@+id/tv_dialog_name"
-                android:text="Sauvage"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
             <TextView
                 android:id="@+id/tv_dialog_creator"
                 android:textSize="@dimen/sp14"
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/dp10"
-                android:text="Dior"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
         </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:textColor="@color/color_app"
             android:layout_gravity="center"
             android:textSize="@dimen/sp13"
-            android:text="View Detail"
+            android:text="@string/view_detail"
             style="@style/TextViewBase"/>
     </LinearLayout>
 
@@ -90,7 +90,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/sp14"
         android:layout_marginTop="@dimen/dp20"
-        android:text="Variant"
+        android:text="@string/variants"
         style="@style/TextViewBase"/>
 
     <LinearLayout
@@ -108,7 +108,7 @@
             android:drawablePadding="@dimen/dp5"
             android:drawableEnd="@drawable/ic_icon_check__style_stroke"
             android:textSize="@dimen/sp14"
-            android:text="100 ml"
+            android:text="@string/ml"
             style="@style/TextViewBase"/>
 
     </LinearLayout>
@@ -122,14 +122,14 @@
             android:layout_marginTop="@dimen/dp20"
             android:textColor="@color/black"
             android:textSize="@dimen/sp14"
-            android:text="Price"
+            android:text="@string/price"
             style="@style/TextViewBase"/>
         <TextView
             android:id="@+id/tv_price_product"
             android:layout_marginTop="@dimen/dp20"
             android:textColor="@color/black"
             android:textSize="@dimen/sp14"
-            android:text="Price"
+            android:text="@string/price"
             style="@style/TextViewBase"/>
     </LinearLayout>
 
@@ -144,7 +144,7 @@
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textSize="@dimen/sp14"
-            android:text="Quantity"
+            android:text="@string/quantity"
             style="@style/TextViewBase" />
         <TextView
             android:layout_marginEnd="@dimen/dp20"
@@ -152,7 +152,7 @@
             android:id="@+id/tv_price_product_final"
             android:textColor="@color/black"
             android:textSize="@dimen/sp14"
-            android:text="Price"
+            android:text="@string/price"
             style="@style/TextViewBase"/>
 
 
@@ -162,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/count_down"
                 android:padding="@dimen/dp10"
                 android:background="@drawable/bg_count"
@@ -179,7 +179,7 @@
                 android:textColor="@color/black"
                 style="@style/TextViewBase"/>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/count_add"
                 android:layout_gravity="center"
                 android:paddingTop="@dimen/dp5"
@@ -201,13 +201,12 @@
             android:id="@+id/btn_AddToCart"
             android:textSize="@dimen/sp16"
             android:textStyle="bold"
-            android:tooltipText="Add to Cart"
             android:textColor="@color/color_app"
             android:background="@drawable/bg_add_cart"
             android:layout_weight="1"
             style="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:text="Add to Cart"
-            android:layout_width="wrap_content"
+            android:text="@string/add_cart"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

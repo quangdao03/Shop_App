@@ -50,7 +50,7 @@ public class ListDetailOrder extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        tvTitleToolbar.setText("List Order");
+        tvTitleToolbar.setText(getText(R.string.list_order));
     }
 
     private void loadOrder() {

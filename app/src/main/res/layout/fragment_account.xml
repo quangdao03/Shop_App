@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-
     >
 
     <include layout="@layout/toolbar"/>
@@ -91,7 +90,7 @@
             style="@style/TextViewBase"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="My Order"
+            android:text="@string/my_order"
             />
 
         <ImageView
@@ -137,7 +136,7 @@
             style="@style/TextViewBase"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="Delivery Address"
+            android:text="@string/delivery_address"
             />
 
         <ImageView
@@ -183,7 +182,7 @@
             style="@style/TextViewBase"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="Account Settings"
+            android:text="@string/account_setting"
             />
 
         <ImageView
@@ -228,7 +227,7 @@
             style="@style/TextViewBase"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="Help"
+            android:text="@string/help"
             />
 
         <ImageView
@@ -273,7 +272,7 @@
             style="@style/TextViewBase"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="About"
+            android:text="@string/about"
             />
 
         <ImageView
@@ -319,7 +318,7 @@
             style="@style/TextViewBase"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="Logout"
+            android:text="@string/logout"
             />
 
         <ImageView

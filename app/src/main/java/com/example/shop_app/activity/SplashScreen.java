@@ -75,7 +75,7 @@ public class SplashScreen extends AppCompatActivity {
              }
 
          }else {
-             Toast.makeText(this, "Network disconected", Toast.LENGTH_SHORT).show();
+             Toast.makeText(this, ""+getText(R.string.network_disconect), Toast.LENGTH_SHORT).show();
          }
     }
     private void checkUserType() {

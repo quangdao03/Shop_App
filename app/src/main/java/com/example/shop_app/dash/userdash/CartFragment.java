@@ -120,7 +120,7 @@ public class CartFragment extends Fragment {
 
                 checkUser();
                 if (cartList.size() == 0){
-                    Toast.makeText(getContext(), "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), ""+getText(R.string.cart_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -53,7 +53,7 @@ public class FavoriteFragment extends Fragment  {
         firebaseAuth = FirebaseAuth.getInstance();
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setVisibility(View.GONE);
-        tvTitleToolbar.setText("WishList");
+        tvTitleToolbar.setText(getText(R.string.wishlist));
 
         getWishListProduct1();
 

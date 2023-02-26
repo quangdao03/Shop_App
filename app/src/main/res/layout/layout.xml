@@ -13,26 +13,26 @@
         android:layout_marginTop="@dimen/dp34"
         android:textColor="@color/black"
         android:layout_gravity="center"
-        android:text="This item is added to Cart"
+        android:text="@string/product_to_cart"
         style="@style/TextViewBase"/>
     <TextView
         android:alpha="0.8"
         android:layout_marginTop="@dimen/dp20"
         android:textColor="@color/black"
         android:layout_gravity="center"
-        android:text="See your cart to proceed to checkout."
+        android:text="@string/see_cart"
         style="@style/TextViewBase"/>
     <TextView
         android:id="@+id/tv_tap"
         android:textColor="@color/color_app"
         android:layout_gravity="center"
-        android:text="Tap here."
+        android:text="@string/tap_here"
         style="@style/TextViewBase"/>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_Ok"
         android:layout_marginTop="@dimen/dp34"
         android:textColor="@color/white"
-        android:text="Ok"
+        android:text="@string/ok"
         android:background="@drawable/bg_buy_now"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

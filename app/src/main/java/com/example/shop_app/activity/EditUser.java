@@ -78,7 +78,7 @@ public class EditUser extends AppCompatActivity {
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getText(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         getObjectUser();
 
@@ -103,7 +103,7 @@ public class EditUser extends AppCompatActivity {
     }
 
     private void updateProfile() {
-        progressDialog.setMessage("Đang cập nhật thông tin tài khoản");
+        progressDialog.setMessage(getText(R.string.update_user));
         progressDialog.show();
         if (image_uri == null){
             HashMap<String, Object> hashMap = new HashMap<>();
@@ -118,7 +118,7 @@ public class EditUser extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             progressDialog.dismiss();
-                            CustomToast.makeText(EditUser.this,"Cập nhật tài khoản thành công",CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                            CustomToast.makeText(EditUser.this,""+getText(R.string.update_user_success),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
 
                         }
                     })
@@ -154,7 +154,7 @@ public class EditUser extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 progressDialog.dismiss();
-                                                CustomToast.makeText(EditUser.this,"Cập nhật tài khoản thành công",CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                                                CustomToast.makeText(EditUser.this,""+getText(R.string.update_user_success),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
 
 
                                             }

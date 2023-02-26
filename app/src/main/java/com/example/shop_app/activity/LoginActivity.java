@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         edt_Password.setText("123456@");
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getText(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         getSupportActionBar().hide();
         img_Login.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     private Boolean validateEmail(){
         String val = edt_Email.getText().toString().trim();
         if (val.isEmpty()){
-            edt_Email.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Email.setError(getText(R.string.please_info));
             edt_Email.requestFocus();
             return false;
         }
@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         String val = edt_Password.getText().toString();
 
         if (val.isEmpty()){
-            edt_Password.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Password.setError(getText(R.string.please_info));
 
             edt_Password.requestFocus();
             return false;
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         email = edt_Email.getText().toString().trim();
         password = edt_Password.getText().toString().trim();
-        progressDialog.setMessage("Đang đăng nhập");
+        progressDialog.setMessage(getText(R.string.login_user));
         progressDialog.show();
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void makeMeOnline() {
-        progressDialog.setMessage("Đang đăng nhập...");
+        progressDialog.setMessage(getText(R.string.login_user_success));
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online", "true");
 

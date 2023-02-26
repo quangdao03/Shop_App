@@ -55,7 +55,7 @@ public class Product_Brand extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
-        tvTitleToolbar.setText("Brand");
+        tvTitleToolbar.setText(getText(R.string.brand));
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

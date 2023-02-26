@@ -66,7 +66,7 @@ public class RegisterUser extends AppCompatActivity {
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getText(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         img_User.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +98,11 @@ public class RegisterUser extends AppCompatActivity {
         String val = edt_Email.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (val.isEmpty()) {
-            edt_Email.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Email.setError(getText(R.string.please_info));
             edt_Email.requestFocus();
             return false;
         } else if (!val.matches(emailPattern)) {
-            edt_Email.setError("Email không hợp lệ");
+            edt_Email.setError(getText(R.string.invalid_email));
             return false;
         } else {
             edt_Email.setError(null);
@@ -114,7 +114,7 @@ public class RegisterUser extends AppCompatActivity {
     private Boolean validateName() {
         String val = edt_Username.getText().toString();
         if (val.isEmpty()) {
-            edt_Username.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Username.setError(getText(R.string.please_info));
             edt_Username.requestFocus();
             return false;
         } else {
@@ -125,7 +125,7 @@ public class RegisterUser extends AppCompatActivity {
     private Boolean validateAddress() {
         String val = edt_Address.getText().toString();
         if ( val.isEmpty()) {
-            edt_Address.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Address.setError(getText(R.string.please_info));
             edt_Address.requestFocus();
             return false;
 
@@ -137,7 +137,7 @@ public class RegisterUser extends AppCompatActivity {
     private Boolean validatePhone() {
         String val = edt_Phone.getText().toString();
         if (val.isEmpty()) {
-            edt_Phone.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Phone.setError(getText(R.string.please_info));
             edt_Phone.requestFocus();
             return false;
         } else {
@@ -153,12 +153,11 @@ public class RegisterUser extends AppCompatActivity {
                 ".{6,}" +                // at least 4 characters
                 "$";
         if (val.isEmpty()) {
-            edt_Password.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Password.setError(getText(R.string.please_info));
             edt_Password.requestFocus();
             return false;
         } else if (!val.matches(passwordVal)) {
-            edt_Password.setError("Mật khẩu không hợp lệ \n" +
-                    "Ít nhất 6 ký tự và có ít nhất 1 ký tự đặc biệt");
+            edt_Password.setError(getText(R.string.invalid_pass));
             return false;
         } else {
             edt_Password.setError(null);
@@ -177,7 +176,7 @@ public class RegisterUser extends AppCompatActivity {
         createAccount();
     }
     private void createAccount() {
-        progressDialog.setMessage("Đang tạo tài khoản");
+        progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -214,7 +213,7 @@ public class RegisterUser extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(RegisterUser.this, "Tạo tài khoản thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterUser.this, MainActivity.class));
                             finish();
                         }
@@ -222,7 +221,7 @@ public class RegisterUser extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            Toast.makeText(RegisterUser.this, "Tạo tài khoản thất bại", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_fail), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -257,7 +256,7 @@ public class RegisterUser extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
-                                                Toast.makeText(RegisterUser.this, "Tạo thành công", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(RegisterUser.this, MainActivity.class));
                                                 finish();
                                             }
@@ -265,7 +264,7 @@ public class RegisterUser extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@androidx.annotation.NonNull Exception e) {
-                                                Toast.makeText(RegisterUser.this, "Tạo thất bại", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_fail), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }

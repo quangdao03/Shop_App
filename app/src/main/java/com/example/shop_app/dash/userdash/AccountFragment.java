@@ -49,10 +49,10 @@ public class AccountFragment extends Fragment {
         init();
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setImageResource(R.drawable.icon_settings__style);
-        tvTitleToolbar.setText("Profile");
+        tvTitleToolbar.setText(getText(R.string.profile));
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getText(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         checkUser();
         ll_logout.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +148,7 @@ public class AccountFragment extends Fragment {
         alert.show();
     }
     private void makeMeOffline() {
-        progressDialog.setMessage("Đang đăng nhập...");
+        progressDialog.setMessage(getText(R.string.login_user_success));
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online", "false");
 

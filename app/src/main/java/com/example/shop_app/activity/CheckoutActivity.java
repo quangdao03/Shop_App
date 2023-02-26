@@ -87,7 +87,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getText(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         checkUser();
         loadPaymentCart();
@@ -319,7 +319,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 double total  = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
                 if (total == 0){
-                    Toast.makeText(this, "Vui lòng thêm sản phẩm vào để thanh toán", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ""+getText(R.string.please_wait_cart), Toast.LENGTH_SHORT).show();
                 }else {
                     for (int i = 0; i<cartList.size(); i++){
                         nameProduct = cartList.get(i).getName();
@@ -365,7 +365,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                         reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
                                     }
                                     progressDialog.dismiss();
-                                    Toast.makeText(CheckoutActivity.this, "Tạo đơn hàng thành công ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CheckoutActivity.this, ""+getText(R.string.success_order), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
                                     intent.putExtra("orderId", timestamp);
                                     intent.putExtra("orderTo", shopId);

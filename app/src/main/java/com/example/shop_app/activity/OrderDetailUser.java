@@ -47,7 +47,7 @@ public class OrderDetailUser extends AppCompatActivity {
         getSupportActionBar().hide();
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
-        tvTitleToolbar.setText("Payment Details");
+        tvTitleToolbar.setText(getText(R.string.payment_details));
         firebaseAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
         orderId = intent.getStringExtra("orderId");

@@ -27,7 +27,7 @@
 
         android:textColor="@color/black"
         android:layout_marginTop="@dimen/dp20"
-        android:text="All Products"
+        android:text="@string/all_product"
         android:textSize="@dimen/sp16"
         android:layout_marginEnd="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"

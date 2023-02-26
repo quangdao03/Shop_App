@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:id="@+id/toolbar">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:background="?android:attr/actionBarItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:src="@drawable/ic_noti"
         android:background="?android:attr/actionBarItemBackground"
         android:clickable="true"

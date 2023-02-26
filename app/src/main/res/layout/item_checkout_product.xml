@@ -40,7 +40,7 @@
                 android:id="@+id/tv_name_cart"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp15"
-                android:text="Full of Light"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
             <TextView
                 android:id="@+id/tv_creator_cart"
@@ -48,7 +48,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/dp10"
                 android:textSize="@dimen/sp13"
-                android:text="Zara"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
 
             <LinearLayout
@@ -60,12 +60,12 @@
                     android:alpha="0.7"
                     android:id="@+id/tv_price_cart"
                     android:textColor="@color/black"
-                    android:text="Rp 999.999"
+                    android:text="@string/price"
                     style="@style/TextViewBase"/>
                 <TextView
                     android:alpha="0.7"
                     android:textColor="@color/black"
-                    android:text=" $"
+                    android:text="@string/price_product"
                     style="@style/TextViewBase"/>
             </LinearLayout>
 
@@ -79,7 +79,7 @@
 
             android:orientation="vertical">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/item_delete_cart"
                 android:layout_width="@dimen/dp50"
                 android:layout_height="@dimen/dp50"
@@ -97,7 +97,7 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_gravity="center"
-                    android:text="item:"
+                    android:text="@string/quantity"
                     android:textSize="@dimen/sp16"
                     android:textColor="@color/black"
                     style="@style/TextViewBase"/>
@@ -108,7 +108,7 @@
                     android:layout_marginStart="@dimen/dp5"
                     android:layout_marginEnd="@dimen/dp10"
                     android:gravity="center"
-                    android:text="0"
+                    android:text="@string/two"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp16" />
 

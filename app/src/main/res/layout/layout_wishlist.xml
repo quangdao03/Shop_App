@@ -12,14 +12,14 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:background="#3FA7D6"
-            app:riv_corner_radius="10dp"
+            app:riv_corner_radius="@dimen/dp10"
             android:id="@+id/imag_wishlist"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/fram1"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp10"/>
         <LinearLayout
             android:layout_weight="1"
             android:layout_marginStart="@dimen/dp10"
@@ -31,7 +31,7 @@
                 android:id="@+id/tv_name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp15"
-                android:text="Full of Light"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
             <TextView
                 android:id="@+id/tv_creator"
@@ -39,7 +39,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/dp10"
                 android:textSize="@dimen/sp13"
-                android:text="Zara"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
 
             <TextView
@@ -47,7 +47,7 @@
                 android:id="@+id/tv_price"
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/sp18"
-                android:text="Rp 999.999"
+                android:text="@string/price"
                 style="@style/TextViewBase"/>
         </LinearLayout>
         <LinearLayout
@@ -66,7 +66,7 @@
                 android:id="@+id/btn_buy"
                 android:layout_marginTop="@dimen/dp10"
                 style="@style/Theme.AppCompat.DayNight.NoActionBar"
-                android:text="Buy"
+                android:text="@string/buy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

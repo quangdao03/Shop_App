@@ -14,7 +14,7 @@ import com.example.shop_app.R;
 public class Setting extends AppCompatActivity {
     TextView tvTitleToolbar;
     ImageView ivToolbarLeft,ivToolbarRight;
-    LinearLayout ll_ChangePass;
+    LinearLayout ll_ChangePass,ll_Change_Language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +27,19 @@ public class Setting extends AppCompatActivity {
                 startActivity(new Intent(Setting.this,ChangePassword.class));
             }
         });
-        tvTitleToolbar.setText("Settings");
+        tvTitleToolbar.setText(getText(R.string.setting));
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        ll_Change_Language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Setting.this,ChangeLanguage.class));
             }
         });
     }
@@ -43,5 +49,6 @@ public class Setting extends AppCompatActivity {
         ivToolbarLeft = findViewById(R.id.ivToolbarLeft);
         ivToolbarRight = findViewById(R.id.ivToolbarRight);
         ll_ChangePass = findViewById(R.id.ll_ChangePass);
+        ll_Change_Language = findViewById(R.id.ll_Change_Language);
     }
 }

@@ -39,10 +39,10 @@ public class ForgotPassword extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        tvTitleToolbar.setText("Forgot Password");
+        tvTitleToolbar.setText(getText(R.string.forgot_pass));
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getText(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         btn_forgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class ForgotPassword extends AppCompatActivity {
     private Boolean validateEmail(){
         String val = edt_Email.getText().toString();
         if (val.isEmpty()){
-            edt_Email.setError("Vui lòng nhập đầy đủ thông tin");
+            edt_Email.setError(getText(R.string.please_info));
             edt_Email.requestFocus();
             return false;
         }
@@ -64,13 +64,14 @@ public class ForgotPassword extends AppCompatActivity {
             return true;
         }
     }
+    public String email = "";
     private void recoverPassword(){
         if (!validateEmail()){
             return;
         }
         email = edt_Email.getText().toString().trim();
 
-        progressDialog.setMessage("Đang gửi yêu cầu reset mật khẩu...");
+        progressDialog.setMessage(getText(R.string.send_pass));
         progressDialog.show();
 
         firebaseAuth.sendPasswordResetEmail(email)
@@ -78,7 +79,7 @@ public class ForgotPassword extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
-                        Toast.makeText(ForgotPassword.this, "Yêu cầu reset mật khẩu đã được gửi vào email của bạn!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgotPassword.this, ""+getText(R.string.send_pass_success), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -89,7 +90,7 @@ public class ForgotPassword extends AppCompatActivity {
                     }
                 });
     }
-    private String email;
+
 
     private void mapping() {
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-
         android:id="@+id/toast_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,30 +15,30 @@
         android:layout_marginEnd="@dimen/dp48"
         android:layout_marginTop="@dimen/dp70"
         android:background="@drawable/success_shape"
-
         android:paddingLeft="@dimen/dp10"
         android:paddingTop="8dp"
         android:paddingRight="@dimen/dp10"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        tools:ignore="UselessParent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:padding="2dp"
             android:id="@+id/toast_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
             android:layout_gravity="center"
             android:src="@drawable/icons8_close" />
 
         <TextView
             android:layout_weight="1"
             android:id="@+id/toast_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="This is Custom Toast."
+            android:layout_marginStart="@dimen/dp10"
+            android:text="@string/update"
             android:textColor="#FFFFFF" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:padding="@dimen/dp2"
             android:id="@+id/toast_icon1"
             android:layout_width="20dp"

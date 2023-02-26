@@ -46,13 +46,13 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp20"
-                android:text="DIOR Offcial"
+                android:text="@string/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/txt_NumberProduct"
                 android:layout_marginTop="@dimen/dp5"
-                android:text="48 Products"
+                android:text="@string/product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -68,7 +68,7 @@
         android:textSize="@dimen/sp15"
         android:layout_marginEnd="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"
-        android:text="Dior, a brand rooted in history and just as luxurious as it sounds. An internationally renowned brand since 1946, the French fashion house acclaimed for its elegance and timeless femininity."
+        android:text="@string/description"
         android:layout_marginTop="@dimen/dp20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -77,7 +77,7 @@
 
         android:textColor="@color/black"
         android:layout_marginTop="@dimen/dp20"
-        android:text="Products"
+        android:text="@string/product"
         android:textSize="@dimen/sp16"
         android:layout_marginEnd="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"
@@ -88,7 +88,7 @@
         android:alpha="0.8"
         android:textColor="@color/black"
         android:layout_marginTop="@dimen/dp10"
-        android:text="Most Popular"
+        android:text="@string/product_popular"
         android:textSize="@dimen/sp14"
         android:layout_marginEnd="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"
@@ -109,7 +109,7 @@
 
         android:textColor="@color/black"
         android:layout_marginTop="@dimen/dp20"
-        android:text="All Products"
+        android:text="@string/all_product"
         android:textSize="@dimen/sp16"
         android:layout_marginEnd="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"

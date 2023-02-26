@@ -23,7 +23,7 @@
                 android:layout_marginEnd="@dimen/dp20"
                 android:textSize="@dimen/sp18"
                 android:textColor="@color/black"
-                android:text="Name"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_marginEnd="@dimen/dp20"
                 android:textSize="@dimen/sp14"
                 android:textColor="@color/black"
-                android:text="Promotion"
+                android:text="@string/promotion"
                 style="@style/TextViewBase"/>
 
             <com.makeramen.roundedimageview.RoundedImageView
@@ -49,7 +49,7 @@
                 android:layout_marginEnd="@dimen/dp20"
                 android:textSize="@dimen/sp14"
                 android:textColor="@color/black"
-                android:text="Brands"
+                android:text="@string/brand"
                 style="@style/TextViewBase"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -71,7 +71,7 @@
                 android:layout_marginEnd="@dimen/dp20"
                 android:textSize="@dimen/sp14"
                 android:textColor="@color/black"
-                android:text="Product"
+                android:text="@string/product"
                 style="@style/TextViewBase"/>
 
             <androidx.recyclerview.widget.RecyclerView

@@ -37,7 +37,7 @@
                     android:id="@+id/tv_name_payment"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp15"
-                    android:text="Full of Light"
+                    android:text="@string/name"
                     style="@style/TextViewBase"/>
                 <TextView
 
@@ -45,7 +45,7 @@
                     android:id="@+id/tv_remove"
                     android:textColor="@color/color_app"
                     android:textSize="@dimen/sp13"
-                    android:text="Remove"
+                    android:text="@string/remove"
                     style="@style/TextViewBase"/>
             </LinearLayout>
             <LinearLayout
@@ -57,14 +57,14 @@
                     android:alpha="0.6"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp13"
-                    android:text="Variant:"
+                    android:text="@string/variants"
                     style="@style/TextViewBase"/>
                 <TextView
                     android:id="@+id/tv_variant_payment"
                     android:alpha="0.6"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp13"
-                    android:text="100 ml"
+                    android:text="@string/ml"
                     style="@style/TextViewBase"/>
             </LinearLayout>
             <LinearLayout
@@ -76,14 +76,14 @@
                     android:alpha="0.6"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp13"
-                    android:text="Quantity:"
+                    android:text="@string/quantity"
                     style="@style/TextViewBase"/>
                 <TextView
                     android:id="@+id/tv_quantity_payment"
                     android:alpha="0.6"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp13"
-                    android:text="2"
+                    android:text="@string/two"
                     style="@style/TextViewBase"/>
             </LinearLayout>
 
@@ -96,13 +96,13 @@
                     android:layout_weight="1"
                     android:alpha="0.7"
                     android:textColor="@color/black"
-                    android:text="Price"
+                    android:text="@string/price"
                     style="@style/TextViewBase"/>
                 <TextView
                     android:layout_marginEnd="@dimen/dp20"
                     android:id="@+id/tv_price_payment"
                     android:textColor="@color/black"
-                    android:text="Rp 999.999"
+                    android:text="@string/price"
                     style="@style/TextViewBase"/>
             </LinearLayout>
         </LinearLayout>

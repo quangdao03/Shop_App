@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:background="@color/green"
             android:id="@+id/productImage"
             android:src="@drawable/icon_hoa"
@@ -73,7 +73,7 @@
                 android:textColor="@color/black"
                 android:layout_marginStart="@dimen/dp20"
                 android:textSize="@dimen/sp14"
-                android:text="Vert Malachite"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
 
             <TextView
@@ -84,7 +84,7 @@
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/dp20"
                 android:textSize="@dimen/sp14"
-                android:text="Rp 999.999"
+                android:text="@string/price"
                 style="@style/TextViewBase"/>
         </LinearLayout>
     </LinearLayout>

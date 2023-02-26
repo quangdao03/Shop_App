@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ProductDetail"
-    android:orientation="vertical"
-    >
-
+    android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -32,7 +30,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp20"
                 android:padding="@dimen/dp10"
-                android:text="Daisy Eau de Toilette"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
 
             <TextView
@@ -42,7 +40,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp14"
                 android:padding="@dimen/dp10"
-                android:text="Marc Jacobs"
+                android:text="@string/name"
                 style="@style/TextViewBase"/>
 
             <TextView
@@ -53,7 +51,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp16"
                 android:padding="@dimen/dp10"
-                android:text="Variants"
+                android:text="@string/variants"
                 style="@style/TextViewBase"/>
 
             <LinearLayout
@@ -69,8 +67,9 @@
                     android:background="@drawable/bg_button_normal_login"
                     android:drawableEnd="@drawable/ic_icon_check__style_stroke"
                     android:padding="@dimen/dp10"
-                    android:text="100 ml"
-                    android:textColor="@color/black" />
+                    android:text="@string/ml"
+                    android:textColor="@color/black"
+                    tools:ignore="UseCompatTextViewDrawableXml" />
             </LinearLayout>
             <TextView
                 android:alpha="0.8"
@@ -80,7 +79,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp16"
                 android:padding="@dimen/dp10"
-                android:text="Description"
+                android:text="@string/description"
                 style="@style/TextViewBase"/>
             <TextView
                 android:alpha="0.5"
@@ -89,8 +88,7 @@
                 style="@style/TextViewBase"
                 android:layout_marginStart="@dimen/dp10"
                 android:padding="@dimen/dp10"
-                android:text="This fresh scent, created by master perfumer Alberto Morillas, is infused with succulent wild berries and soft white violets. A heart of velvety jasmine gives way to sandalwood to deliver a dreamy, lingering finish.
-Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twist, as charming and unique as the woman who wears the fragrance. The easy-to-use rollerball is the perfect travel size."
+                android:text="@string/description"
                 android:textSize="@dimen/sp14" />
 
 
@@ -112,7 +110,7 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                             android:textColor="@color/black"
                             style="@style/TextViewBase"
                             android:layout_weight="1"
-                            android:text="Price"
+                            android:text="@string/price"
                             android:textSize="@dimen/sp16" />
 
                         <TextView
@@ -121,13 +119,13 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                             style="@style/TextViewBase"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="Rp 567.000"
+                            android:text="@string/two"
                             android:textSize="@dimen/sp16" />
                         <TextView
                             android:textColor="@color/black"
                             style="@style/TextViewBase"
                             android:gravity="end"
-                            android:text=" $"
+                            android:text="@string/price_product"
                             android:textSize="@dimen/sp16" />
                     </LinearLayout>
 
@@ -142,10 +140,10 @@ Whimsical white daisies on its cap give the iconic Daisy bottle a retro-cool twi
                             android:background="@drawable/bg_buy_now"
                             android:textColor="@color/white"
                             style="@style/Theme.AppCompat.DayNight.NoActionBar"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Add to cart" />
+                            android:text="@string/add_cart" />
                     </LinearLayout>
                 </LinearLayout>
 

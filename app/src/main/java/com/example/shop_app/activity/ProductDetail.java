@@ -57,7 +57,7 @@ public class ProductDetail extends AppCompatActivity {
         btn_Add_to_cart = findViewById(R.id.btn_Add_to_cart);
 
         checkUser();
-        tvTitleToolbar.setText("Product Detail");
+        tvTitleToolbar.setText(getText(R.string.product_details));
         ivToolbarRight.setImageResource(R.drawable.icon_love);
 
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
@@ -137,7 +137,7 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @androidx.annotation.NonNull DatabaseReference ref) {
 
-                CustomToast.makeText(ProductDetail.this,"Added to Wishlist",CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                CustomToast.makeText(ProductDetail.this,""+getText(R.string.add_wishlist),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
             }
         });
 
@@ -153,7 +153,7 @@ public class ProductDetail extends AppCompatActivity {
         int quantity = 1;
         String idProduct = IDProduct.toString();
         addToCart(idProduct,image,name,creator,variant,price_name,totalprice, String.valueOf(quantity));
-        CustomToast.makeText(ProductDetail.this,"Sản phẩm đã được thêm vào giỏ hàng",CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+        CustomToast.makeText(ProductDetail.this,""+getText(R.string.product_cart),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
     }
     private void addToCart(String productID,String image, String name, String creator, String variant, String price, String priceEach, String quantity ){
         MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);

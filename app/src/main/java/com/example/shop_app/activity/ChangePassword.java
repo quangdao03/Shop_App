@@ -59,13 +59,13 @@ public class ChangePassword extends AppCompatActivity {
                 String oldPass = edt_PasswordOld.getText().toString().trim();
                 String newPass = edt_PasswordNew.getText().toString().trim();
                 if (TextUtils.isEmpty(oldPass)){
-                    Toast.makeText(ChangePassword.this, "Enter your current password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePassword.this, ""+getText(R.string.enter_pass), Toast.LENGTH_SHORT).show();
                     edt_PasswordOld.requestFocus();
                     return;
                 }
                 if (TextUtils.isEmpty(newPass)){
                     edt_PasswordNew.requestFocus();
-                    Toast.makeText(ChangePassword.this, "Password must be at least 8 digits", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePassword.this, ""+getText(R.string.pass_must), Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
                 updatePassword(oldPass,newPass);
@@ -114,7 +114,7 @@ public class ChangePassword extends AppCompatActivity {
 
     private void updatePassword(String oldPass, String newPass) {
         progressDialog.show();
-        progressDialog.setMessage("Đang cập nhật mật khẩu");
+        progressDialog.setMessage(getText(R.string.update_pass));
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         AuthCredential authCredential = EmailAuthProvider.getCredential(firebaseUser.getEmail(),oldPass);
         firebaseUser.reauthenticate(authCredential)
@@ -127,7 +127,7 @@ public class ChangePassword extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         progressDialog.dismiss();
-                                        Toast.makeText(ChangePassword.this, "Password Updated", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChangePassword.this, ""+getText(R.string.update_pass_success), Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

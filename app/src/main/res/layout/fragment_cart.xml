@@ -47,7 +47,7 @@
                     <TextView
                         android:textColor="@color/black"
                         android:textSize="@dimen/sp16"
-                        android:text="Price Total"
+                        android:text="@string/total_price"
                         style="@style/TextViewBase"/>
                     <LinearLayout
                         android:orientation="horizontal"
@@ -59,14 +59,14 @@
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/sp18"
-                            android:text="RP 0"
+                            android:text="@string/price"
                             style="@style/TextViewBase"/>
                         <TextView
                             android:layout_marginTop="@dimen/dp10"
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/sp18"
-                            android:text="$"
+                            android:text="@string/price_product"
                             style="@style/TextViewBase"/>
                     </LinearLayout>
                 </LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/toolbar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:background="@color/white"
+        android:src="@drawable/bg_change_language"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_Vie"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dp48"
+        android:background="@drawable/bg_buy_now"
+        android:text="@string/vie"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_En"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dp20"
+        android:background="@drawable/bg_buy_now"
+        android:text="@string/en"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
