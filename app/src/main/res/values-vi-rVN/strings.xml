@@ -50,10 +50,10 @@
     <string name="request">Gửi yêu cầu</string>
     <string name="skip">Bỏ qua</string>
     <string name="next">Tiếp theo</string>
-    <string name="complete_payment">Hoàn tất thanh toán của bạn</string>
+    <string name="complete_payment">Thanh toán của bạn</string>
     <string name="time">20/02/2023</string>
     <string name="shipping_change">Vận chuyển</string>
-    <string name="code_orders">Mã đơn hàng:</string>
+    <string name="code_orders">Đơn hàng:</string>
     <string name="number">1000000</string>
     <string name="name">Tên:</string>
     <string name="number_phone">Điện thoại:</string>

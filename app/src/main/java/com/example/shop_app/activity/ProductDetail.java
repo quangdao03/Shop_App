@@ -4,10 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +25,7 @@ import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Product;
 
 import com.example.shop_app.utils.CustomToast;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -38,6 +47,11 @@ public class ProductDetail extends AppCompatActivity {
 
     String url;
     String IDProduct;
+
+    private int cost = 0;
+    private int finalCost = 0;
+
+    int quantityProduct = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +98,9 @@ public class ProductDetail extends AppCompatActivity {
         btn_Add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addToCart();
-                btn_Add_to_cart.setOnClickListener(null);
-                btn_Add_to_cart.setBackgroundResource(R.drawable.bg_buy_fail);
+                addProduct();
+//                btn_Add_to_cart.setOnClickListener(null);
+//                btn_Add_to_cart.setBackgroundResource(R.drawable.bg_buy_fail);
             }
         });
 
@@ -143,17 +157,110 @@ public class ProductDetail extends AppCompatActivity {
 
 
     }
-    private void addToCart() {
-        String image = url;
-        String name = tv_product_name.getText().toString().trim();
-        String price_name = tv_price.getText().toString().trim().replace("","");
-        String creator = tv_creator.getText().toString().trim();
-        String variant = tv_variant.getText().toString().trim();
-        String totalprice = tv_price.getText().toString().trim().replace("","");
-        int quantity = 1;
-        String idProduct = IDProduct.toString();
-        addToCart(idProduct,image,name,creator,variant,price_name,totalprice, String.valueOf(quantity));
-        CustomToast.makeText(ProductDetail.this,""+getText(R.string.product_cart),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+    private void addProduct(){
+        ImageView img_Product,count_down,count_add,btn_close;
+        TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final;
+        Button btn_AddToCart;
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View dialog = LayoutInflater.from(this).inflate(R.layout.layout_dialog_buy, null);
+        bottomSheetDialog.setContentView(dialog);
+        tv_dialog_name = dialog.findViewById(R.id.tv_dialog_name);
+        tv_dialog_creator = dialog.findViewById(R.id.tv_dialog_creator);
+        tv_dialog_variant = dialog.findViewById(R.id.tv_dialog_variant);
+        img_Product = dialog.findViewById(R.id.img_Product);
+        tv_price_product = dialog.findViewById(R.id.tv_price_product);
+        tv_price_product_final = dialog.findViewById(R.id.tv_price_product_final);
+        tv_quantity = dialog.findViewById(R.id.tv_quantity);
+        count_down = dialog.findViewById(R.id.count_down);
+        count_add = dialog.findViewById(R.id.count_add);
+        btn_AddToCart = dialog.findViewById(R.id.btn_AddToCart);
+        btn_close = dialog.findViewById(R.id.btn_close);
+
+
+        tv_dialog_name.setText(tv_product_name.getText().toString().trim());
+        tv_dialog_creator.setText(tv_creator.getText().toString().trim());
+        tv_dialog_variant.setText(tv_variant.getText().toString().trim());
+        tv_price_product.setText(tv_price.getText().toString().trim().replace("",""));
+        Glide.with(getApplicationContext()).load(url).into(img_Product);
+        tv_quantity.setText(""+quantityProduct);
+        String price = tv_price_product.getText().toString().trim();
+        cost = Integer.parseInt(price.replaceAll("$", ""));
+        finalCost = Integer.parseInt(price.replaceAll("$", ""));
+        tv_price_product_final.setText(""+finalCost);
+        count_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finalCost = finalCost + cost;
+                quantityProduct++;
+                tv_price_product_final.setText(""+finalCost);
+                tv_quantity.setText(""+quantityProduct);
+            }
+        });
+        count_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (quantityProduct>1) {
+                    finalCost = finalCost - cost;
+                    quantityProduct--;
+                    tv_price_product_final.setText(""+finalCost);
+                    tv_quantity.setText(""+quantityProduct);
+                }
+            }
+        });
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        btn_AddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                bottomSheetDialog.dismiss();
+                final Dialog dialog = new Dialog(ProductDetail.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.layout);
+                dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
+
+                Window window = dialog.getWindow();
+                window.setGravity(Gravity.BOTTOM);
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(true);
+                Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
+                TextView tv_tap = dialog.findViewById(R.id.tv_tap);
+                tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                String image = url;
+                String name = tv_dialog_name.getText().toString().trim();
+                String price_name = price;
+                String creator = tv_dialog_creator.getText().toString().trim();
+                String variant = tv_dialog_variant.getText().toString().trim();
+                String totalprice = tv_price_product_final.getText().toString().trim().replace("","");
+                String quantity = tv_quantity.getText().toString().trim();
+                String idProduct = IDProduct;
+                addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
+                btn_Ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        CustomToast.makeText(ProductDetail.this,""+getText(R.string.product_cart),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+
+                    }
+                });
+                tv_tap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+        bottomSheetDialog.show();
+
     }
     private void addToCart(String productID,String image, String name, String creator, String variant, String price, String priceEach, String quantity ){
         MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);

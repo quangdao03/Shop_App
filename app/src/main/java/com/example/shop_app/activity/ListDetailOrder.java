@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListDetailOrder extends AppCompatActivity {
-    TextView tvTitleToolbar;
+    TextView tvTitleToolbar,tv_sort, tv_sort_text;
     ImageView ivToolbarLeft,ivToolbarRight;
     RecyclerView rcy_List_Order;
 
@@ -34,6 +37,7 @@ public class ListDetailOrder extends AppCompatActivity {
     List<Order> orderList = new ArrayList<>();
 
     private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,29 @@ public class ListDetailOrder extends AppCompatActivity {
             }
         });
         tvTitleToolbar.setText(getText(R.string.list_order));
+        tv_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String options[] = {"All", "Đang xử lý", "Đã xác nhận", "Đã hủy"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListDetailOrder.this);
+                builder.setTitle("Sắp xếp")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (i == 0){
+                                    tv_sort_text.setText("All");
+                                    orderUserAdapter.getFilter().filter("");
+                                }else  {
+                                    String optionClicked = options[i];
+                                    tv_sort_text.setText(optionClicked);
+                                    orderUserAdapter.getFilter().filter(optionClicked);
+                                }
+
+                            }
+                        }).show();
+            }
+        });
     }
 
     private void loadOrder() {
@@ -94,6 +121,8 @@ public class ListDetailOrder extends AppCompatActivity {
         ivToolbarLeft = findViewById(R.id.ivToolbarLeft);
         ivToolbarRight = findViewById(R.id.ivToolbarRight);
         rcy_List_Order = findViewById(R.id.rcy_List_Order);
+        tv_sort_text = findViewById(R.id.tv_sort_text);
+        tv_sort = findViewById(R.id.tv_sort);
 
     }
 }

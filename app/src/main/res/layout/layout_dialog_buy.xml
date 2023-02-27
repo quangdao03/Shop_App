@@ -4,9 +4,16 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="@dimen/dp20"
+    android:paddingBottom="@dimen/dp20"
+    android:paddingHorizontal="@dimen/dp20"
     android:background="@drawable/bg_left_right">
-
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/a"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_remove_24"
+        android:layout_gravity="center_horizontal"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

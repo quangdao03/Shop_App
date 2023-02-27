@@ -103,8 +103,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 count_down = dialog.findViewById(R.id.count_down);
                 count_add = dialog.findViewById(R.id.count_add);
                 btn_AddToCart = dialog.findViewById(R.id.btn_AddToCart);
-
                 btn_close = dialog.findViewById(R.id.btn_close);
+
                 tv_dialog_name.setText(product.getName());
                 tv_dialog_creator.setText(product.getCreator());
                 tv_dialog_variant.setText(product.getVariant());
