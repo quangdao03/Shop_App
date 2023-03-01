@@ -24,6 +24,10 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.ChatActivityUser;
+import com.example.shop_app.activity.LoginActivity;
+import com.example.shop_app.activity.MainActivity;
+import com.example.shop_app.activity.MainActivitySeller;
 import com.example.shop_app.activity.Product_All;
 import com.example.shop_app.adapter.ListCategoryAdapter;
 import com.example.shop_app.adapter.ListProductNew;
@@ -31,6 +35,7 @@ import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.model.Category;
 import com.example.shop_app.model.Product;
 
+import com.example.shop_app.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -51,7 +57,7 @@ public class HomeFragment extends Fragment {
     View view;
     ViewPager viewPager;
     Timer timer;
-    ImageView ivToolbarLeft,ivToolbarRight;
+    ImageView ivToolbarLeft,ivToolbarRight,ivToolbarRight_message;
     TextView tvTitleToolbar,tv_ViewAll;
     private FirebaseAuth firebaseAuth;
     int page_position = 0;
@@ -98,7 +104,14 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), Product_All.class));
             }
         });
-
+        ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ChatActivityUser.class));
+            }
+        });
+        checkUserType();
+        getObjectUser();
         return  view;
     }
 
@@ -231,6 +244,48 @@ public class HomeFragment extends Fragment {
 
 
     }
+    private void checkUserType() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.orderByChild("uid")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            String accountType = ""+ds.child("accountType").getValue();
+                            if (accountType.equals("Seller")){
+                                Utils.SELLERID = ds.getKey();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
+    private void getObjectUser() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            String name = ""+dataSnapshot.child("name").getValue();
+                            Utils.Name = name;
+                            String image = ""+dataSnapshot.child("profileImage").getValue();
+                            Utils.Image = image;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
 
 
     public void mapping(){
@@ -242,5 +297,6 @@ public class HomeFragment extends Fragment {
         rcyProduct = view.findViewById(R.id.rcyProduct);
         rcySpNew = view.findViewById(R.id.rcySpNew);
         tv_ViewAll = view.findViewById(R.id.tv_ViewAll);
+        ivToolbarRight_message = view.findViewById(R.id.ivToolbarRight_message);
     }
 }

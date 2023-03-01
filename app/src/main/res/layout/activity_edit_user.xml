@@ -8,15 +8,27 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar"/>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginTop="@dimen/dp10"
+    <FrameLayout
         android:layout_gravity="center"
-        android:id="@+id/img_User"
-        android:layout_width="@dimen/dp100"
-        android:layout_height="@dimen/dp100"
-        android:src="@drawable/profile"
-        app:civ_border_color="@color/color_app"
-        app:civ_border_width="@dimen/dp2" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="@dimen/dp10"
+            android:id="@+id/img_User"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"
+            android:src="@drawable/profile"
+            app:civ_border_color="@color/color_app"
+            app:civ_border_width="@dimen/dp2" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            app:civ_border_color="@color/white"
+            android:layout_gravity="right|bottom"
+            app:civ_border_width="1dp"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:src="@drawable/ic_camera_edit" />
+
+    </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:textColor="@color/black"

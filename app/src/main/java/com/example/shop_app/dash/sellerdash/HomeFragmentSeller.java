@@ -2,6 +2,7 @@ package com.example.shop_app.dash.sellerdash;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.shop_app.R;
+import com.example.shop_app.activity.ChatActivitySeller;
 import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.model.CostOrder;
 import com.example.shop_app.model.Order;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.utils.Utils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,12 +43,12 @@ public class HomeFragmentSeller extends Fragment {
     View view;
 
     TextView tvTitleToolbar,txt_PriceAll;
-    ImageView ivToolbarLeft,ivToolbarRight;
+    ImageView ivToolbarLeft,ivToolbarRight,ivToolbarRight_message;
     RecyclerView rcy_Prodcut_Seller;
     List<Product> productList = new ArrayList<>();
     ProductAdapter productAdapter;
     List<Order> orderList = new ArrayList<>();
-
+    FirebaseAuth firebaseAuth;
     List<CostOrder> costOrderList = new ArrayList<>();
     int a;
     @Nullable
@@ -52,11 +56,19 @@ public class HomeFragmentSeller extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home_seller, container,false);
         mapping();
+        firebaseAuth = FirebaseAuth.getInstance();
         tvTitleToolbar.setText("Product");
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setImageResource(R.drawable.icons8_add);
         getProductSeller();
         loadAllOrder();
+        ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),ChatActivitySeller.class));
+            }
+        });
+        getObjectUser();
         return  view;
     }
 
@@ -129,12 +141,30 @@ public class HomeFragmentSeller extends Fragment {
             }
         });
     }
+    private void getObjectUser() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            String image = ""+dataSnapshot.child("profileImage").getValue();
+                            Utils.ImageSeller = image;
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
+
+                    }
+                });
+    }
     private void mapping() {
         rcy_Prodcut_Seller = view.findViewById(R.id.rcy_Prodcut_Seller);
         tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);
         ivToolbarLeft = view.findViewById(R.id.ivToolbarLeft);
         ivToolbarRight = view.findViewById(R.id.ivToolbarRight);
         txt_PriceAll = view.findViewById(R.id.txt_PriceAll);
+        ivToolbarRight_message = view.findViewById(R.id.ivToolbarRight_message);
     }
 }
