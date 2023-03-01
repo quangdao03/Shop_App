@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.About;
 import com.example.shop_app.activity.EditUser;
 import com.example.shop_app.activity.ListDetailOrder;
 import com.example.shop_app.activity.LoginActivity;
@@ -36,7 +37,7 @@ import java.util.HashMap;
 
 public class AccountFragment extends Fragment {
     View view;
-    LinearLayout ll_logout,ll_Address,ll_MyOrder;
+    LinearLayout ll_logout,ll_Address,ll_MyOrder,ll_about,ll_profile;
     TextView tvTitleToolbar,txt_username,txt_userphone,txt_email;
     ImageView ivToolbarLeft,ivToolbarRight,userImage_ImageView;
     private FirebaseAuth firebaseAuth;
@@ -77,6 +78,18 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Setting.class));
+            }
+        });
+        ll_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), About.class));
+            }
+        });
+        ll_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),EditUser.class));
             }
         });
         return view;
@@ -172,6 +185,8 @@ public class AccountFragment extends Fragment {
 
     private void init() {
 
+        ll_profile = view.findViewById(R.id.ll_profile);
+        ll_about = view.findViewById(R.id.ll_about);
         ll_MyOrder = view.findViewById(R.id.ll_MyOrder);
         ll_logout = view.findViewById(R.id.ll_logout);
         ll_Address = view.findViewById(R.id.ll_Address);

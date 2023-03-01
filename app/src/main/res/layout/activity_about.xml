@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.About"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:background="@drawable/bg_buy_fail"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginHorizontal="@dimen/dp20"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_gravity="center"
+            android:id="@+id/img_User"
+            android:layout_width="@dimen/dp120"
+            android:layout_height="@dimen/dp120"
+            android:src="@mipmap/fram"
+            app:civ_border_color="@color/color_app"
+            app:civ_border_width="1dp" />
+        <TextView
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp20"
+            android:textColor="@color/black"
+            android:text="Shop App"
+            style="@style/TextViewBase"/>
+        <TextView
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_gravity="center"
+
+            android:textSize="@dimen/sp14"
+            android:textColor="@color/black"
+            android:text="Version 1.0.0-beta"
+            style="@style/TextViewBase"/>
+        <TextView
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp14"
+            android:textColor="@color/black"
+            android:text="A Free &amp; Open Source Android application"
+            style="@style/TextViewBase"/>
+        <TextView
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp14"
+            android:textColor="@color/black"
+            android:text="to download from the Project"
+            style="@style/TextViewBase"/>
+
+        <LinearLayout
+            android:layout_marginHorizontal="@dimen/dp20"
+            android:layout_marginBottom="@dimen/dp20"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_github"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/dp5"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_marginEnd="@dimen/dp5"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_github"
+                    android:layout_width="@dimen/dp15"
+                    android:layout_height="@dimen/dp15"/>
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/sp15"
+                    android:textColor="@color/black"
+                    android:text="GITHUB"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp10"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:textSize="@dimen/sp15"
+        android:textColor="@color/black"
+        android:text="Developed By"
+        style="@style/TextViewBase"/>
+    <LinearLayout
+        android:layout_marginHorizontal="@dimen/dp20"
+        android:background="@drawable/bg_buy_fail"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginEnd="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginBottom="@dimen/dp20"
+            android:layout_marginStart="@dimen/dp20"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"
+            android:src="@drawable/dao112"
+            app:civ_border_color="@color/color_app"
+            app:civ_border_width="1dp" />
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="@dimen/dp10"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sp15"
+                android:textColor="@color/black"
+                android:text="Quang Đạo"
+                style="@style/TextViewBase"/>
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="@dimen/sp15"
+                android:textColor="@color/black"
+                android:text=" @darkhero"
+                style="@style/TextViewBase"/>
+            <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/ll_github_user"
+                android:padding="@dimen/dp5"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_marginEnd="@dimen/dp5"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_github"
+                    android:layout_width="@dimen/dp15"
+                    android:layout_height="@dimen/dp15"/>
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/sp15"
+                    android:textColor="@color/black"
+                    android:text="GITHUB"
+                    style="@style/TextViewBase"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

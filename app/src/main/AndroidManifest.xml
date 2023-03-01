@@ -24,11 +24,15 @@
         tools:replace="android:theme"
         tools:targetApi="31">
         <activity
-            android:label="@string/app_home"
+            android:name=".activity.About"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AddProductSeller"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivitySeller"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"
+            android:label="@string/app_home" />
         <activity
             android:name=".activity.ChangeLanguage"
             android:exported="false" />
@@ -61,8 +65,7 @@
             android:exported="true" />
         <activity
             android:name=".activity.Realtime"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".activity.LoginActivity"
             android:exported="false">
@@ -72,10 +75,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true" >
-
-        </activity>
-
+            android:exported="true" />
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true">

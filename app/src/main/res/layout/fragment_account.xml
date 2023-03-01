@@ -10,10 +10,13 @@
     <include layout="@layout/toolbar"/>
 
     <LinearLayout
+        android:id="@+id/ll_profile"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_marginBottom="@dimen/dp10"
         android:layout_marginTop="@dimen/dp20"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:padding="@dimen/dp10"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -249,7 +252,7 @@
     <LinearLayout
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground"
-        android:id="@+id/orderContainer4"
+        android:id="@+id/ll_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp10"

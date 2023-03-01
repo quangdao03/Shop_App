@@ -87,6 +87,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         db.update(TABLE_NAME, cv,"Cart_ID=? AND productID=?", new String[]{row_id ,productID});
 
+
     }
     public void deleteData(String productID){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -108,5 +109,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    public Cursor updateDataBase(String sql){
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery(sql, null);
+    }
+
 
 }

@@ -72,6 +72,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginEnd="@dimen/dp5"
             android:paddingBottom="@dimen/dp5"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
@@ -89,30 +90,66 @@
                 android:src="@drawable/ic_delete" />
 
             <LinearLayout
-
-                android:layout_marginTop="@dimen/dp30"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_gravity="center"
-                    android:text="@string/quantity"
-                    android:textSize="@dimen/sp16"
-                    android:textColor="@color/black"
-                    style="@style/TextViewBase"/>
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/count_down"
+                    android:padding="@dimen/dp10"
+                    android:background="@drawable/bg_count"
+                    android:src="@drawable/icons"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
                 <TextView
                     android:id="@+id/tv_quantity"
-                    style="@style/TextViewBase"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/dp5"
-                    android:layout_marginEnd="@dimen/dp10"
                     android:gravity="center"
-                    android:text="@string/two"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/sp16"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginEnd="@dimen/dp10"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/TextViewBase"/>
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/count_add"
+                    android:layout_gravity="center"
+                    android:paddingTop="@dimen/dp5"
+                    android:paddingStart="@dimen/dp5"
+                    android:paddingEnd="@dimen/dp5"
+                    android:background="@drawable/bg_count"
+                    android:src="@drawable/ic_add_count"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
             </LinearLayout>
+
+<!--            <LinearLayout-->
+
+<!--                android:layout_marginTop="@dimen/dp30"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:orientation="horizontal">-->
+<!--                <TextView-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/quantity"-->
+<!--                    android:textSize="@dimen/sp16"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    style="@style/TextViewBase"/>-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_quantity"-->
+<!--                    style="@style/TextViewBase"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginStart="@dimen/dp5"-->
+<!--                    android:layout_marginEnd="@dimen/dp10"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/two"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="@dimen/sp16" />-->
+
+<!--            </LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
     <View

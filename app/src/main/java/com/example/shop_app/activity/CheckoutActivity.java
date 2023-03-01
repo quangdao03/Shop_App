@@ -30,9 +30,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import vn.momo.momo_partner.AppMoMoLib;
 
@@ -60,7 +64,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public double totalpriceAll = 0.0;
 
     private String amount = "10000";
-    private String fee = "0";
+    private int fee ;
     int environment = 0;//developer default
     private String merchantName = "LE QUANG DAO";
     private String merchantCode = "SCB01";
@@ -136,24 +140,24 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
 
-//    //Get token through MoMo app
+    //Get token through MoMo app
 //    private void requestPayment() {
 //        AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
 //        AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
-//        if (edAmount.getText().toString() != null && edAmount.getText().toString().trim().length() != 0)
-//            amount = edAmount.getText().toString().trim();
+////        if (edAmount.getText().toString() != null && edAmount.getText().toString().trim().length() != 0)
+////            amount = edAmount.getText().toString().trim();
 //
 //        Map<String, Object> eventValue = new HashMap<>();
 //        //client Required
 //        eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
 //        eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
-//        eventValue.put("amount", total_amount); //Kiểu integer
+//        eventValue.put("amount", amount); //Kiểu integer
 //        eventValue.put("orderId", "orderId123456789"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
 //        eventValue.put("orderLabel", "Mã đơn hàng"); //gán nhãn
 //
 //        //client Optional - bill info
 //        eventValue.put("merchantnamelabel", "Dịch vụ");//gán nhãn
-//        eventValue.put("fee", total_fee); //Kiểu integer
+//        eventValue.put("fee", fee); //Kiểu integer
 //        eventValue.put("description", description); //mô tả đơn hàng - short description
 //
 //        //client extra data

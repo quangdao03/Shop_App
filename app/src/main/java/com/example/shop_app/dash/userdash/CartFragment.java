@@ -51,6 +51,8 @@ public class CartFragment extends Fragment {
     private double cost = 0;
     private double finalCost = 0;
     private int Qquantity = 1;
+    int quantityProduct = 1;
+    String priceEach;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class CartFragment extends Fragment {
     }
 
     private void loadCart() {
-
+        cartList.clear();
         MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(getActivity());
         Cursor cursor = myDatabaseHelper.readAllData();
         while (cursor.moveToNext()){
@@ -80,21 +82,22 @@ public class CartFragment extends Fragment {
             String creator = cursor.getString(4);
             String variant = cursor.getString(5);
             String price = cursor.getString(6);
-            String priceEach = cursor.getString(7);
+            priceEach    = cursor.getString(7);
             String quantity = cursor.getString(8);
 
-            allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
-            totalPrice.setText(""+String.format("%.0f",allTotalPrice));
             Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
             cartList.add(cart);
+            allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
+            totalPrice.setText(""+String.format("%.0f",allTotalPrice));
             Log.e("cart",cart.toString());
         }
+
+
         cartAdapter = new CartAdapter(getContext(), cartList, new CartAdapter.iClickListener() {
             @Override
             public void onClickUpdateItem(Cart cart) {
 
             }
-
 
             @Override
             public void onClickDeleteItem(Cart cart) {
@@ -113,7 +116,6 @@ public class CartFragment extends Fragment {
 
             }
         });
-
         btn_BuyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,22 +125,16 @@ public class CartFragment extends Fragment {
                     Toast.makeText(getContext(), ""+getText(R.string.cart_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
                 String total = totalPrice.getText().toString().trim();
                 Intent intent = new Intent(getContext(), CheckoutActivity.class);
                 intent.putExtra("total",total);
                 startActivity(intent);
-
-
 //                cartAdapter.notifyDataSetChanged();
 //                totalPrice.setText(""+0);
 
 
             }
         });
-        cartAdapter.notifyDataSetChanged();
-
     }
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
