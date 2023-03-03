@@ -37,4 +37,5 @@
     <color name="colorGreen">#16C79A</color>
     <color name="primary">#FFC107</color>
     <color name="fail">#A7A7A7</color>
+    <color name="shimmer_background_color">#A7A7A7</color>
 </resources>

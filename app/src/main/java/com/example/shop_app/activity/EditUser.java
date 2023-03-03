@@ -20,11 +20,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shop_app.R;
 import com.example.shop_app.utils.CustomToast;
+import com.example.shop_app.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -59,6 +61,7 @@ public class EditUser extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String name, phone, country, city, address;
 
+    LinearLayout ll_edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +69,16 @@ public class EditUser extends AppCompatActivity {
         mapping();
         getSupportActionBar().hide();
         firebaseAuth = FirebaseAuth.getInstance();
-        tvTitleToolbar.setText("Personal Data");
+        tvTitleToolbar.setText(R.string.profile);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
+        ll_edit = findViewById(R.id.ll_edit);
+        ll_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utils.hideSoftKeyboard(EditUser.this);
+            }
+        });
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

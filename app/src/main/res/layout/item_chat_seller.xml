@@ -18,27 +18,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:padding="@dimen/dp10">
-
-            <TextView
-                android:id="@+id/tv_User"
-                style="@style/TextViewBase"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:text="ID:1"
-                android:textSize="@dimen/sp16"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginEnd="@dimen/dp20"
+                android:id="@+id/img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_camera_edit"
+                app:civ_border_color="@color/color_app"
+                app:civ_border_width="1dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/tv_User_name"
-                style="@style/TextViewBase"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:text="Đạo"
-                android:textSize="@dimen/sp16"
-                app:layout_constraintTop_toBottomOf="@+id/tv_User"
-                tools:ignore="MissingConstraints" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_User_name"
+                    style="@style/TextViewBase"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Đạo"
+                    android:textSize="@dimen/sp16"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_User"
+                    tools:ignore="MissingConstraints" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChatUserSeller extends AppCompatActivity {
-    String id;
+    String id,name;
     TextView tvTitleToolbar;
     ImageView ivToolbarLeft,ivToolbarRight;
     RecyclerView rcy_Chat;
@@ -51,7 +56,8 @@ public class ChatUserSeller extends AppCompatActivity {
         setContentView(binding.getRoot());
         firebaseAuth = FirebaseAuth.getInstance();
         mapping();
-        tvTitleToolbar.setText("Chat");
+        name = getIntent().getStringExtra("name");
+        tvTitleToolbar.setText(name);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +75,39 @@ public class ChatUserSeller extends AppCompatActivity {
                 sendMessage();
             }
         });
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) ChatUserSeller.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+                if(ChatUserSeller.this.getCurrentFocus() != null)
+                {
+                    inputMethodManager.hideSoftInputFromWindow(ChatUserSeller.this.getCurrentFocus().
+                            getWindowToken(), 0);
+                }
+                return false;
+            }
+        };
+        rcy_Chat.setOnTouchListener(touchListener);
+        binding.edtMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
+                chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
+                rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+
+                // Cập nhật Adapter hoặc hiển thị danh sách
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+
+
     }
 
     private String format_date(Date date){

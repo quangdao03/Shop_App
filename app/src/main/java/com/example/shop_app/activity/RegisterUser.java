@@ -7,6 +7,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -17,13 +19,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shop_app.R;
+import com.example.shop_app.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -56,6 +62,8 @@ public class RegisterUser extends AppCompatActivity {
     private Uri image_uri;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    LinearLayout ll_register_user;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,10 +94,20 @@ public class RegisterUser extends AppCompatActivity {
                 startActivity(new Intent(RegisterUser.this,LoginActivity.class));
             }
         });
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) RegisterUser.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
-
-
-
+                if(RegisterUser.this.getCurrentFocus() != null)
+                {
+                    inputMethodManager.hideSoftInputFromWindow(RegisterUser.this.getCurrentFocus().
+                            getWindowToken(), 0);
+                }
+                return false;
+            }
+        };
+        ll_register_user.setOnTouchListener(touchListener);
     }
 
 
@@ -389,6 +407,7 @@ public class RegisterUser extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
     private void  init(){
+        ll_register_user = findViewById(R.id.ll_register_user);
         edt_Username = findViewById(R.id.edt_UserName);
         edt_Email = findViewById(R.id.edt_Email);
         edt_Password = findViewById(R.id.edt_Password);
@@ -397,5 +416,6 @@ public class RegisterUser extends AppCompatActivity {
         img_User = findViewById(R.id.img_User);
         img_Register = findViewById(R.id.img_Register);
         txt_Login = findViewById(R.id.txt_Login);
+
     }
 }

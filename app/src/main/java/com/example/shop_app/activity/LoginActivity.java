@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String email, password;
     Boolean ishowpass = false;
-
+    LinearLayout ll_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +100,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
+            }
+        });
+        ll_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utils.hideSoftKeyboard(LoginActivity.this);
             }
         });
     }
@@ -205,5 +214,6 @@ public class LoginActivity extends AppCompatActivity {
         txt_Create = findViewById(R.id.txt_Create);
         imgShowPassword = findViewById(R.id.imgShowPassword);
         forgotPass = findViewById(R.id.forgotPass);
+        ll_login = findViewById(R.id.ll_login);
     }
 }

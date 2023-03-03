@@ -136,5 +136,5 @@
     <string name="notification">Notification</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_success">Change language successfully</string>
-
+    <string name="chat">Chat</string>
 </resources>

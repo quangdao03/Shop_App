@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <TextView
+        android:paddingStart="@dimen/dp20"
         android:layout_marginStart="35dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.7"

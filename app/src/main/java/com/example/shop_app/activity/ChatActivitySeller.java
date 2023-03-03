@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.ChatSellerAdapter;
 import com.example.shop_app.adapter.ChatUserAdapter;
@@ -34,7 +37,7 @@ public class ChatActivitySeller extends AppCompatActivity {
         setContentView(R.layout.activity_chat_seller);
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText("Chat");
+        tvTitleToolbar.setText(R.string.chat);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +47,8 @@ public class ChatActivitySeller extends AppCompatActivity {
             }
         });
         getUserChat();
+
+
     }
 
     private void getUserChat() {
@@ -59,6 +64,8 @@ public class ChatActivitySeller extends AppCompatActivity {
                                 User user = new User();
                                 user.setId(documentSnapshot.getString("id"));
                                 user.setUsername(documentSnapshot.getString("name"));
+                                String img = documentSnapshot.getString("img");
+                                user.setImg(img);
                                 userList.add(user);
                             }
                             if (userList.size()>0){

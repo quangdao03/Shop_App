@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ChatUserSeller;
 
@@ -36,12 +38,15 @@ public class ChatSellerAdapter extends RecyclerView.Adapter<ChatSellerAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         User user = userList.get(position);
 
-        holder.tv_User.setText(userList.get(position).getId());
+//        holder.tv_User.setText(userList.get(position).getId());
         holder.tv_User_name.setText(userList.get(position).getUsername());
+        String img  = userList.get(position).getImg();
+        Glide.with(context).load(img).into(holder.img);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ChatUserSeller.class);
+                intent.putExtra("name",user.getUsername());
                 intent.putExtra("id",user.getId());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -56,10 +61,12 @@ public class ChatSellerAdapter extends RecyclerView.Adapter<ChatSellerAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_User,tv_User_name;
+        ImageView img;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_User = itemView.findViewById(R.id.tv_User);
             tv_User_name = itemView.findViewById(R.id.tv_User_name);
+            img = itemView.findViewById(R.id.img);
         }
     }
 }

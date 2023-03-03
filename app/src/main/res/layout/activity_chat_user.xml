@@ -9,6 +9,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcy_Chat"
         android:layout_width="match_parent"
@@ -64,5 +65,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="50dp"/>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

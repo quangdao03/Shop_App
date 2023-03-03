@@ -1,39 +1,32 @@
 package com.example.shop_app.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.ChatUserAdapter;
 import com.example.shop_app.databinding.ActivityChatUserBinding;
-import com.example.shop_app.databinding.ActivityMainBinding;
 import com.example.shop_app.model.ChatMessage;
 import com.example.shop_app.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,20 +41,19 @@ public class ChatActivityUser extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
     public static String ID_Seller;
-
     ChatUserAdapter chatUserAdapter;
     List<ChatMessage> chatMessageList = new ArrayList<>();
-
+    ProgressDialog progressDialog;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        checkUserType();
         firebaseAuth = FirebaseAuth.getInstance();
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText("Chat");
+        tvTitleToolbar.setText(R.string.chat);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -79,17 +71,88 @@ public class ChatActivityUser extends AppCompatActivity {
         });
         listenMess();
         insertUser();
+
+
+        binding.edtMessage.setFocusableInTouchMode(true);
+        binding.edtMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
+                chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
+                rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+            }
+        });
+
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) ChatActivityUser.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+                if(ChatActivityUser.this.getCurrentFocus() != null)
+                {
+                    inputMethodManager.hideSoftInputFromWindow(ChatActivityUser.this.getCurrentFocus().
+                            getWindowToken(), 0);
+                }
+                return false;
+            }
+        };
+        rcy_Chat.setOnTouchListener(touchListener);
+
+
+        binding.edtMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
+                chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
+                rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+                // Cập nhật Adapter hoặc hiển thị danh sách
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setTitle(getText(R.string.please_wait));
+//        progressDialog.setCancelable(false);
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.create();
+//        progressDialog.show();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                progressDialog.dismiss();
+//            }
+//        },2000);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private void insertUser() {
+
         HashMap<String,Object> user = new HashMap<>();
         user.put("id",firebaseAuth.getUid());
         user.put("name",Utils.Name);
+        user.put("img",Utils.Image);
         db.collection("users").document(String.valueOf(firebaseAuth.getUid())).set(user);
     }
 
     private String format_date(Date date){
-        return new SimpleDateFormat("dd MMMM,yyyy - hh:mm a", Locale.getDefault()).format(date);
+        return new SimpleDateFormat("dd,MMMM,yyyy - HH:mm", Locale.getDefault()).format(date);
     }
     private void sendMessage() {
         String edtMessage = binding.edtMessage.getText().toString().trim();
@@ -108,6 +171,7 @@ public class ChatActivityUser extends AppCompatActivity {
         }
     }
     private void listenMess(){
+
         db.collection(Utils.PATH_CHAT)
                 .whereEqualTo(Utils.SENDID,String.valueOf(firebaseAuth.getUid()))
                 .whereEqualTo(Utils.RECEIVEDID,Utils.SELLERID)
@@ -149,6 +213,7 @@ public class ChatActivityUser extends AppCompatActivity {
         }
     };
     private void mapping() {
+
         rcy_Chat = findViewById(R.id.rcy_Chat);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
         ivToolbarLeft = findViewById(R.id.ivToolbarLeft);
