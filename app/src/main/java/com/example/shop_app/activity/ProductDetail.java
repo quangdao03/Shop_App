@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
+import com.example.shop_app.database.CartDatabase;
+import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Product;
 
@@ -36,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductDetail extends AppCompatActivity {
@@ -241,6 +245,23 @@ public class ProductDetail extends AppCompatActivity {
                 String quantity = tv_quantity.getText().toString().trim();
                 String idProduct = IDProduct;
                 addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
+
+                CartRoom cartRoom = new CartRoom();
+                cartRoom.setProductID(idProduct);
+                cartRoom.setImage(url);
+                cartRoom.setName(name);
+                cartRoom.setCreator(creator);
+                cartRoom.setVariant(variant);
+                cartRoom.setPrice(price_name);
+                cartRoom.setPriceEach(totalprice);
+                cartRoom.setQuantity(quantity);
+                CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
+
+                List<CartRoom> cartRoom1 = CartDatabase.getInstance(ProductDetail.this).cartDAO().getAllCart();
+                Log.d("aaa",cartRoom1.toString());
+
+
+
                 btn_Ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -22,6 +22,8 @@ import com.example.shop_app.R;
 import com.example.shop_app.activity.CheckoutActivity;
 import com.example.shop_app.activity.LoginActivity;
 import com.example.shop_app.adapter.CartAdapter;
+import com.example.shop_app.database.CartDatabase;
+import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Cart;
 import com.example.shop_app.model.User;
@@ -41,6 +43,7 @@ public class CartFragment extends Fragment {
 
     CartAdapter cartAdapter;
     List<Cart> cartList = new ArrayList<>();
+    List<CartRoom> cartList1 = new ArrayList<>();
     public double allTotalPrice = 0.0;
     public TextView totalPrice;
 
@@ -72,35 +75,37 @@ public class CartFragment extends Fragment {
 
     private void loadCart() {
         cartList.clear();
-        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(getActivity());
-        Cursor cursor = myDatabaseHelper.readAllData();
-        while (cursor.moveToNext()){
-            String id = cursor.getString(0);
-            String idProduct = cursor.getString(1);
-            String image = cursor.getString(2);
-            String name = cursor.getString(3);
-            String creator = cursor.getString(4);
-            String variant = cursor.getString(5);
-            String price = cursor.getString(6);
-            priceEach    = cursor.getString(7);
-            String quantity = cursor.getString(8);
+//        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(getActivity());
+//        Cursor cursor = myDatabaseHelper.readAllData();
+//        while (cursor.moveToNext()){
+//            String id = cursor.getString(0);
+//            String idProduct = cursor.getString(1);
+//            String image = cursor.getString(2);
+//            String name = cursor.getString(3);
+//            String creator = cursor.getString(4);
+//            String variant = cursor.getString(5);
+//            String price = cursor.getString(6);
+//            priceEach    = cursor.getString(7);
+//            String quantity = cursor.getString(8);
+//
+//            Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
+//            cartList.add(cart);
+//            allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
+//            totalPrice.setText(""+String.format("%.0f",allTotalPrice));
+//            Log.e("cart",cart.toString());
+//        }
 
-            Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
-            cartList.add(cart);
-            allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
-            totalPrice.setText(""+String.format("%.0f",allTotalPrice));
-            Log.e("cart",cart.toString());
-        }
+        cartList1 = CartDatabase.getInstance(getContext()).cartDAO().getAllCart();
 
 
-        cartAdapter = new CartAdapter(getContext(), cartList, new CartAdapter.iClickListener() {
+        cartAdapter = new CartAdapter(getContext(), cartList1, new CartAdapter.iClickListener() {
             @Override
-            public void onClickUpdateItem(Cart cart) {
+            public void onClickUpdateItem(CartRoom cart) {
 
             }
 
             @Override
-            public void onClickDeleteItem(Cart cart) {
+            public void onClickDeleteItem(CartRoom cart) {
                 String priceEach = cart.getPriceEach();
                 String price = cart.getPrice();
                 cost = Double.parseDouble(priceEach);
@@ -140,6 +145,7 @@ public class CartFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null){
             startActivity(new Intent(getActivity(), LoginActivity.class));
+            getActivity().finishAffinity();
         }
     }
 
