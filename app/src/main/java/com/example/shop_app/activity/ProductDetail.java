@@ -244,7 +244,6 @@ public class ProductDetail extends AppCompatActivity {
                 String totalprice = tv_price_product_final.getText().toString().trim().replace("","");
                 String quantity = tv_quantity.getText().toString().trim();
                 String idProduct = IDProduct;
-                addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
 
                 CartRoom cartRoom = new CartRoom();
                 cartRoom.setProductID(idProduct);
@@ -282,11 +281,6 @@ public class ProductDetail extends AppCompatActivity {
         });
 
         bottomSheetDialog.show();
-
-    }
-    private void addToCart(String productID,String image, String name, String creator, String variant, String price, String priceEach, String quantity ){
-        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);
-        myDatabaseHelper.addCart(productID,image,name,creator,variant,price,priceEach,quantity);
 
     }
 

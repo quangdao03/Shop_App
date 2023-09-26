@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.PaymentAdapter;
+import com.example.shop_app.database.CartDatabase;
+import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Cart;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,7 +47,7 @@ public class CheckoutActivity extends AppCompatActivity {
     ImageView ivToolbarLeft,ivToolbarRight;
     public double allTotalPrice = 0.0;
     RecyclerView rcy_Payment;
-    List<Cart> cartList = new ArrayList<>();
+    List<CartRoom> cartList = new ArrayList<>();
     FirebaseAuth firebaseAuth;
     PaymentAdapter paymentAdapter;
     private ProgressDialog progressDialog;
@@ -260,31 +262,32 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
     private void loadPaymentCart() {
-
-        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);
-        Cursor cursor = myDatabaseHelper.readAllData();
-        while (cursor.moveToNext()){
-            String id = cursor.getString(0);
-            String idProduct = cursor.getString(1);
-            String image = cursor.getString(2);
-            String name = cursor.getString(3);
-            String creator = cursor.getString(4);
-            String variant = cursor.getString(5);
-            String price = cursor.getString(6);
-            String priceEach = cursor.getString(7);
-            String quantity = cursor.getString(8);
-
-            Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
-            cartList.add(cart);
-        }
+//
+//        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);
+//        Cursor cursor = myDatabaseHelper.readAllData();
+//        while (cursor.moveToNext()){
+//            String id = cursor.getString(0);
+//            String idProduct = cursor.getString(1);
+//            String image = cursor.getString(2);
+//            String name = cursor.getString(3);
+//            String creator = cursor.getString(4);
+//            String variant = cursor.getString(5);
+//            String price = cursor.getString(6);
+//            String priceEach = cursor.getString(7);
+//            String quantity = cursor.getString(8);
+//
+//            Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
+//            cartList.add(cart);
+//        }
+        cartList = CartDatabase.getInstance(CheckoutActivity.this).cartDAO().getAllCart();
         paymentAdapter = new PaymentAdapter(this, cartList, new PaymentAdapter.iClickListener() {
             @Override
-            public void onClickUpdateItem(Cart cart) {
+            public void onClickUpdateItem(CartRoom cart) {
 
             }
             public double totalPrice1;
             @Override
-            public void onClickDeleteItem(Cart cart) {
+            public void onClickDeleteItem(CartRoom cart) {
                 String priceEach = cart.getPriceEach();
                 String price = cart.getPrice();
                 cost = Double.parseDouble(priceEach);
@@ -319,6 +322,7 @@ public class CheckoutActivity extends AppCompatActivity {
     }
     String nameProduct;
     String productID;
+    int id;
     private void submitOder() {
 
                 double total  = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
@@ -350,7 +354,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     for (int i = 0; i<cartList.size(); i++ ){
-                                        String id = cartList.get(i).getCart_ID();
+                                        id = cartList.get(i).getCart_ID();
                                         String name = cartList.get(i).getName();
                                         String imgage = cartList.get(i).getImage();
                                         String productID = cartList.get(i).getProductID();
@@ -377,10 +381,11 @@ public class CheckoutActivity extends AppCompatActivity {
                                     for (int i = 0; i<cartList.size(); i++){
                                         productID   = cartList.get(i).getProductID();
                                     }
-//                                    MyDatabaseHelper myDB = new MyDatabaseHelper(CheckoutActivity.this);
-//                                    myDB.deleteAllData();
-                                    // thanh toán thành công nhưng chưa xóa đc cart list
-
+                                    for (int i = 0; i<cartList.size(); i++ ){
+                                        CartRoom cart = cartList.get(i);
+                                        Log.d("cart",cart.toString());
+                                        CartDatabase.getInstance(CheckoutActivity.this).cartDAO().deleteCart(cart);
+                                    }
                                     finish();
 
 

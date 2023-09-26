@@ -21,4 +21,5 @@ public interface cartDAO {
 
     @Query("SELECT * FROM cart")
     List<CartRoom> getAllCart();
+
 }

@@ -14,26 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.dash.userdash.CartFragment;
+import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.model.Cart;
 
 import java.util.List;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListViewHolder>{
     Context context;
-    private List<Cart> cartList;
+    private List<CartRoom> cartList;
 
     private CartFragment fragment;
 
     iClickListener mClick;
     public interface iClickListener {
-        void onClickUpdateItem(Cart cart);
-        void onClickDeleteItem(Cart cart);
+        void onClickUpdateItem(CartRoom cart);
+        void onClickDeleteItem(CartRoom cart);
     }
 
     private double cost = 0;
     private double finalCost = 0;
     private int Qquantity = 1;
-    public PaymentAdapter(Context context, List<Cart> cartList, iClickListener iClickListener) {
+    public PaymentAdapter(Context context, List<CartRoom> cartList, iClickListener iClickListener) {
         this.context = context;
         this.cartList = cartList;
         this.mClick = iClickListener;
@@ -50,7 +51,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListView
 
     @Override
     public void onBindViewHolder(@NonNull PaymentAdapter.ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Cart cart = cartList.get(position);
+        CartRoom cart = cartList.get(position);
 
 
         String url = cart.getImage();

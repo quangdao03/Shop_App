@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ProductDetail;
+import com.example.shop_app.database.CartDatabase;
+import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Product;
 
@@ -176,9 +178,19 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
 
 
 
+                        CartRoom cartRoom = new CartRoom();
+                        cartRoom.setProductID(idProduct);
+                        cartRoom.setImage(image);
+                        cartRoom.setName(name);
+                        cartRoom.setCreator(creator);
+                        cartRoom.setVariant(variant);
+                        cartRoom.setPrice(price_name);
+                        cartRoom.setPriceEach(totalprice);
+                        cartRoom.setQuantity(quantity);
+                        CartDatabase.getInstance(context).cartDAO().insertCart(cartRoom);
 
+//                        addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
 
-                        addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
                         btn_Ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -204,11 +216,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
 
     }
 
-    private void addToCart(String productID,String image, String name, String creator, String variant, String price, String priceEach, String quantity ){
-        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(context);
-        myDatabaseHelper.addCart(productID,image,name,creator,variant,price,priceEach,quantity);
-
-    }
 
     @Override
     public int getItemCount() {

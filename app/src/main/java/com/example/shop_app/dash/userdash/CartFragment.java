@@ -66,7 +66,23 @@ public class CartFragment extends Fragment {
         rcy_Cart.setLayoutManager (linearLayoutManager);
         rcy_Cart.setHasFixedSize(true);
         rcy_Cart.setAdapter(cartAdapter);
+        btn_BuyCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                checkUser();
+                if (cartList1.size() == 0){
+                    Toast.makeText(getContext(), ""+getText(R.string.cart_empty), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String total = totalPrice.getText().toString().trim();
+                Intent intent = new Intent(getContext(), CheckoutActivity.class);
+                intent.putExtra("total",total);
+                startActivity(intent);
+
+
+            }
+        });
         return view;
     }
 
@@ -108,26 +124,18 @@ public class CartFragment extends Fragment {
             public void onClickDeleteItem(CartRoom cart) {
             }
         });
-        btn_BuyCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                checkUser();
-                if (cartList1.size() == 0){
-                    Toast.makeText(getContext(), ""+getText(R.string.cart_empty), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String total = totalPrice.getText().toString().trim();
-                Intent intent = new Intent(getContext(), CheckoutActivity.class);
-                intent.putExtra("total",total);
-                startActivity(intent);
-//                cartAdapter.notifyDataSetChanged();
-//                totalPrice.setText(""+0);
-
-
-            }
-        });
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("resume","resume");
+        loadCart();
+        rcy_Cart.setAdapter(cartAdapter);
+    }
+
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null){
