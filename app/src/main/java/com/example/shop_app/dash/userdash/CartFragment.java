@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shop_app.EventBus.TotalEventCart;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.CheckoutActivity;
 import com.example.shop_app.activity.LoginActivity;
@@ -30,6 +31,10 @@ import com.example.shop_app.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,25 +42,16 @@ import java.util.List;
 public class CartFragment extends Fragment {
 
     ImageView ivToolbarLeft,ivToolbarRight;
-    TextView txt_Price,tvTitleToolbar;
+    TextView tvTitleToolbar;
     RecyclerView rcy_Cart;
     Button btn_BuyCart;
 
     CartAdapter cartAdapter;
-    List<Cart> cartList = new ArrayList<>();
     List<CartRoom> cartList1 = new ArrayList<>();
-    public double allTotalPrice = 0.0;
     public TextView totalPrice;
 
     FirebaseAuth firebaseAuth;
     View view;
-    public double totalPrice1;
-
-    private double cost = 0;
-    private double finalCost = 0;
-    private int Qquantity = 1;
-    int quantityProduct = 1;
-    String priceEach;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,55 +66,46 @@ public class CartFragment extends Fragment {
         rcy_Cart.setLayoutManager (linearLayoutManager);
         rcy_Cart.setHasFixedSize(true);
         rcy_Cart.setAdapter(cartAdapter);
+
         return view;
     }
 
-    private void loadCart() {
-        cartList.clear();
-//        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(getActivity());
-//        Cursor cursor = myDatabaseHelper.readAllData();
-//        while (cursor.moveToNext()){
-//            String id = cursor.getString(0);
-//            String idProduct = cursor.getString(1);
-//            String image = cursor.getString(2);
-//            String name = cursor.getString(3);
-//            String creator = cursor.getString(4);
-//            String variant = cursor.getString(5);
-//            String price = cursor.getString(6);
-//            priceEach    = cursor.getString(7);
-//            String quantity = cursor.getString(8);
-//
-//            Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
-//            cartList.add(cart);
-//            allTotalPrice = allTotalPrice + Double.parseDouble(priceEach);
-//            totalPrice.setText(""+String.format("%.0f",allTotalPrice));
-//            Log.e("cart",cart.toString());
-//        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+    public void eventTotal(TotalEventCart totalEventCart){
+        if (totalEventCart != null){
+            totalPrice();
+        }
+    }
+    private void totalPrice(){
+        double total = 0;
+        for (int i = 0; i < cartList1.size(); i++){
+            total = total + (Double.parseDouble(cartList1.get(i).getPrice()) * Double.parseDouble(cartList1.get(i).getQuantity()));
+        }
+        totalPrice.setText(total+"");
+    }
+
+    private void loadCart() {
         cartList1 = CartDatabase.getInstance(getContext()).cartDAO().getAllCart();
 
-
+        totalPrice();
         cartAdapter = new CartAdapter(getContext(), cartList1, new CartAdapter.iClickListener() {
             @Override
             public void onClickUpdateItem(CartRoom cart) {
-
             }
 
             @Override
             public void onClickDeleteItem(CartRoom cart) {
-                String priceEach = cart.getPriceEach();
-                String price = cart.getPrice();
-                cost = Double.parseDouble(priceEach);
-                finalCost = Double.parseDouble(price);
-                Qquantity = 1;
-                MyDatabaseHelper myDB = new MyDatabaseHelper(getContext());
-                String productID = cart.getProductID();
-                myDB.deleteData(productID);
-                cartAdapter.notifyDataSetChanged();
-                double tx = Double.parseDouble((totalPrice.getText().toString().trim().replace("","")));
-                totalPrice1 =  tx - Double.parseDouble(priceEach.replace("",""));
-                totalPrice.setText(""+String.format("%.0f",totalPrice1));
-
             }
         });
         btn_BuyCart.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +113,7 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
 
                 checkUser();
-                if (cartList.size() == 0){
+                if (cartList1.size() == 0){
                     Toast.makeText(getContext(), ""+getText(R.string.cart_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }

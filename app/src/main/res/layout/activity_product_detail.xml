@@ -157,14 +157,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <TextView
+                android:gravity="center"
+                android:paddingVertical="@dimen/dp12"
                 android:id="@+id/btn_Add_to_cart"
                 android:background="@drawable/bg_buy_now"
                 android:textColor="@color/white"
-                style="@style/Theme.AppCompat.DayNight.NoActionBar"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/add_cart" />
         </LinearLayout>
     </LinearLayout>

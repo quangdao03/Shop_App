@@ -76,7 +76,7 @@
                     android:id="@+id/txt_Price"
                     style="@style/TextViewBase"
                     android:layout_marginTop="@dimen/dp10"
-                    android:text="@string/price"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp16"
                     android:textStyle="bold" />

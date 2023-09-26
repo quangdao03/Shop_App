@@ -13,10 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.shop_app.EventBus.TotalEventCart;
 import com.example.shop_app.R;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.database.MyDatabaseHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -70,9 +73,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         holder.item_delete_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickDeleteItem(cart);
+                CartDatabase.getInstance(context).cartDAO().deleteCart(cart);
                 cartList.remove(position);
-                notifyDataSetChanged();
+                notifyItemChanged(position);
+                EventBus.getDefault().postSticky(new TotalEventCart());
             }
         });
 
@@ -81,17 +85,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         holder.count_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickUpdateItem(cart);
-                finalCost = finalCost + cost;
-                quantityProduct++;
-                holder.tv_price_cart.setText("" + finalCost);
-                holder.tv_quantity.setText("" + quantityProduct);
-                double b = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
-                double afinal = quantityProduct * b;
-                cart.setPriceEach(String.valueOf(afinal));
-                cart.setQuantity(String.valueOf(quantityProduct));
+                double price = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
+                int quantity = Integer.parseInt(cart.getQuantity());
+                quantity++;
+                double pricefinal = quantity * price;
+                cart.setPriceEach(String.valueOf(pricefinal));
+                cart.setQuantity(String.valueOf(quantity));
+                holder.tv_price_cart.setText("" + pricefinal);
+                holder.tv_quantity.setText("" + quantity);
                 CartDatabase.getInstance(context).cartDAO().updateCart(cart);
                 notifyItemChanged(position);
+                EventBus.getDefault().postSticky(new TotalEventCart());
             }
         });
 
@@ -99,18 +103,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         holder.count_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (quantityProduct > 1) {
-                    finalCost = finalCost - cost;
-                    quantityProduct--;
-                    holder.tv_price_cart.setText("" + finalCost);
-                    holder.tv_quantity.setText("" + quantityProduct);
+
+                double price = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
+                int quantity = Integer.parseInt(cart.getQuantity());
+
+                if (quantity > 1){
+                    quantity--;
+                    double pricefinal = quantity * price;
+                    cart.setPriceEach(String.valueOf(pricefinal));
+                    cart.setQuantity(String.valueOf(quantity));
+                    holder.tv_price_cart.setText("" + pricefinal);
+                    holder.tv_quantity.setText("" + quantity);
+                    CartDatabase.getInstance(context).cartDAO().updateCart(cart);
+                    notifyItemChanged(position);
                 }
-                double b = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
-                double afinal = quantityProduct * b;
-                cart.setPriceEach(String.valueOf(afinal));
-                cart.setQuantity(String.valueOf(quantityProduct));
-                CartDatabase.getInstance(context).cartDAO().updateCart(cart);
-                notifyItemChanged(position);
+                EventBus.getDefault().postSticky(new TotalEventCart());
             }
         });
     }

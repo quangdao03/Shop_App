@@ -47,7 +47,7 @@ public class ProductDetail extends AppCompatActivity {
     TextView tv_product_name,tv_creator,tv_variant,tv_desc,tv_price,tvTitleToolbar;
     String name;
     FirebaseAuth firebaseAuth;
-    Button btn_Add_to_cart;
+    TextView btn_Add_to_cart;
 
     String url;
     String IDProduct;
@@ -257,8 +257,6 @@ public class ProductDetail extends AppCompatActivity {
                 cartRoom.setQuantity(quantity);
                 CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
 
-                List<CartRoom> cartRoom1 = CartDatabase.getInstance(ProductDetail.this).cartDAO().getAllCart();
-                Log.d("aaa",cartRoom1.toString());
 
 
 
@@ -267,7 +265,10 @@ public class ProductDetail extends AppCompatActivity {
                     public void onClick(View view) {
                         dialog.dismiss();
                         CustomToast.makeText(ProductDetail.this,""+getText(R.string.product_cart),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
-
+                        btn_Add_to_cart.setOnClickListener(null);
+                        btn_Add_to_cart.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_buy_fail));
+                        btn_Add_to_cart.setTextColor(Color.parseColor("#414040"));
+                        btn_Add_to_cart.setText("Đã thêm vào giỏ hàng");
                     }
                 });
                 tv_tap.setOnClickListener(new View.OnClickListener() {
