@@ -1,220 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_left_right"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/dp20"
     android:paddingHorizontal="@dimen/dp20"
-    android:background="@drawable/bg_left_right">
+    android:paddingBottom="@dimen/dp20">
+
     <ImageView
-        android:layout_width="45dp"
-        android:layout_centerHorizontal="true"
         android:id="@+id/a"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_baseline_remove_24"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ic_baseline_remove_24" />
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <TextView
-            android:textStyle="bold"
+            style="@style/TextViewBase"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:text="@string/buy_product"
             android:textColor="@color/black"
             android:textSize="@dimen/sp18"
-            android:text="@string/buy_product"
-            style="@style/TextViewBase"/>
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/btn_close"
+            android:layout_width="@dimen/dp36"
+            android:layout_height="@dimen/dp36"
             android:layout_gravity="center|end"
             android:padding="@dimen/dp5"
-            android:src="@drawable/ic_icons_close"
-            android:layout_width="@dimen/dp36"
-            android:layout_height="@dimen/dp36"/>
+            android:src="@drawable/ic_icons_close" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/dp20"
-
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp20"
+        android:orientation="horizontal">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:background="#E7DEDE"
-            app:riv_corner_radius="10dp"
             android:id="@+id/img_Product"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:adjustViewBounds="true"
+            android:background="#E7DEDE"
             android:scaleType="centerCrop"
             android:src="@drawable/fram1"
-            />
+            app:riv_corner_radius="10dp" />
 
         <LinearLayout
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp20"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                android:textSize="@dimen/sp16"
-                android:textColor="@color/black"
                 android:id="@+id/tv_dialog_name"
+                style="@style/TextViewBase"
                 android:text="@string/name"
-                style="@style/TextViewBase"/>
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp16" />
+
             <TextView
                 android:id="@+id/tv_dialog_creator"
-                android:textSize="@dimen/sp14"
-                android:textColor="@color/black"
+                style="@style/TextViewBase"
                 android:layout_marginTop="@dimen/dp10"
                 android:text="@string/name"
-                style="@style/TextViewBase"/>
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp14" />
         </LinearLayout>
 
         <TextView
-            android:layout_marginEnd="@dimen/dp10"
-            android:textColor="@color/color_app"
+            android:id="@+id/tv_detail"
+            style="@style/TextViewBase"
             android:layout_gravity="center"
-            android:textSize="@dimen/sp13"
+            android:layout_marginEnd="@dimen/dp10"
             android:text="@string/view_detail"
-            style="@style/TextViewBase"/>
+            android:textColor="@color/color_app"
+            android:textSize="@dimen/sp13" />
     </LinearLayout>
 
     <View
-        android:background="#E4E4E4"
-        android:layout_marginTop="@dimen/dp20"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dp20"
+        android:background="#E4E4E4" />
 
     <TextView
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp14"
+        style="@style/TextViewBase"
         android:layout_marginTop="@dimen/dp20"
         android:text="@string/variants"
-        style="@style/TextViewBase"/>
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp14" />
 
     <LinearLayout
-        android:layout_marginTop="@dimen/dp20"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp20"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_dialog_variant"
+            style="@style/TextViewBase"
+            android:layout_marginEnd="@dimen/dp10"
+            android:background="@drawable/bg_edt_login"
+            android:drawableEnd="@drawable/ic_icon_check__style_stroke"
+            android:drawablePadding="@dimen/dp5"
             android:gravity="center"
             android:padding="@dimen/dp10"
-            android:background="@drawable/bg_edt_login"
-            android:textColor="@color/black"
-            android:layout_marginEnd="@dimen/dp10"
-            android:drawablePadding="@dimen/dp5"
-            android:drawableEnd="@drawable/ic_icon_check__style_stroke"
-            android:textSize="@dimen/sp14"
             android:text="@string/ml"
-            style="@style/TextViewBase"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <TextView
-            android:layout_marginEnd="@dimen/dp20"
+            style="@style/TextViewBase"
             android:layout_marginTop="@dimen/dp20"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp14"
+            android:layout_marginEnd="@dimen/dp20"
             android:text="@string/price"
-            style="@style/TextViewBase"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14" />
+
         <TextView
             android:id="@+id/tv_price_product"
+            style="@style/TextViewBase"
             android:layout_marginTop="@dimen/dp20"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp14"
             android:text="@string/price"
-            style="@style/TextViewBase"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14" />
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp20"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
+
         <TextView
+            style="@style/TextViewBase"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp14"
             android:text="@string/quantity"
-            style="@style/TextViewBase" />
-        <TextView
-            android:layout_marginEnd="@dimen/dp20"
-            android:layout_gravity="center"
-            android:id="@+id/tv_price_product_final"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp14"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/tv_price_product_final"
+            style="@style/TextViewBase"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp20"
             android:text="@string/price"
-            style="@style/TextViewBase"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14" />
 
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/count_down"
-                android:padding="@dimen/dp10"
-                android:background="@drawable/bg_count"
-                android:src="@drawable/icons"
                 android:layout_width="@dimen/dp34"
-                android:layout_height="@dimen/dp34"/>
+                android:layout_height="@dimen/dp34"
+                android:background="@drawable/bg_count"
+                android:padding="@dimen/dp10"
+                android:src="@drawable/icons" />
+
             <TextView
                 android:id="@+id/tv_quantity"
-                android:gravity="center"
+                style="@style/TextViewBase"
                 android:layout_gravity="center"
-                android:textSize="@dimen/sp16"
                 android:layout_marginStart="@dimen/dp20"
                 android:layout_marginEnd="@dimen/dp20"
+                android:gravity="center"
                 android:textColor="@color/black"
-                style="@style/TextViewBase"/>
+                android:textSize="@dimen/sp16" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/count_add"
-                android:layout_gravity="center"
-                android:paddingTop="@dimen/dp5"
-                android:paddingStart="@dimen/dp5"
-                android:paddingEnd="@dimen/dp5"
-                android:background="@drawable/bg_count"
-                android:src="@drawable/ic_add_count"
                 android:layout_width="@dimen/dp34"
-                android:layout_height="@dimen/dp34"/>
+                android:layout_height="@dimen/dp34"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_count"
+                android:paddingStart="@dimen/dp5"
+                android:paddingTop="@dimen/dp5"
+                android:paddingEnd="@dimen/dp5"
+                android:src="@drawable/ic_add_count" />
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="@dimen/dp20"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp20"
+        android:orientation="horizontal">
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_AddToCart"
-            android:textSize="@dimen/sp16"
-            android:textStyle="bold"
-            android:textColor="@color/color_app"
-            android:background="@drawable/bg_add_cart"
-            android:layout_weight="1"
             style="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:text="@string/add_cart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_add_cart"
+            android:text="@string/add_cart"
+            android:textColor="@color/color_app"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

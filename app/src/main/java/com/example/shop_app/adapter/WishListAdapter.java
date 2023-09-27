@@ -83,7 +83,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
             @Override
             public void onClick(View view) {
                 ImageView img_Product,count_down,count_add,btn_close;
-                TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final;
+                TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final,tv_detail;
                 Button btn_AddToCart;
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -107,6 +107,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 count_add = dialog.findViewById(R.id.count_add);
                 btn_AddToCart = dialog.findViewById(R.id.btn_AddToCart);
                 btn_close = dialog.findViewById(R.id.btn_close);
+                tv_detail = dialog.findViewById(R.id.tv_detail);
 
                 tv_dialog_name.setText(product.getName());
                 tv_dialog_creator.setText(product.getCreator());
@@ -208,6 +209,12 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                         });
                         dialog.show();
                     }
+                });
+                tv_detail.setOnClickListener(view1 -> {
+                    Intent intent = new Intent(context, ProductDetail.class);
+                    intent.putExtra("name",product.getName());
+                    context.startActivity(intent);
+                    dialog.dismiss();
                 });
 
 

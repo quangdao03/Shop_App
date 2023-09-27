@@ -55,7 +55,6 @@ public class FavoriteFragment extends Fragment  {
         ivToolbarRight.setVisibility(View.GONE);
         tvTitleToolbar.setText(getText(R.string.wishlist));
 
-        getWishListProduct1();
 
         getProductMore();
 
@@ -93,7 +92,6 @@ public class FavoriteFragment extends Fragment  {
                     product.setName(getData.child("name").getValue().toString());
                     product.setPrice("Rp " +getData.child("price").getValue().toString());
                     product.setCreator(getData.child("creator").getValue().toString());
-                    Log.d("AAA",""+getData);
                     productList.add(product);
 
                 }
@@ -108,6 +106,7 @@ public class FavoriteFragment extends Fragment  {
 
     }
     private void getWishListProduct1() {
+        productList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.VERTICAL, false);
         rcy_Wishlist.setLayoutManager (linearLayoutManager);
         rcy_Wishlist.setHasFixedSize(true);
@@ -193,7 +192,6 @@ public class FavoriteFragment extends Fragment  {
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");
-                    Log.d("AAA",""+getData);
                     products.add(product);
 
                 }
@@ -205,6 +203,13 @@ public class FavoriteFragment extends Fragment  {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getWishListProduct1();
+
     }
 
     private void init() {

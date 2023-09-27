@@ -1,16 +1,11 @@
 package com.example.shop_app.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,13 +15,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
-import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Product;
-
 import com.example.shop_app.utils.CustomToast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,12 +37,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProductDetail extends AppCompatActivity {
-    ImageView img_product_detail,ivToolbarLeft,ivToolbarRight;
-    TextView tv_product_name,tv_creator,tv_variant,tv_desc,tv_price,tvTitleToolbar;
+    ImageView img_product_detail, ivToolbarLeft, ivToolbarRight;
+    TextView tv_product_name, tv_creator, tv_variant, tv_desc, tv_price, tvTitleToolbar;
     String name;
     FirebaseAuth firebaseAuth;
     TextView btn_Add_to_cart;
@@ -56,7 +53,8 @@ public class ProductDetail extends AppCompatActivity {
     private int finalCost = 0;
 
     int quantityProduct = 1;
-    boolean fv  = true;
+    boolean fv = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,11 +89,12 @@ public class ProductDetail extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                if (fv) {
+                    onClickRemoveWishList();
+                } else {
+                    onClickWishList();
+                }
 
-
-                // onClickToWishList();
-
-                onClickWishList();
             }
         });
 
@@ -104,15 +103,11 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addProduct();
-//                btn_Add_to_cart.setOnClickListener(null);
-//                btn_Add_to_cart.setBackgroundResource(R.drawable.bg_buy_fail);
             }
         });
 
 
     }
-
-
 
 
     private void getProductDetail() {
@@ -133,9 +128,11 @@ public class ProductDetail extends AppCompatActivity {
                 tv_price.setText(dataSnapshot.child("price").getValue().toString());
                 IDProduct = dataSnapshot.child("id").getValue().toString();
                 fv = Boolean.parseBoolean(dataSnapshot.child("favourite").getValue().toString());
-                Log.d("fv",fv+"");
-                if (fv){
+                Log.d("fv", fv + "");
+                if (fv) {
                     ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
+                } else {
+                    ivToolbarRight.setImageResource(R.drawable.icon_love);
                 }
 
             }
@@ -151,26 +148,44 @@ public class ProductDetail extends AppCompatActivity {
     private void onClickWishList() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference data = database.getReference("Product/"+name);
+        DatabaseReference data = database.getReference("Product/" + name);
         Product product = new Product();
 
-        Map<String,Object> mapUpdate = new HashMap<>();
-        mapUpdate.put("favourite",true);
-        mapUpdate.put("uid",firebaseAuth.getUid());
+        Map<String, Object> mapUpdate = new HashMap<>();
+        mapUpdate.put("favourite", true);
+        mapUpdate.put("uid", firebaseAuth.getUid());
 
         data.updateChildren(mapUpdate, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @androidx.annotation.NonNull DatabaseReference ref) {
 
-                CustomToast.makeText(ProductDetail.this,""+getText(R.string.add_wishlist),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                CustomToast.makeText(ProductDetail.this, "" + getText(R.string.add_wishlist), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
             }
         });
-
-
     }
-    private void addProduct(){
-        ImageView img_Product,count_down,count_add,btn_close;
-        TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final;
+
+    private void onClickRemoveWishList() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference data = database.getReference("Product/" + name);
+        Product product = new Product();
+
+        Map<String, Object> mapUpdate = new HashMap<>();
+        mapUpdate.put("favourite", false);
+        mapUpdate.put("uid", firebaseAuth.getUid());
+
+        data.updateChildren(mapUpdate, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @androidx.annotation.NonNull DatabaseReference ref) {
+
+                CustomToast.makeText(ProductDetail.this, "Remove wishlist", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+            }
+        });
+    }
+
+    private void addProduct() {
+        ImageView img_Product, count_down, count_add, btn_close;
+        TextView tv_dialog_name, tv_dialog_creator, tv_dialog_variant, tv_quantity, tv_price_product, tv_price_product_final, tv_detail;
         Button btn_AddToCart;
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         View dialog = LayoutInflater.from(this).inflate(R.layout.layout_dialog_buy, null);
@@ -186,35 +201,36 @@ public class ProductDetail extends AppCompatActivity {
         count_add = dialog.findViewById(R.id.count_add);
         btn_AddToCart = dialog.findViewById(R.id.btn_AddToCart);
         btn_close = dialog.findViewById(R.id.btn_close);
-
+        tv_detail = dialog.findViewById(R.id.tv_detail);
+        tv_detail.setVisibility(View.GONE);
 
         tv_dialog_name.setText(tv_product_name.getText().toString().trim());
         tv_dialog_creator.setText(tv_creator.getText().toString().trim());
         tv_dialog_variant.setText(tv_variant.getText().toString().trim());
-        tv_price_product.setText(tv_price.getText().toString().trim().replace("",""));
+        tv_price_product.setText(tv_price.getText().toString().trim().replace("", ""));
         Glide.with(getApplicationContext()).load(url).into(img_Product);
-        tv_quantity.setText(""+quantityProduct);
+        tv_quantity.setText("" + quantityProduct);
         String price = tv_price_product.getText().toString().trim();
         cost = Integer.parseInt(price.replaceAll("$", ""));
         finalCost = Integer.parseInt(price.replaceAll("$", ""));
-        tv_price_product_final.setText(""+finalCost);
+        tv_price_product_final.setText("" + finalCost);
         count_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finalCost = finalCost + cost;
                 quantityProduct++;
-                tv_price_product_final.setText(""+finalCost);
-                tv_quantity.setText(""+quantityProduct);
+                tv_price_product_final.setText("" + finalCost);
+                tv_quantity.setText("" + quantityProduct);
             }
         });
         count_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (quantityProduct>1) {
+                if (quantityProduct > 1) {
                     finalCost = finalCost - cost;
                     quantityProduct--;
-                    tv_price_product_final.setText(""+finalCost);
-                    tv_quantity.setText(""+quantityProduct);
+                    tv_price_product_final.setText("" + finalCost);
+                    tv_quantity.setText("" + quantityProduct);
                 }
             }
         });
@@ -237,7 +253,7 @@ public class ProductDetail extends AppCompatActivity {
 
                 Window window = dialog.getWindow();
                 window.setGravity(Gravity.BOTTOM);
-                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.setCancelable(true);
                 Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
@@ -248,7 +264,7 @@ public class ProductDetail extends AppCompatActivity {
                 String price_name = price;
                 String creator = tv_dialog_creator.getText().toString().trim();
                 String variant = tv_dialog_variant.getText().toString().trim();
-                String totalprice = tv_price_product_final.getText().toString().trim().replace("","");
+                String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
                 String quantity = tv_quantity.getText().toString().trim();
                 String idProduct = IDProduct;
 
@@ -264,13 +280,11 @@ public class ProductDetail extends AppCompatActivity {
                 CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
 
 
-
-
                 btn_Ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        CustomToast.makeText(ProductDetail.this,""+getText(R.string.product_cart),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                        CustomToast.makeText(ProductDetail.this, "" + getText(R.string.product_cart), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
                         btn_Add_to_cart.setOnClickListener(null);
                         btn_Add_to_cart.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_buy_fail));
                         btn_Add_to_cart.setTextColor(Color.parseColor("#414040"));
@@ -294,7 +308,7 @@ public class ProductDetail extends AppCompatActivity {
 
     private void onClickToWishList() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myWish = database.getReference("Product/"+name);
+        DatabaseReference myWish = database.getReference("Product/" + name);
         myWish.child("name").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@androidx.annotation.NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
@@ -308,9 +322,9 @@ public class ProductDetail extends AppCompatActivity {
                 tv_price.setText(dataSnapshot.child("price").getValue().toString());
 
                 Boolean value = (Boolean) dataSnapshot.child("favourite").getValue();
-                if (value == true){
+                if (value == true) {
                     ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
-                }else {
+                } else {
                     ivToolbarRight.setImageResource(R.drawable.icon_love);
                 }
             }
@@ -340,12 +354,10 @@ public class ProductDetail extends AppCompatActivity {
 
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user == null){
+        if (user == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
-
-
 
 
 }
