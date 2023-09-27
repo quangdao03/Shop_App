@@ -78,6 +78,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
             }
         });
 
+
         holder.btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

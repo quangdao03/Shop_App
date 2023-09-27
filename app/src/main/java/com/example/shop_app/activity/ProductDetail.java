@@ -56,6 +56,7 @@ public class ProductDetail extends AppCompatActivity {
     private int finalCost = 0;
 
     int quantityProduct = 1;
+    boolean fv  = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +92,7 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
+
                 // onClickToWishList();
 
                 onClickWishList();
@@ -131,6 +132,12 @@ public class ProductDetail extends AppCompatActivity {
                 tv_desc.setText(dataSnapshot.child("desc").getValue().toString());
                 tv_price.setText(dataSnapshot.child("price").getValue().toString());
                 IDProduct = dataSnapshot.child("id").getValue().toString();
+                fv = Boolean.parseBoolean(dataSnapshot.child("favourite").getValue().toString());
+                Log.d("fv",fv+"");
+                if (fv){
+                    ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
+                }
+
             }
 
             @Override
