@@ -53,6 +53,10 @@ public class ChangeLanguage extends AppCompatActivity {
         });
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
+        ivToolbarLeft.setOnClickListener(view -> {
+            onBackPressed();
+            finish();
+        });
     }
 
     private void dialog(){

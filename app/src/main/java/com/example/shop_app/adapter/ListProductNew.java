@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.model.Product;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

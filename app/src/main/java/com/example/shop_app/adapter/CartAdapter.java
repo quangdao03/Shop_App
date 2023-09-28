@@ -1,12 +1,19 @@
 package com.example.shop_app.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -73,10 +80,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         holder.item_delete_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartDatabase.getInstance(context).cartDAO().deleteCart(cart);
-                cartList.remove(position);
-                notifyItemChanged(position);
-                EventBus.getDefault().postSticky(new TotalEventCart());
+
+                TextView tv_cancel,tv_delete;
+                final Dialog dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_delete_item_cart);
+                dialog.getWindow().setGravity(Gravity.CENTER);
+                dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(true);
+                tv_cancel = dialog.findViewById(R.id.tv_cancel);
+                tv_delete = dialog.findViewById(R.id.tv_delete);
+                tv_cancel.setOnClickListener(view1 -> {
+                    dialog.dismiss();
+                });
+                tv_delete.setOnClickListener(view1 -> {
+                    CartDatabase.getInstance(context).cartDAO().deleteCart(cart);
+                    cartList.remove(position);
+                    notifyItemChanged(position);
+                    EventBus.getDefault().postSticky(new TotalEventCart());
+                    dialog.dismiss();
+                });
+                dialog.show();
             }
         });
 
