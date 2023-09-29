@@ -74,4 +74,8 @@ dependencies {
 
     // swipe layout
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
+
+    // noti
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-analytics")
 }
