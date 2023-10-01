@@ -33,8 +33,8 @@ import java.util.List;
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListViewHolder> {
     Context context;
     private List<Product> productList;
-    private double cost = 0;
-    private double finalCost = 0;
+    private int cost = 0;
+    private int finalCost = 0;
     private int quantity = 0;
     String price;
 
@@ -119,8 +119,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
 
                 quantity = 1;
                 tv_quantity.setText(""+quantity);
-                cost = Double.parseDouble(price.replaceAll("$", ""));
-                finalCost = Double.parseDouble(price.replaceAll("$", ""));
+                cost = Integer.parseInt(price.replaceAll("$", ""));
+                finalCost = Integer.parseInt(price.replaceAll("$", ""));
                 tv_price_product_final.setText(""+finalCost);
 
                 count_add.setOnClickListener(new View.OnClickListener() {

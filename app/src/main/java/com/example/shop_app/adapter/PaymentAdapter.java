@@ -15,25 +15,27 @@ import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.dash.userdash.CartFragment;
 import com.example.shop_app.database.CartRoom;
-import com.example.shop_app.model.Cart;
 
 import java.util.List;
 
-public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListViewHolder>{
+public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListViewHolder> {
     Context context;
     private List<CartRoom> cartList;
 
     private CartFragment fragment;
 
     iClickListener mClick;
+
     public interface iClickListener {
         void onClickUpdateItem(CartRoom cart);
+
         void onClickDeleteItem(CartRoom cart);
     }
 
     private double cost = 0;
     private double finalCost = 0;
     private int Qquantity = 1;
+
     public PaymentAdapter(Context context, List<CartRoom> cartList, iClickListener iClickListener) {
         this.context = context;
         this.cartList = cartList;
@@ -44,7 +46,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListView
     @NonNull
     @Override
     public PaymentAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment_product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment_product, parent, false);
         return new PaymentAdapter.ListViewHolder(view);
 
     }
@@ -73,15 +75,16 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListView
 
     @Override
     public int getItemCount() {
-        if(cartList!=null){
+        if (cartList != null) {
             return cartList.size();
         }
         return 0;
     }
-    public static class ListViewHolder extends RecyclerView.ViewHolder{
+
+    public static class ListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imag_PaymnetList;
-        TextView tv_name_payment,tv_variant_payment,tv_price_payment,tv_remove,tv_quantity_payment;
+        TextView tv_name_payment, tv_variant_payment, tv_price_payment, tv_remove, tv_quantity_payment;
 
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,8 +94,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ListView
             tv_variant_payment = itemView.findViewById(R.id.tv_variant_payment);
             tv_price_payment = itemView.findViewById(R.id.tv_price_payment);
             tv_quantity_payment = itemView.findViewById(R.id.tv_quantity_payment);
-
-
 
 
         }

@@ -1,13 +1,7 @@
 package com.example.shop_app.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.PaymentAdapter;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
-import com.example.shop_app.database.MyDatabaseHelper;
-import com.example.shop_app.model.Cart;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,27 +29,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import vn.momo.momo_partner.AppMoMoLib;
 
 public class CheckoutActivity extends AppCompatActivity {
-    TextView tv_edit_location,tv_username,tv_phone,tv_address,tv_addresS_dialog,tvTitleToolbar,tv_price_total,tv_price_paymentAll;
-    ImageView ivToolbarLeft,ivToolbarRight;
+    TextView tv_edit_location, tv_username, tv_phone, tv_address, tv_addresS_dialog, tvTitleToolbar, tv_price_total, tv_price_paymentAll;
+    ImageView ivToolbarLeft, ivToolbarRight;
     public double allTotalPrice = 0.0;
     RecyclerView rcy_Payment;
     List<CartRoom> cartList = new ArrayList<>();
     FirebaseAuth firebaseAuth;
     PaymentAdapter paymentAdapter;
     private ProgressDialog progressDialog;
-    String a ="";
-    Button btn_submitOder,btn_submitOderMomo;
+    String a = "";
+    Button btn_submitOder, btn_submitOderMomo;
     private double cost = 0;
     private double finalCost = 0;
 
@@ -61,12 +54,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public double b = 0.0;
 
-    public  String shopId, OrderId;
+    public String shopId, OrderId;
 
     public double totalpriceAll = 0.0;
 
     private String amount = "10000";
-    private int fee ;
+    private int fee;
     int environment = 0;//developer default
     private String merchantName = "LE QUANG DAO";
     private String merchantCode = "SCB01";
@@ -103,15 +96,15 @@ public class CheckoutActivity extends AppCompatActivity {
 
         totalpriceAll = totalpriceAll + Double.parseDouble(a);
 
-        tv_price_total.setText(String.format("%.0f",totalpriceAll));
+        tv_price_total.setText(String.format("%.0f", totalpriceAll));
         rcy_Payment.setAdapter(paymentAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this, RecyclerView.VERTICAL, false);
-        rcy_Payment.setLayoutManager (linearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcy_Payment.setLayoutManager(linearLayoutManager);
         rcy_Payment.setHasFixedSize(true);
         tv_edit_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CheckoutActivity.this,EditUser.class));
+                startActivity(new Intent(CheckoutActivity.this, EditUser.class));
             }
         });
         tv_addresS_dialog.setOnClickListener(new View.OnClickListener() {
@@ -121,25 +114,24 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
         double total_ship = Double.parseDouble(tv_price_total.getText().toString().trim());
-        if (total_ship > 0){
+        if (total_ship > 0) {
             double totalAll = Double.parseDouble(tv_price_total.getText().toString().trim());
 
-            tv_price_paymentAll.setText(""+String.format("%.0f",totalAll+ship));
-        }else {
+            tv_price_paymentAll.setText("" + String.format("%.0f", totalAll + ship));
+        } else {
             double totalAll = Double.parseDouble(tv_price_total.getText().toString().trim());
-            tv_price_paymentAll.setText(""+String.format("%.0f",totalAll));
+            tv_price_paymentAll.setText("" + String.format("%.0f", totalAll));
         }
 
         btn_submitOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    submitOder();
+                submitOder();
 
             }
         });
 
     }
-
 
 
     //Get token through MoMo app
@@ -225,14 +217,11 @@ public class CheckoutActivity extends AppCompatActivity {
 //    }
 
 
-
-
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user == null){
+        if (user == null) {
             startActivity(new Intent(CheckoutActivity.this, LoginActivity.class));
-        }
-        else {
+        } else {
             onGetDataUser();
         }
     }
@@ -243,10 +232,10 @@ public class CheckoutActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            String name = ""+dataSnapshot.child("name").getValue();
-                            String phone = ""+dataSnapshot.child("phone").getValue();
-                            String address = ""+ dataSnapshot.child("address").getValue();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String name = "" + dataSnapshot.child("name").getValue();
+                            String phone = "" + dataSnapshot.child("phone").getValue();
+                            String address = "" + dataSnapshot.child("address").getValue();
                             tv_username.setText(name);
                             tv_address.setText(address);
                             tv_phone.setText(phone);
@@ -261,6 +250,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 });
 
     }
+
     private void loadPaymentCart() {
 //
 //        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);
@@ -285,7 +275,9 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onClickUpdateItem(CartRoom cart) {
 
             }
+
             public double totalPrice1;
+
             @Override
             public void onClickDeleteItem(CartRoom cart) {
                 String priceEach = cart.getPriceEach();
@@ -298,20 +290,20 @@ public class CheckoutActivity extends AppCompatActivity {
 //                myDB.deleteData(productID);
 //                paymentAdapter.notifyDataSetChanged();
                 double tx = Double.parseDouble(tv_price_total.getText().toString().trim());
-                totalPrice1 =  tx - Double.parseDouble(priceEach);
+                totalPrice1 = tx - Double.parseDouble(priceEach);
 
                 double pricefinal = Double.parseDouble(String.valueOf(totalPrice1));
 
-                tv_price_total.setText(String.format("%.0f",pricefinal));
+                tv_price_total.setText(String.format("%.0f", pricefinal));
 
-                 b = Double.parseDouble(String.valueOf(pricefinal));
-                if (pricefinal == 0.0){
-                    tv_price_paymentAll.setText(""+String.format("%.0f",b));
-                }else {
-                    tv_price_paymentAll.setText(""+String.format("%.0f",b+ship));
+                b = Double.parseDouble(String.valueOf(pricefinal));
+                if (pricefinal == 0.0) {
+                    tv_price_paymentAll.setText("" + String.format("%.0f", b));
+                } else {
+                    tv_price_paymentAll.setText("" + String.format("%.0f", b + ship));
 
                 }
-                if (cartList==null){
+                if (cartList == null) {
                     finish();
                 }
 
@@ -320,92 +312,92 @@ public class CheckoutActivity extends AppCompatActivity {
         paymentAdapter.notifyDataSetChanged();
 
     }
+
     String nameProduct;
     String productID;
     int id;
+
     private void submitOder() {
 
-                double total  = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
-                if (total == 0){
-                    Toast.makeText(this, ""+getText(R.string.please_wait_cart), Toast.LENGTH_SHORT).show();
-                }else {
-                    for (int i = 0; i<cartList.size(); i++){
-                        nameProduct = cartList.get(i).getName();
-                    }
-                    String timestamp = ""+ System.currentTimeMillis();
-                    String cost = tv_price_paymentAll.getText().toString().trim();
-                    String address = tv_address.getText().toString().trim();
-                    String name = tv_username.getText().toString().trim();
-                    String phone = tv_phone.getText().toString().trim();
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("orderId", timestamp);
-                    hashMap.put("orderTime", timestamp);
-                    hashMap.put("orderStatus", "Đang xử lý");
-                    hashMap.put("orderName", name);
-                    hashMap.put("orderPhone", phone);
-                    hashMap.put("orderAddress", ""+address);
-                    hashMap.put("orderCost", ""+cost);
-                    hashMap.put("orderBy", ""+firebaseAuth.getUid());
-                    hashMap.put("orderNameProduct", nameProduct);
-
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
-                    reference.child(timestamp).setValue(hashMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    for (int i = 0; i<cartList.size(); i++ ){
-                                        id = cartList.get(i).getCart_ID();
-                                        String name = cartList.get(i).getName();
-                                        String imgage = cartList.get(i).getImage();
-                                        String productID = cartList.get(i).getProductID();
-                                        String price = cartList.get(i).getPrice();
-                                        String priceEach = cartList.get(i).getPriceEach();
-                                        String quantity = cartList.get(i).getQuantity();
-                                        String variant = cartList.get(i).getVariant();
-                                        HashMap<String, String> hashMap1 = new HashMap<>();
-                                        hashMap1.put("productID", productID);
-                                        hashMap1.put("name", name);
-                                        hashMap1.put("price", price);
-                                        hashMap1.put("priceEach", priceEach);
-                                        hashMap1.put("quantity", quantity);
-                                        hashMap1.put("image", imgage);
-                                        hashMap1.put("variant", variant);
-                                        reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
-                                    }
-                                    progressDialog.dismiss();
-                                    Toast.makeText(CheckoutActivity.this, ""+getText(R.string.success_order), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
-                                    intent.putExtra("orderId", timestamp);
-                                    intent.putExtra("orderTo", shopId);
-                                    startActivity(intent);
-                                    for (int i = 0; i<cartList.size(); i++){
-                                        productID   = cartList.get(i).getProductID();
-                                    }
-                                    for (int i = 0; i<cartList.size(); i++ ){
-                                        CartRoom cart = cartList.get(i);
-                                        Log.d("cart",cart.toString());
-                                        CartDatabase.getInstance(CheckoutActivity.this).cartDAO().deleteCart(cart);
-                                    }
-                                    finish();
-
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(CheckoutActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-
-                }
-
-
-
+        double total = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
+        if (total == 0) {
+            Toast.makeText(this, "" + getText(R.string.please_wait_cart), Toast.LENGTH_SHORT).show();
+        } else {
+            for (int i = 0; i < cartList.size(); i++) {
+                nameProduct = cartList.get(i).getName();
             }
+            String timestamp = "" + System.currentTimeMillis();
+            String cost = tv_price_paymentAll.getText().toString().trim();
+            String address = tv_address.getText().toString().trim();
+            String name = tv_username.getText().toString().trim();
+            String phone = tv_phone.getText().toString().trim();
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("orderId", timestamp);
+            hashMap.put("orderTime", timestamp);
+            hashMap.put("orderStatus", "Đang xử lý");
+            hashMap.put("orderName", name);
+            hashMap.put("orderPhone", phone);
+            hashMap.put("orderAddress", "" + address);
+            hashMap.put("orderCost", "" + cost);
+            hashMap.put("orderBy", "" + firebaseAuth.getUid());
+            hashMap.put("orderNameProduct", nameProduct);
 
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
+            reference.child(timestamp).setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            for (int i = 0; i < cartList.size(); i++) {
+                                id = cartList.get(i).getCart_ID();
+                                String name = cartList.get(i).getName();
+                                String imgage = cartList.get(i).getImage();
+                                String productID = cartList.get(i).getProductID();
+                                String price = cartList.get(i).getPrice();
+                                String priceEach = cartList.get(i).getPriceEach();
+                                String quantity = cartList.get(i).getQuantity();
+                                String variant = cartList.get(i).getVariant();
+                                HashMap<String, String> hashMap1 = new HashMap<>();
+                                hashMap1.put("productID", productID);
+                                hashMap1.put("name", name);
+                                hashMap1.put("price", price);
+                                hashMap1.put("priceEach", priceEach);
+                                hashMap1.put("quantity", quantity);
+                                hashMap1.put("image", imgage);
+                                hashMap1.put("variant", variant);
+                                reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
+                            }
+                            progressDialog.dismiss();
+                            Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
+                            intent.putExtra("orderId", timestamp);
+                            intent.putExtra("orderTo", shopId);
+                            startActivity(intent);
+                            for (int i = 0; i < cartList.size(); i++) {
+                                productID = cartList.get(i).getProductID();
+                            }
+                            for (int i = 0; i < cartList.size(); i++) {
+                                CartRoom cart = cartList.get(i);
+                                Log.d("cart", cart.toString());
+                                CartDatabase.getInstance(CheckoutActivity.this).cartDAO().deleteCart(cart);
+                            }
+                            finish();
+
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CheckoutActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+        }
+
+
+    }
 
 
     private void mapping() {
