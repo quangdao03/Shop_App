@@ -42,6 +42,28 @@
                     style="@style/TextViewBase"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginHorizontal="@dimen/dp20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.SearchView
+                    app:queryHint="Name..."
+                    android:id="@+id/edt_search"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_width="match_parent"
+                    android:paddingEnd="@dimen/dp10"
+                    app:searchIcon="@drawable/ic_seach"
+                    app:iconifiedByDefault="false"
+                    app:queryBackground="@null"
+                    android:layout_height="wrap_content"
+                    app:submitBackground="@null"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcy_Prodcut_Seller"
             android:layout_width="match_parent"
@@ -49,10 +71,10 @@
             android:layout_marginStart="@dimen/dp20"
             android:layout_marginTop="@dimen/dp20"
             android:layout_marginEnd="@dimen/dp20"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="2"
             tools:itemCount="4"
-            tools:listitem="@layout/item_danhmuc_home" />
+            tools:listitem="@layout/item_product_seller" />
     </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
