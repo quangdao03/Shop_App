@@ -92,6 +92,7 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegisterUser.this,LoginActivity.class));
+                finish();
             }
         });
         View.OnTouchListener touchListener = new View.OnTouchListener() {
