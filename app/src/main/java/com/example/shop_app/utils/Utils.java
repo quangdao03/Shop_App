@@ -18,6 +18,8 @@ public class Utils {
     public static String Image = "";
     public static String ImageSeller = "";
 
+    public static String name_shop = "";
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(

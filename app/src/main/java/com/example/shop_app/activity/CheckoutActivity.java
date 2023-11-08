@@ -316,6 +316,7 @@ public class CheckoutActivity extends AppCompatActivity {
     String nameProduct;
     String productID;
     int id;
+    String shop_uid;
 
     private void submitOder() {
 
@@ -325,6 +326,7 @@ public class CheckoutActivity extends AppCompatActivity {
         } else {
             for (int i = 0; i < cartList.size(); i++) {
                 nameProduct = cartList.get(i).getName();
+                shop_uid = cartList.get(i).getShop_id();
             }
             String timestamp = "" + System.currentTimeMillis();
             String cost = tv_price_paymentAll.getText().toString().trim();
@@ -341,6 +343,7 @@ public class CheckoutActivity extends AppCompatActivity {
             hashMap.put("orderCost", "" + cost);
             hashMap.put("orderBy", "" + firebaseAuth.getUid());
             hashMap.put("orderNameProduct", nameProduct);
+            hashMap.put("shop_uid",shop_uid);
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
             reference.child(timestamp).setValue(hashMap)
@@ -356,6 +359,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                 String priceEach = cartList.get(i).getPriceEach();
                                 String quantity = cartList.get(i).getQuantity();
                                 String variant = cartList.get(i).getVariant();
+                                String shop_uid = cartList.get(i).getShop_id();
                                 HashMap<String, String> hashMap1 = new HashMap<>();
                                 hashMap1.put("productID", productID);
                                 hashMap1.put("name", name);
@@ -364,13 +368,14 @@ public class CheckoutActivity extends AppCompatActivity {
                                 hashMap1.put("quantity", quantity);
                                 hashMap1.put("image", imgage);
                                 hashMap1.put("variant", variant);
+                                hashMap1.put("shop_uid",shop_uid);
                                 reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
                             }
                             progressDialog.dismiss();
                             Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
                             intent.putExtra("orderId", timestamp);
-                            intent.putExtra("orderTo", shopId);
+                            intent.putExtra("orderTo", shop_uid);
                             startActivity(intent);
                             for (int i = 0; i < cartList.size(); i++) {
                                 productID = cartList.get(i).getProductID();

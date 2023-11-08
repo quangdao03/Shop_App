@@ -100,6 +100,7 @@ public class AccountFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null){
             startActivity(new Intent(getActivity(), LoginActivity.class));
+            requireActivity().finishAffinity();
         }
         else {
             loadMyInfo();

@@ -78,7 +78,7 @@ public class OrderFragmentSeller extends Fragment {
         rcy_List_Order.setHasFixedSize(true);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child("Orders")
+        ref.child("Orders").orderByChild("shop_uid").equalTo(firebaseAuth.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

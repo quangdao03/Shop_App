@@ -7,7 +7,9 @@
     tools:context=".activity.AddProductSeller"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
     <androidx.core.widget.NestedScrollView
         android:layout_marginTop="@dimen/dp10"
         android:layout_width="match_parent"
@@ -35,6 +37,7 @@
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:fontFamily="@font/readex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
@@ -44,10 +47,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Người tạo"
+                android:hint="Thương hiệu"
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:fontFamily="@font/readex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
@@ -62,11 +66,13 @@
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:fontFamily="@font/readex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
+                android:fontFamily="@font/readex"
                 android:id="@+id/categoryEdt"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -75,7 +81,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="9"
-
                 android:drawableEnd="@drawable/ic_down"
                 android:gravity="center_vertical"
                 android:padding="10dp"
@@ -94,6 +99,7 @@
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:fontFamily="@font/readex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords" />
@@ -108,21 +114,39 @@
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:fontFamily="@font/readex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_variant"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dung lượng"
+                android:padding="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:fontFamily="@font/readex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
-            <Button
+            <TextView
+                android:backgroundTint="@color/color_app"
+                android:background="@drawable/bg_button_normal"
+                android:fontFamily="@font/readex"
                 android:layout_marginHorizontal="@dimen/dp10"
                 android:id="@+id/addProductBtn"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/primary"
-                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:paddingVertical="15dp"
                 android:text="Thêm sản phẩm"
                 android:textColor="#fff" />
         </LinearLayout>

@@ -137,5 +137,7 @@
     <string name="confirm">Confirm</string>
     <string name="confirm_success">Change language successfully</string>
     <string name="chat">Chat</string>
+    <string name="shop_name">Shop Name</string>
+    <string name="name_seller">Register as a seller? </string>
 
 </resources>

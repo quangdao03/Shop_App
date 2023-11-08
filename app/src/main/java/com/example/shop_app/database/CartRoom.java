@@ -26,12 +26,13 @@ public class CartRoom implements Serializable {
     private String priceEach;
     @ColumnInfo(name = "quantity")
     private String quantity;
-
+    @ColumnInfo(name = "shop_id")
+    private String shop_id;
     public CartRoom() {
 
     }
 
-    public CartRoom(int cart_ID, String productID, String image, String name, String creator, String variant, String price, String priceEach, String quantity) {
+    public CartRoom(int cart_ID, String productID, String image, String name, String creator, String variant, String price, String priceEach, String quantity, String shop_id) {
         Cart_ID = cart_ID;
         this.productID = productID;
         this.image = image;
@@ -41,6 +42,7 @@ public class CartRoom implements Serializable {
         this.price = price;
         this.priceEach = priceEach;
         this.quantity = quantity;
+        this.shop_id = shop_id;
     }
 
     public int getCart_ID() {
@@ -115,10 +117,18 @@ public class CartRoom implements Serializable {
         this.quantity = quantity;
     }
 
+    public String getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(String shop_id) {
+        this.shop_id = shop_id;
+    }
+
     @Override
     public String toString() {
-        return "Cart{" +
-                "Cart_ID='" + Cart_ID + '\'' +
+        return "CartRoom{" +
+                "Cart_ID=" + Cart_ID +
                 ", productID='" + productID + '\'' +
                 ", image='" + image + '\'' +
                 ", name='" + name + '\'' +
@@ -127,6 +137,7 @@ public class CartRoom implements Serializable {
                 ", price='" + price + '\'' +
                 ", priceEach='" + priceEach + '\'' +
                 ", quantity='" + quantity + '\'' +
+                ", shop_id='" + shop_id + '\'' +
                 '}';
     }
 }

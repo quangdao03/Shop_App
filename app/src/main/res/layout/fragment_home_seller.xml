@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/toolbar"
         layout="@layout/toolbar_home" />
     <androidx.core.widget.NestedScrollView
         android:id="@+id/net_scroll"
@@ -68,9 +69,7 @@
             android:id="@+id/rcy_Prodcut_Seller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp20"
-            android:layout_marginTop="@dimen/dp20"
-            android:layout_marginEnd="@dimen/dp20"
+            android:layout_marginHorizontal="@dimen/dp20"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="2"
             tools:itemCount="4"

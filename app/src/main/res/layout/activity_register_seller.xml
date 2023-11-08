@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp50"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/bg_button_normal_login"
                 android:drawableStart="@drawable/profile"
@@ -76,11 +76,27 @@
                 android:textSize="@dimen/sp14" />
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edt_ShopName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="@dimen/dp15"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/bg_button_normal_login"
+                android:drawableStart="@drawable/profile"
+                android:drawablePadding="@dimen/dp10"
+                android:fontFamily="@font/readex"
+                android:hint="@string/shop_name"
+                android:paddingStart="18dp"
+                android:paddingEnd="@dimen/dp5"
+                android:textSize="@dimen/sp14" />
+
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_Password"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp50"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/bg_button_normal_login"
                 android:drawableStart="@drawable/password"
@@ -97,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp50"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/bg_button_normal_login"
                 android:drawableStart="@drawable/email"
@@ -113,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp50"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/bg_button_normal_login"
                 android:drawableStart="@drawable/address"
@@ -129,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp50"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/bg_button_normal_login"
                 android:drawableStart="@drawable/profile"
@@ -191,54 +207,24 @@
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/dp20"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:fontFamily="@font/readex"
+            android:text="@string/already_account"
+            android:textColor="@color/white" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/readex"
-                android:text="@string/already_account"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/txt_Login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/readex"
-                android:text="@string/login"
-                android:textColor="@color/white" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txt_Login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/readex"
-                android:text="@string/name_seller"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/txt_Register_Seller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/readex"
-                android:text="@string/create"
-                android:textColor="@color/white" />
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:fontFamily="@font/readex"
+            android:text="@string/login"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

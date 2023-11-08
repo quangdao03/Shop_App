@@ -1,11 +1,5 @@
 package com.example.shop_app.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,9 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.shop_app.R;
-import com.example.shop_app.databinding.ActivityRegisterUserBinding;
-import com.example.shop_app.utils.Utils;
+import com.example.shop_app.databinding.ActivityRegisterSellerBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +43,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 
-public class RegisterUser extends AppCompatActivity {
+public class RegisterSeller extends AppCompatActivity {
 
     EditText edt_Username,edt_Email,edt_Password,edt_Phone, edt_Address;
 
@@ -65,12 +63,12 @@ public class RegisterUser extends AppCompatActivity {
     private ProgressDialog progressDialog;
     LinearLayout ll_register_user;
 
-    ActivityRegisterUserBinding binding;
+    ActivityRegisterSellerBinding binding;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityRegisterUserBinding.inflate(getLayoutInflater());
+        binding = ActivityRegisterSellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
         getSupportActionBar().hide();
@@ -95,22 +93,18 @@ public class RegisterUser extends AppCompatActivity {
         txt_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegisterUser.this,LoginActivity.class));
+                startActivity(new Intent(RegisterSeller.this,LoginActivity.class));
                 finish();
             }
-        });
-        binding.txtRegisterSeller.setOnClickListener(view -> {
-            startActivity(new Intent(RegisterUser.this,RegisterSeller.class));
-            finish();
         });
         View.OnTouchListener touchListener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager inputMethodManager = (InputMethodManager) RegisterUser.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                InputMethodManager inputMethodManager = (InputMethodManager) RegisterSeller.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
-                if(RegisterUser.this.getCurrentFocus() != null)
+                if(RegisterSeller.this.getCurrentFocus() != null)
                 {
-                    inputMethodManager.hideSoftInputFromWindow(RegisterUser.this.getCurrentFocus().
+                    inputMethodManager.hideSoftInputFromWindow(RegisterSeller.this.getCurrentFocus().
                             getWindowToken(), 0);
                 }
                 return false;
@@ -120,7 +114,7 @@ public class RegisterUser extends AppCompatActivity {
     }
 
 
-    private String name, address, email, phone, password;
+    private String name, address, email, phone, password, shop_name;
     private Boolean validateEmail() {
         String val = edt_Email.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -149,6 +143,18 @@ public class RegisterUser extends AppCompatActivity {
             return true;
         }
     }
+    private Boolean validateShopName() {
+        String val = binding.edtShopName.getText().toString();
+        if (val.isEmpty()) {
+            binding.edtShopName.setError(getText(R.string.please_info));
+            binding.edtShopName.requestFocus();
+            return false;
+        } else {
+            binding.edtShopName.setError(null);
+            return true;
+        }
+    }
+
     private Boolean validateAddress() {
         String val = edt_Address.getText().toString();
         if ( val.isEmpty()) {
@@ -192,7 +198,7 @@ public class RegisterUser extends AppCompatActivity {
         }
     }
     private void inputData() {
-        if (!validateName() | !validateEmail() | !validatePhone() | !validatePassword() | !validateAddress()) {
+        if (!validateName() | !validateEmail() | !validatePhone() | !validatePassword() | !validateAddress() | !validateShopName()) {
             return;
         }
         name = edt_Username.getText().toString().trim();
@@ -200,6 +206,7 @@ public class RegisterUser extends AppCompatActivity {
         email = edt_Email.getText().toString().trim();
         phone = edt_Phone.getText().toString().trim();
         password = edt_Password.getText().toString().trim();
+        shop_name = binding.edtShopName.getText().toString().trim();
         createAccount();
     }
     private void createAccount() {
@@ -214,9 +221,9 @@ public class RegisterUser extends AppCompatActivity {
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@androidx.annotation.NonNull Exception e) {
+                    public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterSeller.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -230,9 +237,11 @@ public class RegisterUser extends AppCompatActivity {
             hashMap.put("name", "" + name);
             hashMap.put("phone", "" + phone);
             hashMap.put("address", "" + address);
+            hashMap.put("shop_name", "" + shop_name);
             hashMap.put("timestamp", "" + timestamp);
-            hashMap.put("accountType", "User");
+            hashMap.put("accountType", "Seller");
             hashMap.put("online", "true");
+            hashMap.put("shopOpen", "true");
             hashMap.put("profileImage", "");
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -240,15 +249,15 @@ public class RegisterUser extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterUser.this, MainActivity.class));
+                            Toast.makeText(RegisterSeller.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegisterSeller.this, MainActivitySeller.class));
                             finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_fail), Toast.LENGTH_SHORT).show();
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(RegisterSeller.this, ""+getText(R.string.creating_account_fail), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -273,9 +282,11 @@ public class RegisterUser extends AppCompatActivity {
                                 hashMap.put("name", "" + name);
                                 hashMap.put("phone", "" + phone);
                                 hashMap.put("address", "" + address);
+                                hashMap.put("shop_name", "" + shop_name);
                                 hashMap.put("timestamp", "" + timestamp);
-                                hashMap.put("accountType", "User");
+                                hashMap.put("accountType", "Seller");
                                 hashMap.put("online", "true");
+                                hashMap.put("shopOpen", "true");
                                 hashMap.put("profileImage", "" + downloadImageUri);
 
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -283,15 +294,15 @@ public class RegisterUser extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
-                                                Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(RegisterUser.this, MainActivity.class));
+                                                Toast.makeText(RegisterSeller.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(RegisterSeller.this, MainActivity.class));
                                                 finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
-                                            public void onFailure(@androidx.annotation.NonNull Exception e) {
-                                                Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_fail), Toast.LENGTH_SHORT).show();
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(RegisterSeller.this, ""+getText(R.string.creating_account_fail), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -299,8 +310,8 @@ public class RegisterUser extends AppCompatActivity {
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            Toast.makeText(RegisterUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(RegisterSeller.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.e("AAA",e.getMessage());
                         }
                     });

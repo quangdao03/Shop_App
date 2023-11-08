@@ -4,6 +4,7 @@ package com.example.shop_app.dash.sellerdash;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.activity.AddProductSeller;
 import com.example.shop_app.activity.ChatActivitySeller;
 import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.adapter.ProductAdapterSeller;
+import com.example.shop_app.databinding.FragmentHomeSellerBinding;
 import com.example.shop_app.model.CostOrder;
 import com.example.shop_app.model.Order;
 import com.example.shop_app.model.Product;
@@ -41,7 +44,7 @@ import java.util.List;
 
 
 public class HomeFragmentSeller extends Fragment {
-    View view;
+
 
     TextView tvTitleToolbar, txt_PriceAll;
     ImageView ivToolbarLeft, ivToolbarRight, ivToolbarRight_message;
@@ -56,24 +59,32 @@ public class HomeFragmentSeller extends Fragment {
     SearchView edt_search;
     int a;
 
+    FragmentHomeSellerBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home_seller, container, false);
+        binding = FragmentHomeSellerBinding.inflate(getLayoutInflater());
         mapping();
         firebaseAuth = FirebaseAuth.getInstance();
+        getObjectUser();
+        viewClick();
+        getProductSeller();
+        loadAllOrder();
+        return binding.getRoot();
+    }
+
+    private void viewClick() {
         tvTitleToolbar.setText("Product");
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setImageResource(R.drawable.icons8_add);
-        getProductSeller();
-        loadAllOrder();
         ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), ChatActivitySeller.class));
             }
         });
-        getObjectUser();
+
         edt_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -86,7 +97,9 @@ public class HomeFragmentSeller extends Fragment {
                 return false;
             }
         });
-        return view;
+        binding.toolbar.ivToolbarRight.setOnClickListener(view -> {
+            startActivity(new Intent(requireActivity(), AddProductSeller.class));
+        });
     }
 
     private void loadAllOrder() {
@@ -125,12 +138,11 @@ public class HomeFragmentSeller extends Fragment {
         rcy_Prodcut_Seller.setLayoutManager(linearLayoutManager);
         rcy_Prodcut_Seller.setHasFixedSize(true);
 
-        productAdapter = new ProductAdapterSeller(getContext(), productList);
-        rcy_Prodcut_Seller.setAdapter(productAdapter);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myProdcut = database.getReference("Product");
 
-        myProdcut.addValueEventListener(new ValueEventListener() {
+        myProdcut.orderByChild("uid").equalTo(firebaseAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -149,6 +161,8 @@ public class HomeFragmentSeller extends Fragment {
                     product.setDesc(getData.child("desc").getValue().toString());
                     productList.add(product);
                 }
+                productAdapter = new ProductAdapterSeller(getContext(), productList);
+                rcy_Prodcut_Seller.setAdapter(productAdapter);
                 productAdapter.notifyDataSetChanged();
             }
 
@@ -179,7 +193,10 @@ public class HomeFragmentSeller extends Fragment {
                     public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             String image = "" + dataSnapshot.child("profileImage").getValue();
+                            String shop_name = "" + dataSnapshot.child("shop_name").getValue();
                             Utils.ImageSeller = image;
+                            Utils.name_shop = shop_name;
+
                         }
                     }
 
@@ -191,12 +208,12 @@ public class HomeFragmentSeller extends Fragment {
     }
 
     private void mapping() {
-        rcy_Prodcut_Seller = view.findViewById(R.id.rcy_Prodcut_Seller);
-        tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);
-        ivToolbarLeft = view.findViewById(R.id.ivToolbarLeft);
-        ivToolbarRight = view.findViewById(R.id.ivToolbarRight);
-        txt_PriceAll = view.findViewById(R.id.txt_PriceAll);
-        ivToolbarRight_message = view.findViewById(R.id.ivToolbarRight_message);
-        edt_search = view.findViewById(R.id.edt_search);
+        rcy_Prodcut_Seller = binding.rcyProdcutSeller;
+        tvTitleToolbar = binding.toolbar.tvTitleToolbar;
+        ivToolbarLeft = binding.toolbar.ivToolbarLeft;
+        ivToolbarRight = binding.toolbar.ivToolbarRight;
+        txt_PriceAll = binding.txtPriceAll;
+        ivToolbarRight_message = binding.toolbar.ivToolbarRightMessage;
+        edt_search = binding.edtSearch;
     }
 }

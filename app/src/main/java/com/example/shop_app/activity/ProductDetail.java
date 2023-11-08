@@ -55,6 +55,8 @@ public class ProductDetail extends AppCompatActivity {
     int quantityProduct = 1;
     boolean fv = true;
 
+    String shop_uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +136,7 @@ public class ProductDetail extends AppCompatActivity {
                 } else {
                     ivToolbarRight.setImageResource(R.drawable.icon_love);
                 }
+                shop_uid = dataSnapshot.child("uid").getValue().toString();
 
             }
 
@@ -277,6 +280,7 @@ public class ProductDetail extends AppCompatActivity {
                 cartRoom.setPrice(price_name);
                 cartRoom.setPriceEach(totalprice);
                 cartRoom.setQuantity(quantity);
+                cartRoom.setShop_id(shop_uid);
                 CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
 
 

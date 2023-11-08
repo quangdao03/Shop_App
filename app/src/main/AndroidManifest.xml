@@ -112,6 +112,9 @@
             android:name=".activity.RegisterUser"
             android:exported="true" />
         <activity
+            android:name=".activity.RegisterSeller"
+            android:exported="true" />
+        <activity
             android:name=".activity.Product_Brand"
             android:exported="true" />
         <activity

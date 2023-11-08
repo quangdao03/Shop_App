@@ -57,14 +57,14 @@ public class ProductAdapterSeller extends RecyclerView.Adapter<ProductAdapterSel
 
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProductDetail.class);
-                intent.putExtra("name",product.getName());
-                context.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context, ProductDetail.class);
+//                intent.putExtra("name",product.getName());
+//                context.startActivity(intent);
+//            }
+//        });
 
     }
     public void filterList(ArrayList<Product> filterllist) {
