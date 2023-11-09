@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Product {
 
-    private int id;
+    private String id;
     private String url ;
     private String name;
     private String price;
@@ -18,11 +18,12 @@ public class Product {
     private String creator;
     private Boolean favourite;
 
+    private String category;
     private String uid;
 
     public Product(){}
 
-    public Product(int id, String url, String name, String price, String quantity, int rate, String variant, String desc, String creator, Boolean favourite,String uid) {
+    public Product(String id, String url, String name, String price, String quantity, int rate, String variant, String desc, String creator, Boolean favourite, String category, String uid) {
         this.id = id;
         this.url = url;
         this.name = name;
@@ -33,24 +34,15 @@ public class Product {
         this.desc = desc;
         this.creator = creator;
         this.favourite = favourite;
+        this.category = category;
         this.uid = uid;
     }
 
-
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -126,10 +118,26 @@ public class Product {
         this.favourite = favourite;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +
@@ -139,17 +147,8 @@ public class Product {
                 ", desc='" + desc + '\'' +
                 ", creator='" + creator + '\'' +
                 ", favourite=" + favourite +
+                ", category='" + category + '\'' +
                 ", uid='" + uid + '\'' +
                 '}';
-    }
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", uid);
-        result.put("favourite", true);
-
-
-        return result;
     }
 }

@@ -117,7 +117,7 @@ public class Category_Product extends AppCompatActivity {
                     productList.clear();
                 }
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
-                    Product product = getData.getValue(Product.class);
+                    Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
                     product.setPrice("Rp " + getData.child("price").getValue().toString());

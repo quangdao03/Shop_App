@@ -62,7 +62,7 @@ public class ProductDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         getSupportActionBar().hide();
-        name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("id");
         firebaseAuth = FirebaseAuth.getInstance();
         tv_product_name = findViewById(R.id.tv_product_name);
         tv_creator = findViewById(R.id.tv_product_creator);

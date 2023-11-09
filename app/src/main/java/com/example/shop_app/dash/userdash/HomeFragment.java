@@ -163,8 +163,7 @@ public class HomeFragment extends Fragment {
         rcyProduct.setAdapter(listProductAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myProdcut = database.getReference("Product");
-        Query query = myProdcut.orderByChild("rate").startAfter(3);
-        query.addValueEventListener(new ValueEventListener() {
+        myProdcut.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -174,7 +173,6 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-//                    Product product = getData.getValue(Product.class);
                     Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
@@ -182,7 +180,8 @@ public class HomeFragment extends Fragment {
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");
-                    Log.d("AAA",""+getData);
+                    String id = getData.child("id").getValue() +"";
+                    product.setId(id);
                     productList.add(product);
 
                 }
