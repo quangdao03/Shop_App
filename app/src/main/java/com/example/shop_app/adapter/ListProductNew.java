@@ -45,7 +45,6 @@ public class ListProductNew extends RecyclerView.Adapter<ListProductNew.ListView
         String url;
         url = product.getUrl();
         Glide.with(context).load(url).into(holder.productImage);
-        // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());
         holder.txtname.setText(product.getName());
         holder.txtnumber.setText(product.getQuantity());
@@ -54,7 +53,7 @@ public class ListProductNew extends RecyclerView.Adapter<ListProductNew.ListView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductDetail.class);
-                intent.putExtra("name",product.getName());
+                intent.putExtra("id",product.getId());
                 context.startActivity(intent);
             }
         });

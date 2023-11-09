@@ -2,11 +2,13 @@ package com.example.shop_app.dash.userdash;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.adapter.WishListAdapter;
 import com.example.shop_app.model.Product;
@@ -44,6 +47,7 @@ public class FavoriteFragment extends Fragment {
     ProductAdapter productAdapter;
     View view;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,58 +58,51 @@ public class FavoriteFragment extends Fragment {
         ivToolbarRight.setVisibility(View.GONE);
         tvTitleToolbar.setText(getText(R.string.wishlist));
 
-
+//        getWishListProduct();
+        getWishList();
         getProductMore();
 
         return view;
     }
-
-    private void getWishListProduct() {
+    private void getWishList(){
+        productList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcy_Wishlist.setLayoutManager(linearLayoutManager);
         rcy_Wishlist.setHasFixedSize(true);
 
+        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        rcy_Wishlist.addItemDecoration(decoration);
         wishListAdapter = new WishListAdapter(getActivity(), productList);
         rcy_Wishlist.setAdapter(wishListAdapter);
-        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-
-        rcy_Wishlist.addItemDecoration(decoration);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myProdcut = database.getReference("Product");
-
-        //Lọc 2 phẩn tử đầu tiên của bảng dùng Query và limit
-        Query query = myProdcut.orderByChild("uid").equalTo(firebaseAuth.getUid());
-        query.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Wishlist");
+        reference.child(firebaseAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (productList != null) {
-                    productList.clear();
-                }
-
-                for (DataSnapshot getData : dataSnapshot.getChildren()) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot getData : snapshot.getChildren()) {
                     Product product = new Product();
                     product.setUrl(getData.child("image").getValue().toString());
                     product.setName(getData.child("name").getValue().toString());
-                    product.setPrice("Rp " + getData.child("price").getValue().toString());
+                    product.setPrice(getData.child("price").getValue().toString());
+                    product.setId(getData.child("id_product").getValue().toString());
+                    product.setVariant(getData.child("variant").getValue().toString());
                     product.setCreator(getData.child("creator").getValue().toString());
+                    product.setUid(getData.child("shop_id").getValue().toString());
                     productList.add(product);
-
                 }
+
                 wishListAdapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(requireContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
-    private void getWishListProduct1() {
+
+    private void getWishListProduct() {
         productList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcy_Wishlist.setLayoutManager(linearLayoutManager);
@@ -118,11 +115,9 @@ public class FavoriteFragment extends Fragment {
         rcy_Wishlist.addItemDecoration(decoration);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myProdcut = database.getReference("Product");
-
-
-        Query query = myProdcut.orderByChild("uid").equalTo(firebaseAuth.getUid());
-        query.addChildEventListener(new ChildEventListener() {
+        DatabaseReference myProdcut = database.getReference("Wishlist");
+        myProdcut.child(firebaseAuth.getUid())
+        .addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Boolean value = Boolean.valueOf(snapshot.child("favourite").getValue().toString());
@@ -213,7 +208,7 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getWishListProduct1();
+//        getWishListProduct1();
 
     }
 

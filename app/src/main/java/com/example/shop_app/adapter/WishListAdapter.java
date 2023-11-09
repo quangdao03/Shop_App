@@ -25,7 +25,6 @@ import com.example.shop_app.R;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
-import com.example.shop_app.database.MyDatabaseHelper;
 import com.example.shop_app.model.Product;
 
 import java.util.List;
@@ -39,7 +38,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
     String price;
 
 
-
     public WishListAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
@@ -49,7 +47,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
     @NonNull
     @Override
     public WishListAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_wishlist,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_wishlist, parent, false);
         return new WishListAdapter.ListViewHolder(view);
 
     }
@@ -58,14 +56,14 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
     public void onBindViewHolder(@NonNull WishListAdapter.ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Product product = productList.get(position);
-        if (product==null){
+        if (product == null) {
             return;
         }
 
         String url;
         url = product.getUrl();
         Glide.with(context).load(url).into(holder.imag_wishlist);
-        holder.tv_price.setText(product.getPrice() +" $");
+        holder.tv_price.setText(product.getPrice());
         holder.tv_name.setText(product.getName());
         holder.tv_creator.setText(product.getCreator());
 
@@ -73,7 +71,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductDetail.class);
-                intent.putExtra("name",product.getName());
+                intent.putExtra("id", product.getId());
                 context.startActivity(intent);
             }
         });
@@ -82,8 +80,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
         holder.btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageView img_Product,count_down,count_add,btn_close;
-                TextView  tv_dialog_name,tv_dialog_creator,tv_dialog_variant,tv_quantity,tv_price_product,tv_price_product_final,tv_detail;
+                ImageView img_Product, count_down, count_add, btn_close;
+                TextView tv_dialog_name, tv_dialog_creator, tv_dialog_variant, tv_quantity, tv_price_product, tv_price_product_final, tv_detail;
                 Button btn_AddToCart;
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -92,7 +90,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
 
                 Window window = dialog.getWindow();
                 window.setGravity(Gravity.BOTTOM);
-                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.setCancelable(true);
 
@@ -118,24 +116,24 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 Glide.with(context).load(url).into(img_Product);
 
                 quantity = 1;
-                tv_quantity.setText(""+quantity);
+                tv_quantity.setText("" + quantity);
                 cost = Integer.parseInt(price.replaceAll("$", ""));
                 finalCost = Integer.parseInt(price.replaceAll("$", ""));
-                tv_price_product_final.setText(""+finalCost);
+                tv_price_product_final.setText("" + finalCost);
 
                 count_add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         finalCost = finalCost + cost;
                         quantity++;
-                        tv_price_product_final.setText(""+finalCost);
-                        tv_quantity.setText(""+quantity);
+                        tv_price_product_final.setText("" + finalCost);
+                        tv_quantity.setText("" + quantity);
                     }
                 });
                 count_down.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (quantity>1) {
+                        if (quantity > 1) {
                             finalCost = finalCost - cost;
                             quantity--;
                             tv_price_product_final.setText("" + finalCost);
@@ -163,7 +161,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
 
                         Window window = dialog.getWindow();
                         window.setGravity(Gravity.BOTTOM);
-                        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+                        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.setCancelable(true);
                         Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
@@ -174,10 +172,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                         String price_name = price;
                         String creator = tv_dialog_creator.getText().toString().trim();
                         String variant = tv_dialog_variant.getText().toString().trim();
-                        String totalprice = tv_price_product_final.getText().toString().trim().replace("","");
+                        String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
                         String quantity = tv_quantity.getText().toString().trim();
                         String idProduct = String.valueOf(product.getId());
-
 
 
                         CartRoom cartRoom = new CartRoom();
@@ -189,9 +186,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                         cartRoom.setPrice(price_name);
                         cartRoom.setPriceEach(totalprice);
                         cartRoom.setQuantity(quantity);
+                        cartRoom.setShop_id(product.getUid());
                         CartDatabase.getInstance(context).cartDAO().insertCart(cartRoom);
-
-//                        addToCart(idProduct,image,name,creator,variant,price_name,totalprice,quantity);
 
                         btn_Ok.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -212,7 +208,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 });
                 tv_detail.setOnClickListener(view1 -> {
                     Intent intent = new Intent(context, ProductDetail.class);
-                    intent.putExtra("name",product.getName());
+                    intent.putExtra("id", product.getId());
                     context.startActivity(intent);
                     dialog.dismiss();
                 });
@@ -227,17 +223,17 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
 
     @Override
     public int getItemCount() {
-        if(productList!=null){
+        if (productList != null) {
             return productList.size();
         }
         return 0;
     }
 
-    public static class ListViewHolder extends RecyclerView.ViewHolder{
+    public static class ListViewHolder extends RecyclerView.ViewHolder {
         ImageView imag_wishlist;
 
 
-        TextView tv_name,tv_creator,tv_price;
+        TextView tv_name, tv_creator, tv_price;
         Button btn_buy;
 
         public ListViewHolder(@NonNull View itemView) {

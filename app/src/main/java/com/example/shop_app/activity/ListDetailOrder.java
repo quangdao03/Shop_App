@@ -1,19 +1,16 @@
 package com.example.shop_app.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.OrderUserAdapter;
@@ -29,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListDetailOrder extends AppCompatActivity {
-    TextView tvTitleToolbar,tv_sort, tv_sort_text;
-    ImageView ivToolbarLeft,ivToolbarRight;
+    TextView tvTitleToolbar, tv_sort, tv_sort_text;
+    ImageView ivToolbarLeft, ivToolbarRight;
     RecyclerView rcy_List_Order;
 
     OrderUserAdapter orderUserAdapter;
@@ -65,10 +62,10 @@ public class ListDetailOrder extends AppCompatActivity {
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if (i == 0){
+                                if (i == 0) {
                                     tv_sort_text.setText("All");
                                     orderUserAdapter.getFilter().filter("");
-                                }else  {
+                                } else {
                                     String optionClicked = options[i];
                                     tv_sort_text.setText(optionClicked);
                                     orderUserAdapter.getFilter().filter(optionClicked);
@@ -81,38 +78,34 @@ public class ListDetailOrder extends AppCompatActivity {
     }
 
     private void loadOrder() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this, RecyclerView.VERTICAL, false);
-        rcy_List_Order.setLayoutManager (linearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcy_List_Order.setLayoutManager(linearLayoutManager);
         rcy_List_Order.setHasFixedSize(true);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
-            reference.orderByChild("orderBy").equalTo(firebaseAuth.getUid())
-                    .addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (orderList!= null){
-                                        orderList.clear();
-                                    }
-                                    for (DataSnapshot ds: snapshot.getChildren()){
-                                        Order order = ds.getValue(Order.class);
-                                        orderList.add(order);
-                                    }
-                                    orderUserAdapter = new OrderUserAdapter(ListDetailOrder.this,orderList);
-                                    rcy_List_Order.setAdapter(orderUserAdapter);
-                                    orderUserAdapter.notifyDataSetChanged();
-                                }
+        reference.orderByChild("orderBy").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (orderList != null) {
+                            orderList.clear();
+                        }
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Order order = ds.getValue(Order.class);
+                            orderList.add(order);
+                        }
+                        orderUserAdapter = new OrderUserAdapter(ListDetailOrder.this, orderList);
+                        rcy_List_Order.setAdapter(orderUserAdapter);
+                        orderUserAdapter.notifyDataSetChanged();
+                    }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
+                    }
+                });
 
     }
-
-
-
-
 
 
     private void mapping() {

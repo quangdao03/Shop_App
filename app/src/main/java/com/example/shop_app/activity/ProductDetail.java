@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,10 +27,11 @@ import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.model.Product;
 import com.example.shop_app.utils.CustomToast;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +58,8 @@ public class ProductDetail extends AppCompatActivity {
     boolean fv = true;
 
     String shop_uid;
+    boolean isClick = false;
+    String name_product, price, quantity, creator, variant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,7 @@ public class ProductDetail extends AppCompatActivity {
         btn_Add_to_cart = findViewById(R.id.btn_Add_to_cart);
 
         checkUser();
+
         tvTitleToolbar.setText(getText(R.string.product_details));
         ivToolbarRight.setImageResource(R.drawable.icon_love);
 
@@ -86,18 +91,18 @@ public class ProductDetail extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         getProductDetail();
-        ivToolbarRight.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (fv) {
-                    onClickRemoveWishList();
-                } else {
-                    onClickWishList();
-                }
-
+        getWishList();
+        ivToolbarRight.setOnClickListener(view -> {
+            if (!isClick) {
+                onClickWishList();
+                isClick = true;
+            } else {
+                onClickRemoveWishList();
+                isClick = false;
             }
+
         });
 
 
@@ -108,9 +113,7 @@ public class ProductDetail extends AppCompatActivity {
             }
         });
 
-
     }
-
 
     private void getProductDetail() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -120,7 +123,7 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Product product = new Product();
+                Product product = dataSnapshot.getValue(Product.class);
                 tv_product_name.setText(dataSnapshot.child("name").getValue().toString());
                 url = dataSnapshot.child("image").getValue().toString();
                 Glide.with(getApplicationContext()).load(url).into(img_product_detail);
@@ -129,15 +132,13 @@ public class ProductDetail extends AppCompatActivity {
                 tv_desc.setText(dataSnapshot.child("desc").getValue().toString());
                 tv_price.setText(dataSnapshot.child("price").getValue().toString());
                 IDProduct = dataSnapshot.child("id").getValue().toString();
-                fv = Boolean.parseBoolean(dataSnapshot.child("favourite").getValue().toString());
-                Log.d("fv", fv + "");
-                if (fv) {
-                    ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
-                } else {
-                    ivToolbarRight.setImageResource(R.drawable.icon_love);
-                }
-                shop_uid = dataSnapshot.child("uid").getValue().toString();
 
+                shop_uid = dataSnapshot.child("uid").getValue().toString();
+                name_product = dataSnapshot.child("name").getValue().toString();
+                price = dataSnapshot.child("price").getValue().toString();
+                quantity = dataSnapshot.child("quantity").getValue().toString();
+                creator = dataSnapshot.child("creator").getValue().toString();
+                variant = dataSnapshot.child("variant").getValue().toString();
             }
 
             @Override
@@ -148,42 +149,83 @@ public class ProductDetail extends AppCompatActivity {
         });
     }
 
-    private void onClickWishList() {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference data = database.getReference("Product/" + name);
-        Product product = new Product();
-
-        Map<String, Object> mapUpdate = new HashMap<>();
-        mapUpdate.put("favourite", true);
-        mapUpdate.put("uid", firebaseAuth.getUid());
-
-        data.updateChildren(mapUpdate, new DatabaseReference.CompletionListener() {
+    private void getWishList() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Wishlist");
+        reference.child(firebaseAuth.getUid()).child(name).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@Nullable DatabaseError error, @androidx.annotation.NonNull DatabaseReference ref) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    fv = Boolean.parseBoolean(snapshot.child("favourite").getValue().toString());
+                    Log.d("fv", fv + "");
+                    if (fv) {
+                        ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
+                    } else {
+                        ivToolbarRight.setImageResource(R.drawable.icon_love);
+                    }
+                }
 
-                CustomToast.makeText(ProductDetail.this, "" + getText(R.string.add_wishlist), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ProductDetail.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void onClickWishList() {
+        String timestamp = "" + System.currentTimeMillis();
+        Map<String, Object> mapUpdate = new HashMap<>();
+        mapUpdate.put("favourite", true);
+        mapUpdate.put("uid", firebaseAuth.getUid());
+        mapUpdate.put("id", timestamp);
+        mapUpdate.put("shop_id", shop_uid);
+        mapUpdate.put("id_product", name);
+        mapUpdate.put("image", url);
+        mapUpdate.put("name", name_product);
+        mapUpdate.put("price", price);
+        mapUpdate.put("quantity", quantity);
+        mapUpdate.put("creator", creator);
+        mapUpdate.put("variant", variant);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Wishlist");
+        reference.child(firebaseAuth.getUid()).child(name).setValue(mapUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                CustomToast.makeText(ProductDetail.this, "" + getText(R.string.add_wishlist), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProductDetail.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
     private void onClickRemoveWishList() {
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference data = database.getReference("Product/" + name);
-        Product product = new Product();
-
+        String timestamp = "" + System.currentTimeMillis();
         Map<String, Object> mapUpdate = new HashMap<>();
         mapUpdate.put("favourite", false);
         mapUpdate.put("uid", firebaseAuth.getUid());
-
-        data.updateChildren(mapUpdate, new DatabaseReference.CompletionListener() {
+        mapUpdate.put("id", timestamp);
+        mapUpdate.put("id_product", name);
+        mapUpdate.put("image", url);
+        mapUpdate.put("name", name_product);
+        mapUpdate.put("price", price);
+        mapUpdate.put("quantity", quantity);
+        mapUpdate.put("creator", creator);
+        mapUpdate.put("variant", variant);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Wishlist");
+        reference.child(firebaseAuth.getUid()).child(name).updateChildren(mapUpdate, new DatabaseReference.CompletionListener() {
             @Override
-            public void onComplete(@Nullable DatabaseError error, @androidx.annotation.NonNull DatabaseReference ref) {
-
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 CustomToast.makeText(ProductDetail.this, "Remove wishlist", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
             }
         });
+
     }
 
     private void addProduct() {
@@ -247,61 +289,65 @@ public class ProductDetail extends AppCompatActivity {
         btn_AddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int quantity_product = Integer.parseInt(quantity);
+                if (quantity_product <= 0) {
+                    Toast.makeText(ProductDetail.this, "Xin lỗi, sản phẩm này là tạm thời hết hàng", Toast.LENGTH_SHORT).show();
+                } else {
+                    bottomSheetDialog.dismiss();
+                    final Dialog dialog = new Dialog(ProductDetail.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.layout);
+                    dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
 
-                bottomSheetDialog.dismiss();
-                final Dialog dialog = new Dialog(ProductDetail.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.layout);
-                dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
+                    Window window = dialog.getWindow();
+                    window.setGravity(Gravity.BOTTOM);
+                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.setCancelable(true);
+                    Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
+                    TextView tv_tap = dialog.findViewById(R.id.tv_tap);
+                    tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    String image = url;
+                    String name = tv_dialog_name.getText().toString().trim();
+                    String price_name = price;
+                    String creator = tv_dialog_creator.getText().toString().trim();
+                    String variant = tv_dialog_variant.getText().toString().trim();
+                    String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
+                    String quantity = tv_quantity.getText().toString().trim();
+                    String idProduct = IDProduct;
 
-                Window window = dialog.getWindow();
-                window.setGravity(Gravity.BOTTOM);
-                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setCancelable(true);
-                Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
-                TextView tv_tap = dialog.findViewById(R.id.tv_tap);
-                tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                String image = url;
-                String name = tv_dialog_name.getText().toString().trim();
-                String price_name = price;
-                String creator = tv_dialog_creator.getText().toString().trim();
-                String variant = tv_dialog_variant.getText().toString().trim();
-                String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
-                String quantity = tv_quantity.getText().toString().trim();
-                String idProduct = IDProduct;
-
-                CartRoom cartRoom = new CartRoom();
-                cartRoom.setProductID(idProduct);
-                cartRoom.setImage(url);
-                cartRoom.setName(name);
-                cartRoom.setCreator(creator);
-                cartRoom.setVariant(variant);
-                cartRoom.setPrice(price_name);
-                cartRoom.setPriceEach(totalprice);
-                cartRoom.setQuantity(quantity);
-                cartRoom.setShop_id(shop_uid);
-                CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
+                    CartRoom cartRoom = new CartRoom();
+                    cartRoom.setProductID(idProduct);
+                    cartRoom.setImage(url);
+                    cartRoom.setName(name);
+                    cartRoom.setCreator(creator);
+                    cartRoom.setVariant(variant);
+                    cartRoom.setPrice(price_name);
+                    cartRoom.setPriceEach(totalprice);
+                    cartRoom.setQuantity(quantity);
+                    cartRoom.setShop_id(shop_uid);
+                    CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
 
 
-                btn_Ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                        CustomToast.makeText(ProductDetail.this, "" + getText(R.string.product_cart), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
-                        btn_Add_to_cart.setOnClickListener(null);
-                        btn_Add_to_cart.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_buy_fail));
-                        btn_Add_to_cart.setTextColor(Color.parseColor("#414040"));
-                        btn_Add_to_cart.setText("Đã thêm vào giỏ hàng");
-                    }
-                });
-                tv_tap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    btn_Ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            CustomToast.makeText(ProductDetail.this, "" + getText(R.string.product_cart), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+                            btn_Add_to_cart.setOnClickListener(null);
+                            btn_Add_to_cart.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_buy_fail));
+                            btn_Add_to_cart.setTextColor(Color.parseColor("#414040"));
+                            btn_Add_to_cart.setText("Đã thêm vào giỏ hàng");
+                        }
+                    });
+                    tv_tap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                    }
-                });
-                dialog.show();
+                        }
+                    });
+                    dialog.show();
+                }
             }
         });
 
@@ -310,56 +356,11 @@ public class ProductDetail extends AppCompatActivity {
     }
 
 
-    private void onClickToWishList() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myWish = database.getReference("Product/" + name);
-        myWish.child("name").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@androidx.annotation.NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
-                Product product = new Product();
-                tv_product_name.setText(dataSnapshot.child("name").getValue().toString());
-                String image = dataSnapshot.child("image").getValue().toString();
-                Glide.with(ProductDetail.this).load(image).placeholder(R.drawable.fram1).into(img_product_detail);
-                tv_creator.setText(dataSnapshot.child("creator").getValue().toString());
-                tv_variant.setText(dataSnapshot.child("variant").getValue().toString());
-                tv_desc.setText(dataSnapshot.child("desc").getValue().toString());
-                tv_price.setText(dataSnapshot.child("price").getValue().toString());
-
-                Boolean value = (Boolean) dataSnapshot.child("favourite").getValue();
-                if (value == true) {
-                    ivToolbarRight.setImageResource(R.drawable.ic_heat_click);
-                } else {
-                    ivToolbarRight.setImageResource(R.drawable.icon_love);
-                }
-            }
-
-            @Override
-            public void onChildChanged(@androidx.annotation.NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@androidx.annotation.NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@androidx.annotation.NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(this, LoginActivity.class));
+            finishAffinity();
         }
     }
 

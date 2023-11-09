@@ -229,6 +229,8 @@ public class HomeFragment extends Fragment {
                     String quantity = "";
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("("+quantity+")");
+                    String id = getData.child("id").getValue() +"";
+                    product.setId(id);
                     productNewList.add(product);
 
                 }

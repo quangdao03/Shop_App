@@ -252,23 +252,6 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void loadPaymentCart() {
-//
-//        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(this);
-//        Cursor cursor = myDatabaseHelper.readAllData();
-//        while (cursor.moveToNext()){
-//            String id = cursor.getString(0);
-//            String idProduct = cursor.getString(1);
-//            String image = cursor.getString(2);
-//            String name = cursor.getString(3);
-//            String creator = cursor.getString(4);
-//            String variant = cursor.getString(5);
-//            String price = cursor.getString(6);
-//            String priceEach = cursor.getString(7);
-//            String quantity = cursor.getString(8);
-//
-//            Cart cart = new Cart(""+id,""+idProduct,""+image,""+name,""+creator,""+variant,""+price,""+priceEach,""+quantity);
-//            cartList.add(cart);
-//        }
         cartList = CartDatabase.getInstance(CheckoutActivity.this).cartDAO().getAllCart();
         paymentAdapter = new PaymentAdapter(this, cartList, new PaymentAdapter.iClickListener() {
             @Override
@@ -285,10 +268,6 @@ public class CheckoutActivity extends AppCompatActivity {
                 cost = Double.parseDouble(priceEach);
 
                 Qquantity = 1;
-//                MyDatabaseHelper myDB = new MyDatabaseHelper(CheckoutActivity.this);
-//                String productID = cart.getProductID();
-//                myDB.deleteData(productID);
-//                paymentAdapter.notifyDataSetChanged();
                 double tx = Double.parseDouble(tv_price_total.getText().toString().trim());
                 totalPrice1 = tx - Double.parseDouble(priceEach);
 
