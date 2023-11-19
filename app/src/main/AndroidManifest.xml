@@ -47,10 +47,10 @@
             android:name=".activity.AddProductSeller"
             android:exported="false" />
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name=".activity.MainActivitySeller"
             android:exported="true"
-            android:label="@string/app_home" />
+            android:label="@string/app_home"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ChangeLanguage"
             android:exported="false" />
@@ -92,9 +92,9 @@
                 android:value="" />
         </activity>
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name=".activity.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true"

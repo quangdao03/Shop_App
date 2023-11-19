@@ -4,27 +4,22 @@ package com.example.shop_app.dash.sellerdash;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
 import com.example.shop_app.activity.AddProductSeller;
 import com.example.shop_app.activity.ChatActivitySeller;
-import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.adapter.ProductAdapterSeller;
 import com.example.shop_app.databinding.FragmentHomeSellerBinding;
 import com.example.shop_app.model.CostOrder;
@@ -36,7 +31,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -57,7 +51,7 @@ public class HomeFragmentSeller extends Fragment {
     List<CostOrder> costOrderList = new ArrayList<>();
 
     SearchView edt_search;
-    int a;
+
 
     FragmentHomeSellerBinding binding;
 
@@ -104,33 +98,32 @@ public class HomeFragmentSeller extends Fragment {
 
     private void loadAllOrder() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/Orders");
-        Query query = ref.orderByChild("orderCost");
+        ref.orderByChild("shop_uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (costOrderList != null) {
+                            costOrderList.clear();
+                        }
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Order orderSeller = ds.getValue(Order.class);
+                            CostOrder costOrder = ds.getValue(CostOrder.class);
+                            costOrderList.add(costOrder);
+                        }
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (costOrderList != null) {
-                    costOrderList.clear();
-                }
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Order orderSeller = ds.getValue(Order.class);
-                    CostOrder costOrder = ds.getValue(CostOrder.class);
-                    costOrderList.add(costOrder);
-                }
+                        List<CostOrder> myList1 = costOrderList;
+                        int sum = 0;
+                        for (int i = 0; i < myList1.size(); i++) {
+                            sum += Integer.parseInt(myList1.get(i).getOrderCost());
+                        }
+                        txt_PriceAll.setText(sum + " $");
+                    }
 
-                List<CostOrder> myList1 = costOrderList;
-                int sum = 0;
-                for (int i = 0; i < myList1.size(); i++) {
-                    sum += Integer.parseInt(myList1.get(i).getOrderCost());
-                }
-                txt_PriceAll.setText(sum + " $");
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                    }
+                });
     }
 
     private void getProductSeller() {
@@ -159,6 +152,7 @@ public class HomeFragmentSeller extends Fragment {
                     quantity = getData.child("quantity").getValue().toString();
                     product.setQuantity("(" + quantity + ")");
                     product.setDesc(getData.child("desc").getValue().toString());
+                    product.setId(getData.child("id").getValue().toString());
                     productList.add(product);
                 }
                 productAdapter = new ProductAdapterSeller(getContext(), productList);
@@ -196,6 +190,7 @@ public class HomeFragmentSeller extends Fragment {
                             String shop_name = "" + dataSnapshot.child("shop_name").getValue();
                             Utils.ImageSeller = image;
                             Utils.name_shop = shop_name;
+                            binding.tvShopname.setText("Shop name: " + shop_name);
 
                         }
                     }

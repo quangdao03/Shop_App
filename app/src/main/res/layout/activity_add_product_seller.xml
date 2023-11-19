@@ -19,14 +19,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <com.makeramen.roundedimageview.RoundedImageView
+                app:riv_corner_radius="@dimen/dp10"
+                android:layout_marginHorizontal="@dimen/dp20"
                 android:id="@+id/profileIv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/profile"
-                app:civ_border_color="@color/color_app"
-                app:civ_border_width="1dp" />
+                android:src="@drawable/banner_product" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/titleEdt"
@@ -137,6 +137,7 @@
 
 
             <TextView
+                android:layout_marginBottom="@dimen/dp10"
                 android:backgroundTint="@color/color_app"
                 android:background="@drawable/bg_button_normal"
                 android:fontFamily="@font/readex"

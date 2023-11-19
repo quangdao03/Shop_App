@@ -1,6 +1,7 @@
 package com.example.shop_app.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.EditProductSeller;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.model.Product;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,22 +59,43 @@ public class ProductAdapterSeller extends RecyclerView.Adapter<ProductAdapterSel
         holder.name_product_seller.setText(product.getName());
         holder.tv_variant.setText(product.getVariant());
         holder.tv_detail.setText(product.getDesc());
-        holder.image_edit.setOnClickListener(view -> {
-
-        });
         holder.image_delete.setOnClickListener(view -> {
-
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder
+                    .setMessage("Bạn có chắc chắn muốn xóa sản phẩm "+product.getName()+ "?")
+                    .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteProduct(product.getId());
+                        }
+                    })
+                    .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        });
+        holder.image_edit.setOnClickListener(view -> {
+            Intent intent = new Intent(context, EditProductSeller.class);
+            intent.putExtra("productId", product.getId());
+            context.startActivity(intent);
         });
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, ProductDetail.class);
-//                intent.putExtra("name",product.getName());
-//                context.startActivity(intent);
-//            }
-//        });
-
+    }
+    private void deleteProduct(String id) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product");
+        reference.child(id).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
     public void filterList(ArrayList<Product> filterllist) {
         productList = filterllist;

@@ -59,7 +59,7 @@ public class AddProductSeller extends AppCompatActivity {
     List<Category> categoryList = new ArrayList<>();
 
     private String productTitle, productDescription, productCategory, productQuantity,
-            originalPrice ,creator,variant;
+            originalPrice, creator, variant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,27 +79,28 @@ public class AddProductSeller extends AppCompatActivity {
         viewClick();
     }
 
-    private void  loadCategory(){
+    private void loadCategory() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Categorys");
         reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        categoryList.clear();
-                        for (DataSnapshot ds: snapshot.getChildren()){
-                            Category category = ds.getValue(Category.class);
-                            categoryList.add(category);
-                        }
-                    }
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                categoryList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Category category = ds.getValue(Category.class);
+                    categoryList.add(category);
+                }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+            }
+        });
     }
-    private void  CategoryPickDialog(){
+
+    private void CategoryPickDialog() {
         String[] categoriesArray = new String[categoryList.size()];
-        for (int i = 0; i < categoryList.size(); i++){
+        for (int i = 0; i < categoryList.size(); i++) {
             categoriesArray[i] = categoryList.get(i).getName();
         }
 
@@ -115,10 +116,11 @@ public class AddProductSeller extends AppCompatActivity {
                 })
                 .show();
     }
+
     private void viewClick() {
         binding.toolbar.ivToolbarLeft.setImageResource(R.drawable.ic_left);
         hideView(binding.toolbar.ivToolbarRight);
-        binding.toolbar.tvTitleToolbar.setText("Add product");
+        binding.toolbar.tvTitleToolbar.setText("Thêm sản phẩm");
         binding.toolbar.ivToolbarLeft.setOnClickListener(view -> {
             onBackPressed();
             finish();
@@ -133,8 +135,9 @@ public class AddProductSeller extends AppCompatActivity {
             inputData();
         });
     }
+
     private void inputData() {
-        if (!validateName() | !validateDescription() | !validateQuantity() | !validatePrice() |!validateVariant() |!validateCreator()){
+        if (!validateName() | !validateDescription() | !validateQuantity() | !validatePrice() | !validateVariant() | !validateCreator()) {
             return;
         }
         productTitle = binding.titleEdt.getEditText().getText().toString().trim();
@@ -147,25 +150,26 @@ public class AddProductSeller extends AppCompatActivity {
 
         addProduct();
     }
+
     private void addProduct() {
         progressDialog.setMessage("Đang thêm sản phẩm");
         progressDialog.show();
-        String timestamp = ""+System.currentTimeMillis();
-        if (image_uri == null){
+        String timestamp = "" + System.currentTimeMillis();
+        if (image_uri == null) {
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("id",""+timestamp);
-            hashMap.put("name",""+productTitle);
-            hashMap.put("image","");
-            hashMap.put("desc",""+productDescription);
-            hashMap.put("category",""+productCategory);
-            hashMap.put("quantity",""+productQuantity);
-            hashMap.put("price",""+originalPrice);
-            hashMap.put("timestamp",""+timestamp);
-            hashMap.put("creator",""+creator);
-            hashMap.put("variant",variant);
-            hashMap.put("favourite",false);
-            hashMap.put("rate",0);
-            hashMap.put("uid",""+firebaseAuth.getUid());
+            hashMap.put("id", "" + timestamp);
+            hashMap.put("name", "" + productTitle);
+            hashMap.put("image", "");
+            hashMap.put("desc", "" + productDescription);
+            hashMap.put("category", "" + productCategory);
+            hashMap.put("quantity", "" + productQuantity);
+            hashMap.put("price", "" + originalPrice);
+            hashMap.put("timestamp", "" + timestamp);
+            hashMap.put("creator", "" + creator);
+            hashMap.put("variant", variant);
+            hashMap.put("favourite", false);
+            hashMap.put("rate", 0);
+            hashMap.put("uid", "" + firebaseAuth.getUid());
 
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product");
@@ -182,11 +186,10 @@ public class AddProductSeller extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(AddProductSeller.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProductSeller.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }
-        else {
+        } else {
             String filePathAndName = "product_image/" + "" + firebaseAuth.getUid();
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
@@ -195,23 +198,23 @@ public class AddProductSeller extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isSuccessful());
+                            while (!uriTask.isSuccessful()) ;
                             Uri downloadImageUri = uriTask.getResult();
-                            if (uriTask.isSuccessful()){
+                            if (uriTask.isSuccessful()) {
                                 HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("id",""+timestamp);
-                                hashMap.put("name",""+productTitle);
-                                hashMap.put("image",""+downloadImageUri);
-                                hashMap.put("desc",""+productDescription);
-                                hashMap.put("category",""+productCategory);
-                                hashMap.put("quantity",""+productQuantity);
-                                hashMap.put("price",""+originalPrice);
-                                hashMap.put("timestamp",""+timestamp);
-                                hashMap.put("creator",""+creator);
-                                hashMap.put("variant",variant);
-                                hashMap.put("favourite",false);
-                                hashMap.put("rate",0);
-                                hashMap.put("uid",""+firebaseAuth.getUid());
+                                hashMap.put("id", "" + timestamp);
+                                hashMap.put("name", "" + productTitle);
+                                hashMap.put("image", "" + downloadImageUri);
+                                hashMap.put("desc", "" + productDescription);
+                                hashMap.put("category", "" + productCategory);
+                                hashMap.put("quantity", "" + productQuantity);
+                                hashMap.put("price", "" + originalPrice);
+                                hashMap.put("timestamp", "" + timestamp);
+                                hashMap.put("creator", "" + creator);
+                                hashMap.put("variant", variant);
+                                hashMap.put("favourite", false);
+                                hashMap.put("rate", 0);
+                                hashMap.put("uid", "" + firebaseAuth.getUid());
 
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product");
                                 reference.child(timestamp).setValue(hashMap)
@@ -227,7 +230,7 @@ public class AddProductSeller extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(AddProductSeller.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AddProductSeller.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -241,78 +244,85 @@ public class AddProductSeller extends AppCompatActivity {
                     });
         }
     }
-    private Boolean validateName(){
+
+    private Boolean validateName() {
         String val = binding.titleEdt.getEditText().getText().toString();
-        if (val.isEmpty()){
+        if (val.isEmpty()) {
             binding.titleEdt.setError("Vui lòng nhập đầy đủ thông tin");
             binding.titleEdt.requestFocus();
             return false;
-        }else {
+        } else {
             binding.titleEdt.setError(null);
             binding.titleEdt.setErrorEnabled(false);
             return true;
         }
     }
-    private Boolean validateVariant(){
+
+    private Boolean validateVariant() {
         String val = binding.tvVariant.getEditText().getText().toString();
-        if (val.isEmpty()){
+        if (val.isEmpty()) {
             binding.tvVariant.setError("Vui lòng nhập đầy đủ thông tin");
             binding.tvVariant.requestFocus();
             return false;
-        }else {
+        } else {
             binding.tvVariant.setError(null);
             binding.tvVariant.setErrorEnabled(false);
             return true;
         }
     }
-    private Boolean validateCreator(){
+
+    private Boolean validateCreator() {
         String val = binding.titleEdtCreator.getEditText().getText().toString();
-        if (val.isEmpty()){
+        if (val.isEmpty()) {
             binding.titleEdtCreator.setError("Vui lòng nhập đầy đủ thông tin");
             binding.titleEdtCreator.requestFocus();
             return false;
-        }else {
+        } else {
             binding.titleEdtCreator.setError(null);
             binding.titleEdtCreator.setErrorEnabled(false);
             return true;
         }
     }
-    private Boolean validateDescription(){
+
+    private Boolean validateDescription() {
         String val = binding.descriptionEdt.getEditText().getText().toString();
-        if (val.isEmpty()){
+        if (val.isEmpty()) {
             binding.descriptionEdt.setError("Vui lòng nhập đầy đủ thông tin");
             binding.descriptionEdt.requestFocus();
             return false;
-        }else {
+        } else {
             binding.descriptionEdt.setError(null);
             binding.descriptionEdt.setErrorEnabled(false);
             return true;
         }
     }
-    private Boolean validateQuantity(){
+
+    private Boolean validateQuantity() {
         String val = binding.quantityEdt.getEditText().getText().toString();
-        if (val.isEmpty()){
+        if (val.isEmpty()) {
             binding.quantityEdt.setError("Vui lòng nhập đầy đủ thông tin");
             binding.quantityEdt.requestFocus();
             return false;
-        }else {
+        } else {
             binding.quantityEdt.setError(null);
             binding.quantityEdt.setErrorEnabled(false);
             return true;
         }
     }
-    private Boolean validatePrice(){
+
+    private Boolean validatePrice() {
         String val = binding.priceEdt.getEditText().getText().toString();
-        if (val.isEmpty()){
+        if (val.isEmpty()) {
             binding.priceEdt.setError("Vui lòng nhập đầy đủ thông tin");
             binding.priceEdt.requestFocus();
             return false;
-        }else {
+        } else {
             binding.priceEdt.setError(null);
             binding.priceEdt.setErrorEnabled(false);
             return true;
         }
     }
+
     private void showImagePickDialog() {
         String[] options = {"Camera", "Gallery"};
 
