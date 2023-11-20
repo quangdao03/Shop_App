@@ -3,6 +3,7 @@ package com.example.shop_app.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.PaymentAdapter;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
+import com.example.shop_app.zalo.CreateOrder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,11 +31,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import vn.momo.momo_partner.AppMoMoLib;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CheckoutActivity extends AppCompatActivity {
     TextView tv_edit_location, tv_username, tv_phone, tv_address, tv_addresS_dialog, tvTitleToolbar, tv_price_total, tv_price_paymentAll;
@@ -45,7 +53,7 @@ public class CheckoutActivity extends AppCompatActivity {
     PaymentAdapter paymentAdapter;
     private ProgressDialog progressDialog;
     String a = "";
-    Button btn_submitOder, btn_submitOderMomo;
+    Button btn_submitOder, btn_submitOderMomo,btn_zalopay;
     private double cost = 0;
     private double finalCost = 0;
 
@@ -58,13 +66,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public double totalpriceAll = 0.0;
 
-    private String amount = "10000";
-    private int fee;
-    int environment = 0;//developer default
-    private String merchantName = "LE QUANG DAO";
-    private String merchantCode = "SCB01";
-    private String merchantNameLabel = "QuangDao";
-    private String description = "Thanh toán mua hàng online";
+
 
 
     @Override
@@ -72,6 +74,14 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT);
+        //zalopay
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
+
         mapping();
         getSupportActionBar().hide();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -131,6 +141,148 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+//        btn_zalopay.setOnClickListener(view -> {
+//            double total = Double.parseDouble(tv_price_paymentAll.getText().toString().trim());
+//            if (total == 0) {
+//                Toast.makeText(this, "" + getText(R.string.please_wait_cart), Toast.LENGTH_SHORT).show();
+//            } else {
+//                for (int i = 0; i < cartList.size(); i++) {
+//                    nameProduct = cartList.get(i).getName();
+//                    shop_uid = cartList.get(i).getShop_id();
+//                }
+//                String timestamp = "" + System.currentTimeMillis();
+//                String cost = tv_price_paymentAll.getText().toString().trim();
+//                String address = tv_address.getText().toString().trim();
+//                String name = tv_username.getText().toString().trim();
+//                String phone = tv_phone.getText().toString().trim();
+//                HashMap<String, String> hashMap = new HashMap<>();
+//                hashMap.put("orderId", timestamp);
+//                hashMap.put("orderTime", timestamp);
+//                hashMap.put("orderStatus", "Đang xử lý");
+//                hashMap.put("orderName", name);
+//                hashMap.put("orderPhone", phone);
+//                hashMap.put("orderAddress", "" + address);
+//                hashMap.put("orderCost", "" + cost);
+//                hashMap.put("orderBy", "" + firebaseAuth.getUid());
+//                hashMap.put("orderNameProduct", nameProduct);
+//                hashMap.put("shop_uid",shop_uid);
+//
+//                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
+//                reference.child(timestamp).setValue(hashMap)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                for (int i = 0; i < cartList.size(); i++) {
+//                                    id = cartList.get(i).getCart_ID();
+//                                    String name = cartList.get(i).getName();
+//                                    String imgage = cartList.get(i).getImage();
+//                                    String productID = cartList.get(i).getProductID();
+//                                    String price = cartList.get(i).getPrice();
+//                                    String priceEach = cartList.get(i).getPriceEach();
+//                                    String quantity = cartList.get(i).getQuantity();
+//                                    String variant = cartList.get(i).getVariant();
+//                                    String shop_uid = cartList.get(i).getShop_id();
+//                                    HashMap<String, String> hashMap1 = new HashMap<>();
+//                                    hashMap1.put("productID", productID);
+//                                    hashMap1.put("name", name);
+//                                    hashMap1.put("price", price);
+//                                    hashMap1.put("priceEach", priceEach);
+//                                    hashMap1.put("quantity", quantity);
+//                                    hashMap1.put("image", imgage);
+//                                    hashMap1.put("variant", variant);
+//                                    hashMap1.put("shop_uid",shop_uid);
+//                                    reference.child(timestamp).child("Items").child(productID).setValue(hashMap1);
+//                                }
+//
+//                                requestZalo(timestamp,shop_uid);
+//                                for (int i = 0; i < cartList.size(); i++) {
+//                                    productID = cartList.get(i).getProductID();
+//                                }
+//                                for (int i = 0; i < cartList.size(); i++) {
+//                                    CartRoom cart = cartList.get(i);
+//                                    Log.d("cart", cart.toString());
+//                                    CartDatabase.getInstance(CheckoutActivity.this).cartDAO().deleteCart(cart);
+//                                }
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                progressDialog.dismiss();
+//                                Toast.makeText(CheckoutActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//
+//
+//            }
+//
+//        });
+        btn_zalopay.setOnClickListener(view -> {
+            CreateOrder orderApi = new CreateOrder();
+            try {
+                JSONObject data = orderApi.createOrder("10000");
+                String code = data.getString("return_code");
+                Log.d("test_daoo",code + orderApi.toString());
+                if (code.equals("1")) {
+                    String token = data.getString("zp_trans_token");
+                    Log.d("test_daoo",token);
+                    ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                        @Override
+                        public void onPaymentSucceeded(String s, String s1, String s2) {
+                            Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onPaymentCanceled(String s, String s1) {
+
+                        }
+
+                        @Override
+                        public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+
+                        }
+                    });
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void requestZalo(String timestamp,String shop_uid){
+        CreateOrder orderApi = new CreateOrder();
+        try {
+            JSONObject data = orderApi.createOrder("100000");
+            String code = data.getString("return_code");
+            if (code.equals("1")) {
+                String token = data.getString("zp_trans_token");
+                ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                    @Override
+                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                        Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
+                        intent.putExtra("orderId", timestamp);
+                        intent.putExtra("orderTo", shop_uid);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onPaymentCanceled(String s, String s1) {
+
+                    }
+
+                    @Override
+                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -398,5 +550,11 @@ public class CheckoutActivity extends AppCompatActivity {
         btn_submitOder = findViewById(R.id.btn_submitOder);
         tv_price_paymentAll = findViewById(R.id.tv_price_paymentAll);
         btn_submitOderMomo = findViewById(R.id.btn_submitOderMomo);
+        btn_zalopay = findViewById(R.id.btn_zalopay);
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 }
