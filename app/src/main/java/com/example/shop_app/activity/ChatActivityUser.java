@@ -40,10 +40,12 @@ public class ChatActivityUser extends AppCompatActivity {
     RecyclerView rcy_Chat;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
-    public static String ID_Seller;
+    String ID_Seller;
     ChatUserAdapter chatUserAdapter;
     List<ChatMessage> chatMessageList = new ArrayList<>();
     ProgressDialog progressDialog;
+
+    String shop_name;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,11 @@ public class ChatActivityUser extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText(R.string.chat);
+        ID_Seller = getIntent().getStringExtra("id");
+        shop_name = getIntent().getStringExtra("name");
+        tvTitleToolbar.setText(shop_name);
+
+
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +168,7 @@ public class ChatActivityUser extends AppCompatActivity {
         }else {
             HashMap<String,Object> message = new HashMap<>();
             message.put(Utils.SENDID,String.valueOf(firebaseAuth.getUid()));
-            message.put(Utils.RECEIVEDID,Utils.SELLERID);
+            message.put(Utils.RECEIVEDID,ID_Seller);
             message.put(Utils.MESS,edtMessage);
             message.put(Utils.DATETIME,new Date());
             message.put(Utils.IMAGE,Utils.Image);
@@ -174,10 +180,10 @@ public class ChatActivityUser extends AppCompatActivity {
 
         db.collection(Utils.PATH_CHAT)
                 .whereEqualTo(Utils.SENDID,String.valueOf(firebaseAuth.getUid()))
-                .whereEqualTo(Utils.RECEIVEDID,Utils.SELLERID)
+                .whereEqualTo(Utils.RECEIVEDID,ID_Seller)
                 .addSnapshotListener(eventListener);
         db.collection(Utils.PATH_CHAT)
-                .whereEqualTo(Utils.SENDID,Utils.SELLERID)
+                .whereEqualTo(Utils.SENDID,ID_Seller)
                 .whereEqualTo(Utils.RECEIVEDID,String.valueOf(firebaseAuth.getUid()))
                 .addSnapshotListener(eventListener);
 

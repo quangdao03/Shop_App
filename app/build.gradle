@@ -83,4 +83,6 @@ dependencies {
     //zalopay
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
     implementation("commons-codec:commons-codec:1.14")
+    configurations.maybeCreate("default")
+    artifacts.add("default", file('zpdk-release.aar'))
 }

@@ -122,6 +122,7 @@ public class Category_Product extends AppCompatActivity {
                     product.setName(getData.child("name").getValue().toString());
                     product.setPrice("Rp " + getData.child("price").getValue().toString());
                     product.setQuantity(getData.child("quantity").getValue().toString());
+                    product.setId(getData.child("id").getValue().toString());
                     Log.d("AAA", "" + getData);
                     productList.add(product);
                 }

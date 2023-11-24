@@ -25,6 +25,7 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ChatActivityUser;
+import com.example.shop_app.activity.ChatUserList;
 import com.example.shop_app.activity.LoginActivity;
 import com.example.shop_app.activity.MainActivity;
 import com.example.shop_app.activity.MainActivitySeller;
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment {
         ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), ChatActivityUser.class));
+                startActivity(new Intent(getContext(), ChatUserList.class));
             }
         });
         checkUserType();
@@ -255,6 +256,7 @@ public class HomeFragment extends Fragment {
                             String accountType = ""+ds.child("accountType").getValue();
                             if (accountType.equals("Seller")){
                                 Utils.SELLERID = ds.getKey();
+                                Log.d("key_seller",ds.getKey());
                             }
                         }
                     }
