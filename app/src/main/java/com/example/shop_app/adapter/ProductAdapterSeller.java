@@ -53,7 +53,7 @@ public class ProductAdapterSeller extends RecyclerView.Adapter<ProductAdapterSel
             return;
         }
         String url;
-        url = product.getUrl();
+        url = product.getImage();
         Glide.with(context).load(url).into(holder.image_product);
         holder.price_product_seller.setText(product.getPrice());
         holder.name_product_seller.setText(product.getName());

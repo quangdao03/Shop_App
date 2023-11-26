@@ -2,17 +2,18 @@ package com.example.shop_app.model;
 
 import android.widget.Filter;
 
-import com.example.shop_app.adapter.OrderSellerAdapter;
+import com.example.shop_app.adapter.OrderUserAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterOrderSeller extends Filter {
+public class FilterOrderUser extends Filter {
 
-    private OrderSellerAdapter adapter;
+    private OrderUserAdapter adapter;
     private ArrayList<Order> filterList;
 
-    public FilterOrderSeller(OrderSellerAdapter adapter, ArrayList<Order> filterList) {
+    public FilterOrderUser(OrderUserAdapter adapter, ArrayList<Order> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }

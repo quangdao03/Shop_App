@@ -8,7 +8,7 @@ import java.util.Map;
 public class Product {
 
     private String id;
-    private String url ;
+    private String image ;
     private String name;
     private String price;
     private String quantity;
@@ -23,9 +23,9 @@ public class Product {
 
     public Product(){}
 
-    public Product(String id, String url, String name, String price, String quantity, int rate, String variant, String desc, String creator, Boolean favourite, String category, String uid) {
+    public Product(String id, String image, String name, String price, String quantity, int rate, String variant, String desc, String creator, Boolean favourite, String category, String uid) {
         this.id = id;
-        this.url = url;
+        this.image = image;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -46,12 +46,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImage() {
+        return image;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {
@@ -138,7 +138,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id='" + id + '\'' +
-                ", url='" + url + '\'' +
+                ", image='" + image + '\'' +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", quantity='" + quantity + '\'' +

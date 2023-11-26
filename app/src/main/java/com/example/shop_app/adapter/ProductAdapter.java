@@ -43,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ListView
             return;
         }
         String url;
-        url = product.getUrl();
+        url = product.getImage();
         Glide.with(context).load(url).into(holder.productImage);
         // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());

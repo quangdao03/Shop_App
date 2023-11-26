@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.adapter.OrderSellerAdapter;
 import com.example.shop_app.adapter.OrderUserAdapter;
 import com.example.shop_app.model.Order;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,7 @@ public class OrderFragmentSeller extends Fragment {
     ImageView ivToolbarLeft,ivToolbarRight;
     RecyclerView rcy_List_Order;
 
-    OrderUserAdapter orderUserAdapter;
+    OrderSellerAdapter orderSellerAdapter;
 
     List<Order> orderList = new ArrayList<>();
     FirebaseAuth firebaseAuth;
@@ -60,11 +61,11 @@ public class OrderFragmentSeller extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (i == 0){
                                     tv_sort.setText("All");
-                                    orderUserAdapter.getFilter().filter("");
+                                    orderSellerAdapter.getFilter().filter("");
                                 }else  {
                                     String optionClicked = options[i];
                                     tv_sort.setText(optionClicked);
-                                    orderUserAdapter.getFilter().filter(optionClicked);
+                                    orderSellerAdapter.getFilter().filter(optionClicked);
                                 }
                             }
                         }).show();
@@ -89,8 +90,8 @@ public class OrderFragmentSeller extends Fragment {
                             Order orderSeller = ds.getValue(Order.class);
                             orderList.add(0,orderSeller);
                         }
-                        orderUserAdapter = new OrderUserAdapter(getContext(), orderList);
-                        rcy_List_Order.setAdapter(orderUserAdapter);
+                        orderSellerAdapter = new OrderSellerAdapter(getContext(), orderList);
+                        rcy_List_Order.setAdapter(orderSellerAdapter);
                     }
 
                     @Override

@@ -20,6 +20,8 @@ public class Utils {
 
     public static String name_shop = "";
 
+    public static String FCM_KEY = "AAAABpqTFpo:APA91bE7CQdDsYuLaaIHzYmYsrTpbEVBZcPChAD9kKdMHRCLSqxGj4Y0cVf8_gY_v7Vz_4i0PzZP4nvQrf-Uv92FpQDEqhIDUra8x6olHpuUFe-BKUB4lgm8sCBvHfiYxQKL2J7mfZce";
+    public static final String FCM_TOPIC = "PUSH_NOTIFICATIONS";
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(

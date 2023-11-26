@@ -16,10 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.PaymentAdapter;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
+import com.example.shop_app.utils.Utils;
 import com.example.shop_app.zalo.CreateOrder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,6 +42,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import vn.momo.momo_partner.AppMoMoLib;
 import vn.zalopay.sdk.Environment;
@@ -298,6 +305,7 @@ public class CheckoutActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(CheckoutActivity.this, LoginActivity.class));
+            finishAffinity();
         } else {
             onGetDataUser();
         }
@@ -362,7 +370,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 if (cartList == null) {
                     finish();
                 }
-
+                CartDatabase.getInstance(CheckoutActivity.this).cartDAO().deleteCart(cart);
             }
         });
         paymentAdapter.notifyDataSetChanged();
@@ -401,7 +409,7 @@ public class CheckoutActivity extends AppCompatActivity {
             hashMap.put("orderNameProduct", nameProduct);
             hashMap.put("shop_uid",shop_uid);
             hashMap.put("orderPayments","Tiền mặt");
-
+            checkToken();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Orders");
             reference.child(timestamp).setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -430,10 +438,7 @@ public class CheckoutActivity extends AppCompatActivity {
                             }
                             progressDialog.dismiss();
                             Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
-                            intent.putExtra("orderId", timestamp);
-                            intent.putExtra("orderTo", shop_uid);
-                            startActivity(intent);
+                            prepareNotificationMessage(timestamp,shop_uid);
                             for (int i = 0; i < cartList.size(); i++) {
                                 productID = cartList.get(i).getProductID();
                             }
@@ -483,4 +488,82 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
+    String token_user;
+    private void prepareNotificationMessage(String orderId, String shop_uid){
+        String NOTIFICATION_TOPIC = token_user;
+        String NOTIFICATION_TITLE = "Đơn hàng mới " + orderId;
+        String NOTIFICATION_MESSAGE = "Chúc mừng..! Bạn có đơn hàng mới. ";
+        String NOTIFICATION_TYPE = "NewOrder";
+
+        JSONObject notificationJson = new JSONObject();
+        JSONObject notificationBodyJson = new JSONObject();
+        try {
+            notificationBodyJson.put("notificationType" , NOTIFICATION_TYPE);
+            notificationBodyJson.put("buyerUid" , firebaseAuth.getUid());
+            notificationBodyJson.put("sellerUid" , shop_uid);
+            notificationBodyJson.put("orderId" , orderId);
+            notificationBodyJson.put("notificationTitle" , NOTIFICATION_TITLE);
+            notificationBodyJson.put("notificationMessage" , NOTIFICATION_MESSAGE);
+
+            notificationJson.put("to", NOTIFICATION_TOPIC);
+            notificationJson.put("data", notificationBodyJson);
+
+        }catch (Exception e){
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        sendFcmNotification(notificationJson, orderId, shop_uid);
+    }
+
+    private void sendFcmNotification(JSONObject notificationJson, String orderId, String shop_uid) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJson, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("FCM", "Thành công: " + response.toString());
+                Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
+                intent.putExtra("orderId", orderId);
+                intent.putExtra("orderTo", shop_uid);
+                startActivity(intent);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("FCM", "Lỗi: " + error.toString());
+                Intent intent = new Intent(  CheckoutActivity.this, OrderDetailUser.class);
+                intent.putExtra("orderId", orderId);
+                intent.putExtra("orderTo", shop_uid);
+                startActivity(intent);
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "key=" + Utils.FCM_KEY);
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+    private void checkToken(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.orderByChild("uid").equalTo(shop_uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    token_user = (String) dataSnapshot.child("token").getValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
 }

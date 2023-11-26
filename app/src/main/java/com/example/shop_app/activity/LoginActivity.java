@@ -191,11 +191,10 @@ public class LoginActivity extends AppCompatActivity {
                             String accountType = ""+ds.child("accountType").getValue();
                             if (accountType.equals("User")){
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
                             }else {
                                 startActivity(new Intent(LoginActivity.this,MainActivitySeller.class));
                             }
-
+                            finish();
                         }
                     }
 

@@ -15,8 +15,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
-import com.example.shop_app.activity.OrderDetailUser;
-import com.example.shop_app.model.FilterOrderUser;
+import com.example.shop_app.activity.OrderSellerDetail;
+import com.example.shop_app.model.FilterOrderSeller;
 import com.example.shop_app.model.Order;
 
 import java.text.SimpleDateFormat;
@@ -24,29 +24,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.ListViewHolder> implements Filterable {
+public class OrderSellerAdapter extends RecyclerView.Adapter<OrderSellerAdapter.ListViewHolder> implements Filterable {
     Context context;
 
     public List<Order> orderList, filterList;
-    public FilterOrderUser filter;
+    public FilterOrderSeller filter;
     private double cost = 0;
     private double finalCost = 0;
     private int Qquantity = 1;
-    public OrderUserAdapter(Context context, List<Order> orderList) {
+    public OrderSellerAdapter(Context context, List<Order> orderList) {
         this.context = context;
         this.orderList = orderList;
         this.filterList = orderList;
     }
     @NonNull
     @Override
-    public OrderUserAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OrderSellerAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_listorder,parent,false);
-        return new OrderUserAdapter.ListViewHolder(view);
+        return new OrderSellerAdapter.ListViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderUserAdapter.ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull OrderSellerAdapter.ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Order order = orderList.get(position);
 
         String OrderId  = order.getOrderID();
@@ -76,8 +76,9 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, OrderDetailUser.class);
+                Intent intent = new Intent(context, OrderSellerDetail.class);
                 intent.putExtra("orderId", time);
+                intent.putExtra("orderBy",orderBy);
                 context.startActivity(intent);
             }
         });
@@ -94,7 +95,7 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
     @Override
     public Filter getFilter() {
         if (filter == null){
-            filter = new FilterOrderUser(this, (ArrayList<Order>) filterList);
+            filter = new FilterOrderSeller(this, (ArrayList<Order>) filterList);
         }
         return filter;
     }

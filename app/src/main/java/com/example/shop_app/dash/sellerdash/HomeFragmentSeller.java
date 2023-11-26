@@ -4,6 +4,7 @@ package com.example.shop_app.dash.sellerdash;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,15 @@ import com.example.shop_app.model.CostOrder;
 import com.example.shop_app.model.Order;
 import com.example.shop_app.model.Product;
 import com.example.shop_app.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +69,20 @@ public class HomeFragmentSeller extends Fragment {
         viewClick();
         getProductSeller();
         loadAllOrder();
+        onToken();
         return binding.getRoot();
+    }
+
+    private void onToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()){
+                    String token = task.getResult();
+                    Log.i("token_app",token);
+                }
+            }
+        });
     }
 
     private void viewClick() {
@@ -144,15 +161,16 @@ public class HomeFragmentSeller extends Fragment {
                     productList.clear();
                 }
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString() + " $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("(" + quantity + ")");
-                    product.setDesc(getData.child("desc").getValue().toString());
-                    product.setId(getData.child("id").getValue().toString());
+//                    Product product = new Product();
+//                    product.setImage(getData.child("image").getValue().toString());
+//                    product.setName(getData.child("name").getValue().toString());
+//                    product.setPrice(getData.child("price").getValue().toString() + " $");
+//                    String quantity = "";
+//                    quantity = getData.child("quantity").getValue().toString();
+//                    product.setQuantity("(" + quantity + ")");
+//                    product.setDesc(getData.child("desc").getValue().toString());
+//                    product.setId(getData.child("id").getValue().toString());
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
                 }
                 productAdapter = new ProductAdapterSeller(getContext(), productList);

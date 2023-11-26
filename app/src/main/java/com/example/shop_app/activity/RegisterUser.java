@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.example.shop_app.R;
 import com.example.shop_app.databinding.ActivityRegisterUserBinding;
 import com.example.shop_app.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -66,6 +68,8 @@ public class RegisterUser extends AppCompatActivity {
     LinearLayout ll_register_user;
 
     ActivityRegisterUserBinding binding;
+    private final String TAG = RegisterUser.class.getName();
+    String token;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,18 @@ public class RegisterUser extends AppCompatActivity {
             }
         };
         ll_register_user.setOnTouchListener(touchListener);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    Log.d(TAG,"FCM fail",task.getException());
+                    return;
+                }
+                token = task.getResult();
+                Log.d(TAG,token);
+            }
+        });
     }
 
 
@@ -234,6 +250,7 @@ public class RegisterUser extends AppCompatActivity {
             hashMap.put("accountType", "User");
             hashMap.put("online", "true");
             hashMap.put("profileImage", "");
+            hashMap.put("token",token);
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
             reference.child(firebaseAuth.getUid()).setValue(hashMap)
@@ -277,6 +294,7 @@ public class RegisterUser extends AppCompatActivity {
                                 hashMap.put("accountType", "User");
                                 hashMap.put("online", "true");
                                 hashMap.put("profileImage", "" + downloadImageUri);
+                                hashMap.put("token",token);
 
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                 reference.child(firebaseAuth.getUid()).setValue(hashMap)
@@ -427,4 +445,6 @@ public class RegisterUser extends AppCompatActivity {
         txt_Login = findViewById(R.id.txt_Login);
 
     }
+
+
 }

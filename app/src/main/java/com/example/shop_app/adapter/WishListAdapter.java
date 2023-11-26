@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +62,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
         }
 
         String url;
-        url = product.getUrl();
+        url = product.getImage();
         Glide.with(context).load(url).into(holder.imag_wishlist);
         holder.tv_price.setText(product.getPrice());
         holder.tv_name.setText(product.getName());
@@ -153,6 +154,10 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 btn_AddToCart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+//                        int quantity_product = Integer.parseInt(quantity);
+//                        if (quantity_product <= 0) {
+//                            Toast.makeText(ProductDetail.this, "Xin lỗi, sản phẩm này là tạm thời hết hàng", Toast.LENGTH_SHORT).show();
+//                        }
                         dialog.dismiss();
                         final Dialog dialog = new Dialog(context);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

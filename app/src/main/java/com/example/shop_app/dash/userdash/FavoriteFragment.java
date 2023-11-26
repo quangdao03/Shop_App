@@ -79,14 +79,16 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot getData : snapshot.getChildren()) {
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString());
-                    product.setId(getData.child("id_product").getValue().toString());
-                    product.setVariant(getData.child("variant").getValue().toString());
-                    product.setCreator(getData.child("creator").getValue().toString());
-                    product.setUid(getData.child("shop_id").getValue().toString());
+//                    Product product = new Product();
+//                    product.setImage(getData.child("image").getValue().toString());
+//                    product.setName(getData.child("name").getValue().toString());
+//                    product.setPrice(getData.child("price").getValue().toString());
+//                    product.setId(getData.child("id_product").getValue().toString());
+//                    product.setVariant(getData.child("variant").getValue().toString());
+//                    product.setCreator(getData.child("creator").getValue().toString());
+//                    product.setUid(getData.child("shop_id").getValue().toString());
+
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
                 }
 
@@ -125,7 +127,7 @@ public class FavoriteFragment extends Fragment {
                     Product product = snapshot.getValue(Product.class);
                     if (product != null) {
                         String url = snapshot.child("image").getValue().toString();
-                        product.setUrl(url);
+                        product.setImage(url);
                         productList.add(product);
                         wishListAdapter.notifyDataSetChanged();
                     }
@@ -184,14 +186,14 @@ public class FavoriteFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
-//                    Product product = getData.getValue(Product.class);
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString() + " $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("(" + quantity + ")");
+                    Product product = getData.getValue(Product.class);
+//                    Product product = new Product();
+//                    product.setImage(getData.child("image").getValue().toString());
+//                    product.setName(getData.child("name").getValue().toString());
+//                    product.setPrice(getData.child("price").getValue().toString() + " $");
+//                    String quantity = "";
+//                    quantity = getData.child("quantity").getValue().toString();
+//                    product.setQuantity("(" + quantity + ")");
                     products.add(product);
 
                 }

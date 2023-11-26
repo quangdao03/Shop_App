@@ -92,7 +92,7 @@ public class ListDetailOrder extends AppCompatActivity {
                         }
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             Order order = ds.getValue(Order.class);
-                            orderList.add(order);
+                            orderList.add(0,order);
                         }
                         orderUserAdapter = new OrderUserAdapter(ListDetailOrder.this, orderList);
                         rcy_List_Order.setAdapter(orderUserAdapter);

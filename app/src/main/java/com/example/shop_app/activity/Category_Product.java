@@ -71,21 +71,17 @@ public class Category_Product extends AppCompatActivity {
         rcyBrand.setAdapter(brandAdapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Categorys/" + categoryID);
-        myRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference myRef = database.getReference("brand");
+        myRef.orderByChild("category").equalTo(categoryID).addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (brandList != null) {
                     brandList.clear();
                 }
-                for (DataSnapshot getSnapshot : dataSnapshot.child("brand").getChildren()) {
-
+                for (DataSnapshot getSnapshot : dataSnapshot.getChildren()) {
                     Brand brand = getSnapshot.getValue(Brand.class);
-                    brand.setImage(getSnapshot.child("url").getValue().toString());
-                    brand.setName(categoryID);
                     brandList.add(brand);
-
                 }
                 brandAdapter.notifyDataSetChanged();
 
@@ -117,13 +113,15 @@ public class Category_Product extends AppCompatActivity {
                     productList.clear();
                 }
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice("Rp " + getData.child("price").getValue().toString());
-                    product.setQuantity(getData.child("quantity").getValue().toString());
-                    product.setId(getData.child("id").getValue().toString());
-                    Log.d("AAA", "" + getData);
+//                    Product product = new Product();
+//                    product.setImage(getData.child("image").getValue().toString());
+//                    product.setName(getData.child("name").getValue().toString());
+//                    product.setPrice("Rp " + getData.child("price").getValue().toString());
+//                    product.setQuantity(getData.child("quantity").getValue().toString());
+//                    product.setId(getData.child("id").getValue().toString());
+//                    Log.d("AAA", "" + getData);
+
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();

@@ -86,13 +86,7 @@ public class Product_All extends AppCompatActivity {
                     productList.clear();
                 }
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString()+" $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("("+quantity+")");
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
                 }
                 productAllAdapter.notifyDataSetChanged();
@@ -111,9 +105,7 @@ public class Product_All extends AppCompatActivity {
                 filteredlist.add(item);
             }
         }
-        if (filteredlist.isEmpty()) {
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-        } else {
+        if (!filteredlist.isEmpty()) {
             productAllAdapter.filterList(filteredlist);
         }
     }

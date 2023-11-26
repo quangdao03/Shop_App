@@ -37,6 +37,8 @@ import com.example.shop_app.model.Category;
 import com.example.shop_app.model.Product;
 
 import com.example.shop_app.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +46,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.util.ArrayList;
@@ -113,6 +115,18 @@ public class HomeFragment extends Fragment {
         });
         checkUserType();
         getObjectUser();
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    Log.d("token","FCM fail",task.getException());
+                    return;
+                }
+                String token = task.getResult();
+                Log.d("token",token);
+            }
+        });
         return  view;
     }
 
@@ -174,15 +188,17 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString()+" $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("("+quantity+")");
-                    String id = getData.child("id").getValue() +"";
-                    product.setId(id);
+//                    Product product = new Product();
+//                    product.setImage(getData.child("image").getValue().toString());
+//                    product.setName(getData.child("name").getValue().toString());
+//                    product.setPrice(getData.child("price").getValue().toString()+" $");
+//                    String quantity = "";
+//                    quantity = getData.child("quantity").getValue().toString();
+//                    product.setQuantity("("+quantity+")");
+//                    String id = getData.child("id").getValue() +"";
+//                    product.setId(id);
+
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
 
                 }
@@ -222,16 +238,16 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-//                    Product product = getData.getValue(Product.class);
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString()+ " $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("("+quantity+")");
-                    String id = getData.child("id").getValue() +"";
-                    product.setId(id);
+                    Product product = getData.getValue(Product.class);
+//                    Product product = new Product();
+//                    product.setImage(getData.child("image").getValue().toString());
+//                    product.setName(getData.child("name").getValue().toString());
+//                    product.setPrice(getData.child("price").getValue().toString()+ " $");
+//                    String quantity = "";
+//                    quantity = getData.child("quantity").getValue().toString();
+//                    product.setQuantity("("+quantity+")");
+//                    String id = getData.child("id").getValue() +"";
+//                    product.setId(id);
                     productNewList.add(product);
 
                 }
