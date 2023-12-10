@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.shop_app.R;
 import com.example.shop_app.activity.OrderDetailUser;
+import com.example.shop_app.activity.OrderSellerDetail;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -63,7 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         Intent intent = null;
         if (notificationType.equals("NewOrder")) {
-            intent = new Intent(this, OrderDetailUser.class);
+            intent = new Intent(this, OrderSellerDetail.class);
             intent.putExtra("orderId", orderId);
             intent.putExtra("orderBy", buyerUid);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

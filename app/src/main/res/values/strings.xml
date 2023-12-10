@@ -139,5 +139,6 @@
     <string name="chat">Chat</string>
     <string name="shop_name">Shop Name</string>
     <string name="name_seller">Register as a seller? </string>
+    <string name="Statistical">Statistical</string>
 
 </resources>

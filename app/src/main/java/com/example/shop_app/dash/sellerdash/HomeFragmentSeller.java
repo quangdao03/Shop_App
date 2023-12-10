@@ -69,21 +69,10 @@ public class HomeFragmentSeller extends Fragment {
         viewClick();
         getProductSeller();
         loadAllOrder();
-        onToken();
         return binding.getRoot();
     }
 
-    private void onToken() {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (task.isSuccessful()){
-                    String token = task.getResult();
-                    Log.i("token_app",token);
-                }
-            }
-        });
-    }
+
 
     private void viewClick() {
         tvTitleToolbar.setText("Product");

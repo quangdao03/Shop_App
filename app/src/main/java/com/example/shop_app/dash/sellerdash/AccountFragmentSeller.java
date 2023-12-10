@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.LoginActivity;
+import com.example.shop_app.activity.StatisticalActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 
 public class AccountFragmentSeller extends Fragment {
     View view;
-    LinearLayout ll_logout,ll_Address,ll_MyOrder;
+    LinearLayout ll_logout,ll_Address,ln_Statistical;
     TextView tvTitleToolbar,txt_username,txt_userphone,txt_email;
     ImageView ivToolbarLeft,ivToolbarRight,userImage_ImageView;
     private FirebaseAuth firebaseAuth;
@@ -57,6 +58,9 @@ public class AccountFragmentSeller extends Fragment {
             public void onClick(View view) {
                 logOut();
             }
+        });
+        ln_Statistical.setOnClickListener(view1 -> {
+            startActivity(new Intent(getContext(), StatisticalActivity.class));
         });
         return  view;
     }
@@ -149,7 +153,8 @@ public class AccountFragmentSeller extends Fragment {
     }
     private void init() {
 
-        ll_MyOrder = view.findViewById(R.id.ll_MyOrder);
+
+        ln_Statistical = view.findViewById(R.id.ln_Statistical);
         ll_logout = view.findViewById(R.id.ll_logout);
         ll_Address = view.findViewById(R.id.ll_Address);
         tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);

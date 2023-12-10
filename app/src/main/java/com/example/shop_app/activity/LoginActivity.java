@@ -24,8 +24,10 @@ import android.widget.Toast;
 import com.example.shop_app.R;
 import com.example.shop_app.utils.Utils;
 import com.google.android.gms.common.internal.Objects;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -49,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private String email, password;
     Boolean ishowpass = false;
     RelativeLayout ll_login;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +113,17 @@ public class LoginActivity extends AppCompatActivity {
                 Utils.hideSoftKeyboard(LoginActivity.this);
             }
         });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    Log.d("token","FCM fail",task.getException());
+                    return;
+                }
+                token = task.getResult();
+                Log.d("token",token);
+            }
+        });
     }
     private Boolean validateEmail(){
         String val = edt_Email.getText().toString().trim();
@@ -164,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.login_user_success));
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online", "true");
+        hashMap.put("token",token);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(firebaseAuth.getUid()).updateChildren(hashMap)
