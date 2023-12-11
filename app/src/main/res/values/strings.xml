@@ -140,5 +140,8 @@
     <string name="shop_name">Shop Name</string>
     <string name="name_seller">Register as a seller? </string>
     <string name="Statistical">Statistical</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="total_revenue">Total revenue: </string>
 
 </resources>
