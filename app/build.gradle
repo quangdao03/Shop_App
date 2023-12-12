@@ -85,4 +85,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
     configurations.maybeCreate("default")
     artifacts.add("default", file('zpdk-release.aar'))
+
+    // barchart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
