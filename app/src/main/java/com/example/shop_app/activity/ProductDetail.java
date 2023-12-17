@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,9 @@ public class ProductDetail extends AppCompatActivity {
     String shop_uid;
     boolean isClick = false;
     String name_product, price, quantity, creator, variant;
+    ImageView img_ava_shop;
+    TextView tv_name_shop,tv_shop_detail,tv_category_product;
+    RelativeLayout rl_view_shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,11 @@ public class ProductDetail extends AppCompatActivity {
         ivToolbarRight = findViewById(R.id.ivToolbarRight);
         img_product_detail = findViewById(R.id.img_product_detail);
         btn_Add_to_cart = findViewById(R.id.btn_Add_to_cart);
+        img_ava_shop = findViewById(R.id.img_ava_shop);
+        tv_name_shop = findViewById(R.id.tv_name_shop);
+        tv_shop_detail = findViewById(R.id.tv_shop_detail);
+        rl_view_shop = findViewById(R.id.rl_view_shop);
+        tv_category_product = findViewById(R.id.tv_category_product);
 
         checkUser();
 
@@ -139,6 +148,15 @@ public class ProductDetail extends AppCompatActivity {
                 quantity = dataSnapshot.child("quantity").getValue().toString();
                 creator = dataSnapshot.child("creator").getValue().toString();
                 variant = dataSnapshot.child("variant").getValue().toString();
+                if (shop_uid != null){
+                    getInfoShop();
+                    tv_category_product.setText(dataSnapshot.child("category").getValue().toString());
+                    tv_shop_detail.setOnClickListener(view -> {
+                        Intent intent = new Intent(ProductDetail.this,ShopDetailActivity.class);
+                        intent.putExtra("uid",shop_uid);
+                        startActivity(intent);
+                    });
+                }
             }
 
             @Override
@@ -149,6 +167,36 @@ public class ProductDetail extends AppCompatActivity {
         });
     }
 
+    private void getInfoShop(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users");
+        myRef.orderByChild("uid").equalTo(shop_uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    String name = ""+dataSnapshot.child("shop_name").getValue();
+                    String email = ""+dataSnapshot.child("email").getValue();
+                    String phone = ""+dataSnapshot.child("phone").getValue();
+                    String profileImage = ""+dataSnapshot.child("profileImage").getValue();
+                    String accountType = ""+dataSnapshot.child("accountType").getValue();
+
+                    tv_name_shop.setText(name);
+
+                    try {
+                        Glide.with(ProductDetail.this).load(profileImage).placeholder(R.drawable.profile).into(img_ava_shop);
+                    }catch (Exception e){
+                        img_ava_shop.setImageResource(R.drawable.profile);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     private void getWishList() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Wishlist");
         reference.child(firebaseAuth.getUid()).child(name).addValueEventListener(new ValueEventListener() {

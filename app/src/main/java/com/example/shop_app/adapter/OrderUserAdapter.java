@@ -78,6 +78,7 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderDetailUser.class);
                 intent.putExtra("orderId", time);
+                intent.putExtra("orderTo", orderTo);
                 context.startActivity(intent);
             }
         });

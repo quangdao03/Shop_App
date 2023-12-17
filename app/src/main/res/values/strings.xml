@@ -143,5 +143,7 @@
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>
     <string name="total_revenue">Total revenue: </string>
+    <string name="a_free">A Free &amp; Open Source Android application to download from the Project</string>
+    <string name="develop_by">Developed By</string>
 
 </resources>

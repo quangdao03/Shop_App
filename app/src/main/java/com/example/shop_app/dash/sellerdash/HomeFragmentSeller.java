@@ -150,15 +150,6 @@ public class HomeFragmentSeller extends Fragment {
                     productList.clear();
                 }
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
-//                    Product product = new Product();
-//                    product.setImage(getData.child("image").getValue().toString());
-//                    product.setName(getData.child("name").getValue().toString());
-//                    product.setPrice(getData.child("price").getValue().toString() + " $");
-//                    String quantity = "";
-//                    quantity = getData.child("quantity").getValue().toString();
-//                    product.setQuantity("(" + quantity + ")");
-//                    product.setDesc(getData.child("desc").getValue().toString());
-//                    product.setId(getData.child("id").getValue().toString());
                     Product product = getData.getValue(Product.class);
                     productList.add(product);
                 }

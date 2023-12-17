@@ -45,10 +45,10 @@ import java.util.List;
 import java.util.Map;
 
 import vn.momo.momo_partner.AppMoMoLib;
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPayError;
-import vn.zalopay.sdk.ZaloPaySDK;
-import vn.zalopay.sdk.listeners.PayOrderListener;
+//import vn.zalopay.sdk.Environment;
+//import vn.zalopay.sdk.ZaloPayError;
+//import vn.zalopay.sdk.ZaloPaySDK;
+//import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CheckoutActivity extends AppCompatActivity {
     TextView tv_edit_location, tv_username, tv_phone, tv_address, tv_addresS_dialog, tvTitleToolbar, tv_price_total, tv_price_paymentAll;
@@ -87,7 +87,7 @@ public class CheckoutActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         // ZaloPay SDK Init
-        ZaloPaySDK.init(2553, Environment.SANDBOX);
+//        ZaloPaySDK.init(2553, Environment.SANDBOX);
 
         mapping();
         getSupportActionBar().hide();
@@ -224,42 +224,42 @@ public class CheckoutActivity extends AppCompatActivity {
 //            }
 //
 //        });
-        btn_zalopay.setOnClickListener(view -> {
-            CreateOrder orderApi = new CreateOrder();
-            try {
-                JSONObject data = orderApi.createOrder("10000");
-                if (data.has("return_code")){
-                    String code = data.getString("return_code");
-                    Log.d("test_daoo",code + orderApi);
-                    if (code.equals("1")) {
-                        String token = data.getString("zp_trans_token");
-                        Log.d("test_daoo",token);
-                        ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                            @Override
-                            public void onPaymentSucceeded(String s, String s1, String s2) {
-                                Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onPaymentCanceled(String s, String s1) {
-
-                            }
-
-                            @Override
-                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-
-                            }
-                        });
-                    }
-                }
-
-
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        btn_zalopay.setOnClickListener(view -> {
+//            CreateOrder orderApi = new CreateOrder();
+//            try {
+//                JSONObject data = orderApi.createOrder("10000");
+//                if (data.has("return_code")){
+//                    String code = data.getString("return_code");
+//                    Log.d("test_daoo",code + orderApi);
+//                    if (code.equals("1")) {
+//                        String token = data.getString("zp_trans_token");
+//                        Log.d("test_daoo",token);
+//                        ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+//                            @Override
+//                            public void onPaymentSucceeded(String s, String s1, String s2) {
+//                                Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onPaymentCanceled(String s, String s1) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+//
+//                            }
+//                        });
+//                    }
+//                }
+//
+//
+//
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void requestZalo(String timestamp,String shop_uid){
@@ -269,27 +269,27 @@ public class CheckoutActivity extends AppCompatActivity {
             String code = data.getString("return_code");
             if (code.equals("1")) {
                 String token = data.getString("zp_trans_token");
-                ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                    @Override
-                    public void onPaymentSucceeded(String s, String s1, String s2) {
-                        Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
-                        intent.putExtra("orderId", timestamp);
-                        intent.putExtra("orderTo", shop_uid);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onPaymentCanceled(String s, String s1) {
-
-                    }
-
-                    @Override
-                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-
-                    }
-                });
+//                ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+//                    @Override
+//                    public void onPaymentSucceeded(String s, String s1, String s2) {
+//                        Toast.makeText(CheckoutActivity.this, "" + getText(R.string.success_order), Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(CheckoutActivity.this, OrderDetailUser.class);
+//                        intent.putExtra("orderId", timestamp);
+//                        intent.putExtra("orderTo", shop_uid);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onPaymentCanceled(String s, String s1) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+//
+//                    }
+//                });
             }
 
         } catch (Exception e) {
@@ -486,7 +486,7 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        ZaloPaySDK.getInstance().onResult(intent);
+//        ZaloPaySDK.getInstance().onResult(intent);
     }
     String token_user;
     private void prepareNotificationMessage(String orderId, String shop_uid){

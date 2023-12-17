@@ -30,7 +30,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/sp20"
             android:textColor="@color/black"
-            android:text="Shop App"
+            android:text="@string/app_name"
             style="@style/TextViewBase"/>
         <TextView
             android:layout_marginTop="@dimen/dp10"
@@ -41,18 +41,12 @@
             android:text="Version 1.0.0-beta"
             style="@style/TextViewBase"/>
         <TextView
+            android:gravity="center"
             android:layout_marginTop="@dimen/dp5"
             android:layout_gravity="center"
             android:textSize="@dimen/sp14"
             android:textColor="@color/black"
-            android:text="A Free &amp; Open Source Android application"
-            style="@style/TextViewBase"/>
-        <TextView
-            android:layout_marginTop="@dimen/dp5"
-            android:layout_gravity="center"
-            android:textSize="@dimen/sp14"
-            android:textColor="@color/black"
-            android:text="to download from the Project"
+            android:text="@string/a_free"
             style="@style/TextViewBase"/>
 
         <LinearLayout
@@ -94,7 +88,7 @@
         android:layout_gravity="center"
         android:textSize="@dimen/sp15"
         android:textColor="@color/black"
-        android:text="Developed By"
+        android:text="@string/develop_by"
         style="@style/TextViewBase"/>
     <LinearLayout
         android:layout_marginHorizontal="@dimen/dp20"
