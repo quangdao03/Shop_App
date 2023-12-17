@@ -1,10 +1,8 @@
 package com.example.shop_app.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,11 +45,14 @@ public class StatisticalActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
         binding.toolbar.ivToolbarLeft.setImageResource(R.drawable.ic_left);
-        binding.toolbar.ivToolbarRight.setVisibility(View.GONE);
+        binding.toolbar.ivToolbarRight.setImageResource(R.drawable.statistical);
         binding.toolbar.tvTitleToolbar.setText(getText(R.string.Statistical));
         binding.toolbar.ivToolbarLeft.setOnClickListener(view -> {
             onBackPressed();
             finish();
+        });
+        binding.toolbar.ivToolbarRight.setOnClickListener(view -> {
+            startActivity(new Intent(StatisticalActivity.this, BarChartActivity.class));
         });
         firebaseAuth = FirebaseAuth.getInstance();
         loadAllOrder();
@@ -59,6 +60,7 @@ public class StatisticalActivity extends AppCompatActivity {
         binding.rlDateEnd.setOnClickListener(v -> showDatePickerDialogEnd());
 
     }
+
     public void showDatePickerDialogStart() {
         // Lấy ngày hiện tại
         java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -73,11 +75,6 @@ public class StatisticalActivity extends AppCompatActivity {
                     // Xử lý ngày đã chọn
                     String selectedDate = dayOfMonth1 + "/" + (monthOfYear + 1) + "/" + year1;
                     binding.dateStart.setText(selectedDate);
-//                    Long times = getTimestampFromDate(year1, monthOfYear, dayOfMonth1);
-//                    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-//                    String date = formatDate.format(times);
-//                    loadAllOrder(date);
-//                    Log.d("aaa",date + "timestamp");
                 },
                 year,
                 month,
@@ -87,6 +84,7 @@ public class StatisticalActivity extends AppCompatActivity {
         // Hiển thị DatePickerDialog
         datePickerDialog.show();
     }
+
     public void showDatePickerDialogEnd() {
         // Lấy ngày hiện tại
         Calendar calendar = Calendar.getInstance();
@@ -113,47 +111,6 @@ public class StatisticalActivity extends AppCompatActivity {
 
         // Hiển thị DatePickerDialog
         datePickerDialog.show();
-    }
-
-    private void loadAllOrder(String selectedTimestamp) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        binding.rcyOrder.setLayoutManager(linearLayoutManager);
-        binding.rcyOrder.setHasFixedSize(true);
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child("Orders").orderByChild("shop_uid").equalTo(firebaseAuth.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (orderList != null) {
-                            orderList.clear();
-                        }
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            orderSeller = ds.getValue(Order.class);
-                            if (orderSeller != null && orderSeller.getOrderStatus().equals("Đã xác nhận")) {
-                                Long times = Long.parseLong(orderSeller.getOrderTime());
-                                SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                                String date = formatDate.format(times);
-                                if (selectedTimestamp.equals(date)) {
-                                    orderList.add(0, orderSeller);
-                                }
-                            }
-                        }
-                        orderSellerAdapter = new OrderSellerAdapter(StatisticalActivity.this, orderList);
-                        binding.rcyOrder.setAdapter(orderSellerAdapter);
-
-                        int sum = 0;
-                        for (int i = 0; i < orderList.size(); i++) {
-                            sum += Integer.parseInt(orderList.get(i).getOrderCost());
-                        }
-                        binding.sumTotal.setText(sum + " $");
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
     }
 
     private void loadAllOrderDate(String startDate, String endDate) {
@@ -216,6 +173,7 @@ public class StatisticalActivity extends AppCompatActivity {
         Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
         return calendar.getTimeInMillis();
     }
+
     private void loadAllOrder() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.rcyOrder.setLayoutManager(linearLayoutManager);
