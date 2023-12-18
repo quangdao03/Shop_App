@@ -5,41 +5,30 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_marginTop="@dimen/dp50"
         android:layout_width="362dp"
-        android:layout_gravity="center"
         android:layout_height="351dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp50"
         android:src="@drawable/on2" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp20"
+        android:text="@string/choose_checkout"
         android:textColor="@color/black"
-        android:textSize="28sp"
-        android:layout_gravity="center"
-        android:text="Work Seamlessly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textSize="28sp" />
 
     <TextView
-        android:alpha="0.8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp10"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp16"
-        android:layout_gravity="center"
-        android:text="Get your work done seamlessly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
         android:alpha="0.8"
-
+        android:text="@string/unique"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp16"
-        android:layout_gravity="center"
-        android:text="without interruption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-
+        android:textSize="@dimen/sp16" />
 
 
 </LinearLayout>

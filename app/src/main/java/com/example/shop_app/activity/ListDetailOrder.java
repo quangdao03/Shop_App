@@ -55,22 +55,30 @@ public class ListDetailOrder extends AppCompatActivity {
         tv_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String options[] = {"All", "Đang xử lý", "Đã xác nhận", "Đã hủy"};
+                String options[] = {getString(R.string.All), getString(R.string.process), getString(R.string.confirmed), getString(R.string.cancel)};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ListDetailOrder.this);
-                builder.setTitle("Sắp xếp")
+                builder.setTitle(getString(R.string.fillter))
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if (i == 0) {
-                                    tv_sort_text.setText("All");
+                                if (i == 0){
+                                    tv_sort.setText(getString(R.string.All));
                                     orderUserAdapter.getFilter().filter("");
-                                } else {
+                                }else  {
                                     String optionClicked = options[i];
-                                    tv_sort_text.setText(optionClicked);
-                                    orderUserAdapter.getFilter().filter(optionClicked);
-                                }
+                                    if (optionClicked.equals(getString(R.string.process))){
+                                        tv_sort.setText(getString(R.string.process));
+                                        orderUserAdapter.getFilter().filter("Đang xử lý");
+                                    } else if (optionClicked.equals(getString(R.string.confirmed))) {
+                                        tv_sort.setText(getString(R.string.confirmed));
+                                        orderUserAdapter.getFilter().filter("Đã xác nhận");
+                                    }else {
+                                        tv_sort.setText(getString(R.string.cancel));
+                                        orderUserAdapter.getFilter().filter("Đã hủy");
+                                    }
 
+                                }
                             }
                         }).show();
             }

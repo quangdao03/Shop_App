@@ -165,17 +165,20 @@ public class OrderDetailUser extends AppCompatActivity {
                             });
                             ll_order.setBackgroundResource(R.drawable.bg_order_detail_success);
                             tv_OrderStatus.setTextColor(getResources().getColor(R.color.primary));
+                            tv_OrderStatus.setText(R.string.process);
                         }else if (status.equals("Đã xác nhận")){
                             tv_huy.setVisibility(View.GONE);
                             ll_order.setBackgroundResource(R.drawable.bg_order_detail_success_green);
                             tv_OrderStatus.setTextColor(getResources().getColor(R.color.colorGreen));
+                            tv_OrderStatus.setText(R.string.confirmed);
                         }else if (status.equals("Đã hủy")){
                             tv_huy.setVisibility(View.GONE);
                             ll_order.setBackgroundResource(R.drawable.bg_order_detail_fail);
                             tv_OrderStatus.setTextColor(getResources().getColor(R.color.red));
+                            tv_OrderStatus.setText(R.string.cancel);
                         }
                         tv_OrderID.setText(orderId);
-                        tv_OrderStatus.setText(status);
+
 
                         tv_price_paymentAll.setText(orderCost);
                         tv_OrderAddress.setText(orderAddress);

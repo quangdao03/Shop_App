@@ -122,7 +122,7 @@ public class HomeFragmentSeller extends Fragment {
                         for (int i = 0; i < myList1.size(); i++) {
                             sum += Integer.parseInt(myList1.get(i).getOrderCost());
                         }
-                        txt_PriceAll.setText(sum + " $");
+                        txt_PriceAll.setText(": "+ sum + " $");
                     }
 
                     @Override
@@ -188,7 +188,7 @@ public class HomeFragmentSeller extends Fragment {
                             String shop_name = "" + dataSnapshot.child("shop_name").getValue();
                             Utils.ImageSeller = image;
                             Utils.name_shop = shop_name;
-                            binding.tvShopname.setText("Shop name: " + shop_name);
+                            binding.tvShopname.setText(getString(R.string.shop_name)+ " : " + shop_name);
 
                         }
                     }

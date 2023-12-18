@@ -33,7 +33,7 @@
             android:id="@+id/tv_rate"
             android:textColor="@color/black"
             android:fontFamily="@font/roboto_medium"
-            android:text="Rate"
+            android:text="@string/rate"
             android:layout_below="@id/img_shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -42,7 +42,7 @@
             android:id="@+id/tv_address"
             android:textColor="@color/black"
             android:fontFamily="@font/roboto_medium"
-            android:text="Address"
+            android:text="@string/address_payment"
             android:layout_below="@id/img_shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -41,8 +41,6 @@ public class FavoriteFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     WishListAdapter wishListAdapter;
     List<Product> productList = new ArrayList<>();
-
-
     List<Product> products = new ArrayList<>();
     ProductAdapter productAdapter;
     View view;
@@ -58,14 +56,12 @@ public class FavoriteFragment extends Fragment {
         ivToolbarRight.setVisibility(View.GONE);
         tvTitleToolbar.setText(getText(R.string.wishlist));
 
-//        getWishListProduct();
         getWishList();
         getProductMore();
 
         return view;
     }
     private void getWishList(){
-        productList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcy_Wishlist.setLayoutManager(linearLayoutManager);
         rcy_Wishlist.setHasFixedSize(true);
@@ -78,20 +74,16 @@ public class FavoriteFragment extends Fragment {
         reference.child(firebaseAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot getData : snapshot.getChildren()) {
-//                    Product product = new Product();
-//                    product.setImage(getData.child("image").getValue().toString());
-//                    product.setName(getData.child("name").getValue().toString());
-//                    product.setPrice(getData.child("price").getValue().toString());
-//                    product.setId(getData.child("id_product").getValue().toString());
-//                    product.setVariant(getData.child("variant").getValue().toString());
-//                    product.setCreator(getData.child("creator").getValue().toString());
-//                    product.setUid(getData.child("shop_id").getValue().toString());
-
-                    Product product = getData.getValue(Product.class);
-                    productList.add(product);
+                if (productList != null) {
+                    productList.clear();
                 }
-
+                for (DataSnapshot getData : snapshot.getChildren()) {
+                    Product product = getData.getValue(Product.class);
+                    boolean favourite = product.getFavourite();
+                    if (favourite){
+                        productList.add(product);
+                    }
+                }
                 wishListAdapter.notifyDataSetChanged();
 
             }
@@ -104,68 +96,6 @@ public class FavoriteFragment extends Fragment {
     }
 
 
-    private void getWishListProduct() {
-        productList.clear();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        rcy_Wishlist.setLayoutManager(linearLayoutManager);
-        rcy_Wishlist.setHasFixedSize(true);
-
-        wishListAdapter = new WishListAdapter(getActivity(), productList);
-        rcy_Wishlist.setAdapter(wishListAdapter);
-        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-
-        rcy_Wishlist.addItemDecoration(decoration);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myProdcut = database.getReference("Wishlist");
-        myProdcut.child(firebaseAuth.getUid())
-        .addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Boolean value = Boolean.valueOf(snapshot.child("favourite").getValue().toString());
-                if (value == true) {
-                    Product product = snapshot.getValue(Product.class);
-                    if (product != null) {
-                        String url = snapshot.child("image").getValue().toString();
-                        product.setImage(url);
-                        productList.add(product);
-                        wishListAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Product product = snapshot.getValue(Product.class);
-                if (product == null || productList == null || productList.isEmpty()){
-                    return;
-                }
-                for (int i= 0; i< productList.size(); i++){
-                    if (product.getId() == productList.get(i).getId()){
-                        productList.set(i,product);
-                    }
-                }
-                wishListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
     private void getProductMore() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         rcy_ListProduct_More.setLayoutManager(linearLayoutManager);
@@ -175,8 +105,7 @@ public class FavoriteFragment extends Fragment {
         rcy_ListProduct_More.setAdapter(productAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myProdcut = database.getReference("Product");
-        Query query = myProdcut.orderByChild("rate").startAfter(3);
-        query.addValueEventListener(new ValueEventListener() {
+        myProdcut.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -187,13 +116,6 @@ public class FavoriteFragment extends Fragment {
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
                     Product product = getData.getValue(Product.class);
-//                    Product product = new Product();
-//                    product.setImage(getData.child("image").getValue().toString());
-//                    product.setName(getData.child("name").getValue().toString());
-//                    product.setPrice(getData.child("price").getValue().toString() + " $");
-//                    String quantity = "";
-//                    quantity = getData.child("quantity").getValue().toString();
-//                    product.setQuantity("(" + quantity + ")");
                     products.add(product);
 
                 }
@@ -210,8 +132,6 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        getWishListProduct1();
-
     }
 
     private void init() {

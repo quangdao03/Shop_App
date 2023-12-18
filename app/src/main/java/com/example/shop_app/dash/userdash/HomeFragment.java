@@ -188,16 +188,6 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-//                    Product product = new Product();
-//                    product.setImage(getData.child("image").getValue().toString());
-//                    product.setName(getData.child("name").getValue().toString());
-//                    product.setPrice(getData.child("price").getValue().toString()+" $");
-//                    String quantity = "";
-//                    quantity = getData.child("quantity").getValue().toString();
-//                    product.setQuantity("("+quantity+")");
-//                    String id = getData.child("id").getValue() +"";
-//                    product.setId(id);
-
                     Product product = getData.getValue(Product.class);
                     productList.add(product);
 
@@ -239,15 +229,6 @@ public class HomeFragment extends Fragment {
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
                     Product product = getData.getValue(Product.class);
-//                    Product product = new Product();
-//                    product.setImage(getData.child("image").getValue().toString());
-//                    product.setName(getData.child("name").getValue().toString());
-//                    product.setPrice(getData.child("price").getValue().toString()+ " $");
-//                    String quantity = "";
-//                    quantity = getData.child("quantity").getValue().toString();
-//                    product.setQuantity("("+quantity+")");
-//                    String id = getData.child("id").getValue() +"";
-//                    product.setId(id);
                     productNewList.add(product);
 
                 }

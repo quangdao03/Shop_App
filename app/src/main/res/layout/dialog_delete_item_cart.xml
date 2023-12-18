@@ -18,7 +18,7 @@
             android:textSize="@dimen/sp18"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Are you sure want to delete this from your Cart?"
+            android:text="@string/are_you"
             style="@style/TextViewBase"/>
         <LinearLayout
             android:layout_marginTop="@dimen/dp15"
@@ -36,7 +36,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:text="Cancel"
+                android:text="@string/Cancel"
                 style="@style/TextViewBase"/>
             <TextView
                 android:id="@+id/tv_delete"
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:text="Delete"
+                android:text="@string/Delete"
                 style="@style/TextViewBase"/>
         </LinearLayout>
     </LinearLayout>

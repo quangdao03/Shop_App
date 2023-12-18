@@ -29,7 +29,7 @@
     <string name="change">Change</string>
     <string name="phone">0762132322</string>
     <string name="address">Hà Nội</string>
-    <string name="address_add">+ Thêm địa chỉ cụ thể</string>
+    <string name="address_add">+ Add specific address</string>
     <string name="product_list">Product List</string>
     <string name="purchase_summary">Purchase Summary</string>
     <string name="total_price">Total Price</string>
@@ -120,8 +120,7 @@
     <string name="add_wishlist">Added to Wishlist</string>
     <string name="product_cart">The product has been added to cart</string>
     <string name="invalid_email">Invalid email</string>
-    <string name="invalid_pass">Mật khẩu không hợp lệ
-                    Ít nhất 6 ký tự và có ít nhất 1 ký tự đặc biệt</string>
+    <string name="invalid_pass">Mật khẩu không hợp lệ Ít nhất 6 ký tự và có ít nhất 1 ký tự đặc biệt</string>
     <string name="creating_account_success">Account successfully created</string>
     <string name="creating_account_fail">Account creation failed</string>
     <string name="creating_account">Creating an account</string>
@@ -145,5 +144,22 @@
     <string name="total_revenue">Total revenue: </string>
     <string name="a_free">A Free &amp; Open Source Android application to download from the Project</string>
     <string name="develop_by">Developed By</string>
+    <string name="see_more">see more</string>
+    <string name="fillter">Fillter</string>
+    <string name="dont_have">Don\'t have an account? </string>
+    <string name="rate">Rate</string>
+    <string name="are_you">Are you sure want to delete this from your Cart?</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Delete">Delete</string>
+    <string name="Revenue">Revenue</string>
+    <string name="get_the_fast">Get the fastest</string>
+    <string name="deli">Delivery groceries at home</string>
+    <string name="get_your">Ger your groceries in as fast as one hour</string>
+    <string name="get_started">Get Started</string>
+    <string name="choose_checkout">Choose and checkout</string>
+    <string name="unique">Unique products available in the booth</string>
+    <string name="purchase_your">Purchase your items online</string>
+    <string name="bringing">Bringing thousands of products and services to your fingertips</string>
+    <string name="All">All</string>
 
 </resources>

@@ -164,7 +164,7 @@
         <TextView
             android:fontFamily="@font/readex"
             android:textColor="@color/white"
-            android:text="Don't have an account? "
+            android:text="@string/dont_have"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView

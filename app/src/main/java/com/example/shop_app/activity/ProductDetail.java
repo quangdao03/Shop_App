@@ -104,12 +104,12 @@ public class ProductDetail extends AppCompatActivity {
         getProductDetail();
         getWishList();
         ivToolbarRight.setOnClickListener(view -> {
-            if (!isClick) {
+            if (!fv) {
                 onClickWishList();
-                isClick = true;
+                fv = true;
             } else {
                 onClickRemoveWishList();
-                isClick = false;
+                fv = false;
             }
 
         });

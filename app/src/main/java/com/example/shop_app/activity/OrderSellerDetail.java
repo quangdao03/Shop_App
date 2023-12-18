@@ -152,13 +152,16 @@ public class OrderSellerDetail extends AppCompatActivity {
 
                         if (status.equals("Đang xử lý")) {
                             tv_OrderStatus.setTextColor(getResources().getColor(R.color.primary));
+                            tv_OrderStatus.setText(R.string.process);
                         } else if (status.equals("Đã xác nhận")) {
                             tv_OrderStatus.setTextColor(getResources().getColor(R.color.colorGreen));
+                            tv_OrderStatus.setText(R.string.confirmed);
                         } else if (status.equals("Đã hủy")) {
                             tv_OrderStatus.setTextColor(getResources().getColor(R.color.red));
+                            tv_OrderStatus.setText(R.string.cancel);
                         }
                         tv_OrderID.setText(orderId);
-                        tv_OrderStatus.setText(status);
+
 
                         tv_price_paymentAll.setText(orderCost);
                         tv_OrderAddress.setText(orderAddress);

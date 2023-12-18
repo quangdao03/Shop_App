@@ -47,7 +47,7 @@
                         android:padding="@dimen/dp5"
                         android:background="@drawable/bg_button_normal"
                         android:textColor="@color/black"
-                        android:text="Sắp xếp"
+                        android:text="@string/fillter"
                         style="@style/TextViewBase"
                         />
                 </androidx.cardview.widget.CardView>

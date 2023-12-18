@@ -61,15 +61,18 @@ public class OrderSellerAdapter extends RecyclerView.Adapter<OrderSellerAdapter.
         String date = formatDate.format(times);
 
         if (status.equals("Đang xử lý")){
+            holder.tv_Order_Status.setText(context.getString(R.string.process));
             holder.tv_Order_Status.setTextColor(context.getResources().getColor(R.color.primary));
         }else if (status.equals("Đã xác nhận")){
+            holder.tv_Order_Status.setText(context.getString(R.string.confirmed));
             holder.tv_Order_Status.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }else if (status.equals("Đã hủy")){
+            holder.tv_Order_Status.setText(context.getString(R.string.cancel));
             holder.tv_Order_Status.setTextColor(context.getResources().getColor(R.color.red));
         }
 
         holder.tv_order_time.setText(date);
-        holder.tv_Order_Status.setText(status);
+
         holder.tv_order_id.setText(time);
         holder.tv_Order_Name.setText(order.getOrderNameProduct());
         holder.tv_Order_Cost.setText(cost+" $");
