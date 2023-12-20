@@ -12,6 +12,7 @@
         android:src="@drawable/on1" />
 
     <TextView
+        android:gravity="center"
         android:layout_marginTop="@dimen/dp20"
         android:textColor="@color/black"
         android:textSize="28sp"

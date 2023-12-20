@@ -56,10 +56,9 @@ public class ProductDetail extends AppCompatActivity {
     private int finalCost = 0;
 
     int quantityProduct = 1;
-    boolean fv = true;
-
+    boolean fv = false;
     String shop_uid;
-    boolean isClick = false;
+
     String name_product, price, quantity, creator, variant;
     ImageView img_ava_shop;
     TextView tv_name_shop,tv_shop_detail,tv_category_product;
@@ -226,9 +225,8 @@ public class ProductDetail extends AppCompatActivity {
         Map<String, Object> mapUpdate = new HashMap<>();
         mapUpdate.put("favourite", true);
         mapUpdate.put("uid", firebaseAuth.getUid());
-        mapUpdate.put("id", timestamp);
+        mapUpdate.put("id", name);
         mapUpdate.put("shop_id", shop_uid);
-        mapUpdate.put("id_product", name);
         mapUpdate.put("image", url);
         mapUpdate.put("name", name_product);
         mapUpdate.put("price", price);

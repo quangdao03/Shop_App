@@ -69,7 +69,7 @@ public class AddProductSeller extends AppCompatActivity {
         binding = ActivityAddProductSellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getString(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -105,7 +105,7 @@ public class AddProductSeller extends AppCompatActivity {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AddProductSeller.this);
-        builder.setTitle("Chọn danh mục")
+        builder.setTitle(getString(R.string.choose_list))
                 .setItems(categoriesArray, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
@@ -120,7 +120,7 @@ public class AddProductSeller extends AppCompatActivity {
     private void viewClick() {
         binding.toolbar.ivToolbarLeft.setImageResource(R.drawable.ic_left);
         hideView(binding.toolbar.ivToolbarRight);
-        binding.toolbar.tvTitleToolbar.setText("Thêm sản phẩm");
+        binding.toolbar.tvTitleToolbar.setText(getString(R.string.add_product));
         binding.toolbar.ivToolbarLeft.setOnClickListener(view -> {
             onBackPressed();
             finish();
@@ -152,7 +152,7 @@ public class AddProductSeller extends AppCompatActivity {
     }
 
     private void addProduct() {
-        progressDialog.setMessage("Đang thêm sản phẩm");
+        progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
         String timestamp = "" + System.currentTimeMillis();
         if (image_uri == null) {
@@ -178,7 +178,7 @@ public class AddProductSeller extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             progressDialog.dismiss();
-                            Toast.makeText(AddProductSeller.this, "Thêm thành công!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProductSeller.this, getString(R.string.add_to_success), Toast.LENGTH_SHORT).show();
 //                            clearData();
                         }
                     })
@@ -222,7 +222,7 @@ public class AddProductSeller extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(AddProductSeller.this, "Thêm thành công!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AddProductSeller.this, getString(R.string.add_to_success), Toast.LENGTH_SHORT).show();
 //                                                clearData();
                                             }
                                         })
@@ -248,7 +248,7 @@ public class AddProductSeller extends AppCompatActivity {
     private Boolean validateName() {
         String val = binding.titleEdt.getEditText().getText().toString();
         if (val.isEmpty()) {
-            binding.titleEdt.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.titleEdt.setError(getString(R.string.please_enter));
             binding.titleEdt.requestFocus();
             return false;
         } else {
@@ -261,7 +261,7 @@ public class AddProductSeller extends AppCompatActivity {
     private Boolean validateVariant() {
         String val = binding.tvVariant.getEditText().getText().toString();
         if (val.isEmpty()) {
-            binding.tvVariant.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.tvVariant.setError(getString(R.string.please_enter));
             binding.tvVariant.requestFocus();
             return false;
         } else {
@@ -274,7 +274,7 @@ public class AddProductSeller extends AppCompatActivity {
     private Boolean validateCreator() {
         String val = binding.titleEdtCreator.getEditText().getText().toString();
         if (val.isEmpty()) {
-            binding.titleEdtCreator.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.titleEdtCreator.setError(getString(R.string.please_enter));
             binding.titleEdtCreator.requestFocus();
             return false;
         } else {
@@ -287,7 +287,7 @@ public class AddProductSeller extends AppCompatActivity {
     private Boolean validateDescription() {
         String val = binding.descriptionEdt.getEditText().getText().toString();
         if (val.isEmpty()) {
-            binding.descriptionEdt.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.descriptionEdt.setError(getString(R.string.please_enter));
             binding.descriptionEdt.requestFocus();
             return false;
         } else {
@@ -300,7 +300,7 @@ public class AddProductSeller extends AppCompatActivity {
     private Boolean validateQuantity() {
         String val = binding.quantityEdt.getEditText().getText().toString();
         if (val.isEmpty()) {
-            binding.quantityEdt.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.quantityEdt.setError(getString(R.string.please_enter));
             binding.quantityEdt.requestFocus();
             return false;
         } else {
@@ -313,7 +313,7 @@ public class AddProductSeller extends AppCompatActivity {
     private Boolean validatePrice() {
         String val = binding.priceEdt.getEditText().getText().toString();
         if (val.isEmpty()) {
-            binding.priceEdt.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.priceEdt.setError(getString(R.string.please_enter));
             binding.priceEdt.requestFocus();
             return false;
         } else {

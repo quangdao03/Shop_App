@@ -285,7 +285,7 @@ public class EditProductSeller extends AppCompatActivity {
     }
 
     private void updateProduct() {
-        progressDialog.setMessage("Đang cập nhật sản phẩm");
+        progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
 
         if (image_uri == null){
@@ -303,7 +303,7 @@ public class EditProductSeller extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             progressDialog.dismiss();
-                            Toast.makeText(EditProductSeller.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProductSeller.this, getString(R.string.update_to_success), Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     })
@@ -344,7 +344,7 @@ public class EditProductSeller extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(EditProductSeller.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(EditProductSeller.this, getString(R.string.update_to_success), Toast.LENGTH_SHORT).show();
                                                 finish();
                                             }
                                         })
@@ -370,7 +370,7 @@ public class EditProductSeller extends AppCompatActivity {
     private Boolean validateName() {
         String val = binding.name.getText().toString();
         if (val.isEmpty()) {
-            binding.name.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.name.setError(getString(R.string.please_enter));
             binding.name.requestFocus();
             return false;
         } else {
@@ -382,7 +382,7 @@ public class EditProductSeller extends AppCompatActivity {
     private Boolean validateVariant() {
         String val = binding.tvVariant.getText().toString();
         if (val.isEmpty()) {
-            binding.tvVariant.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.tvVariant.setError(getString(R.string.please_enter));
             binding.tvVariant.requestFocus();
             return false;
         } else {
@@ -394,7 +394,7 @@ public class EditProductSeller extends AppCompatActivity {
     private Boolean validateCreator() {
         String val = binding.brand.getText().toString();
         if (val.isEmpty()) {
-            binding.brand.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.brand.setError(getString(R.string.please_enter));
             binding.brand.requestFocus();
             return false;
         } else {
@@ -406,7 +406,7 @@ public class EditProductSeller extends AppCompatActivity {
     private Boolean validateDescription() {
         String val = binding.desc.getText().toString();
         if (val.isEmpty()) {
-            binding.desc.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.desc.setError(getString(R.string.please_enter));
             binding.desc.requestFocus();
             return false;
         } else {
@@ -418,7 +418,7 @@ public class EditProductSeller extends AppCompatActivity {
     private Boolean validateQuantity() {
         String val = binding.quantity.getText().toString();
         if (val.isEmpty()) {
-            binding.quantity.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.quantity.setError(getString(R.string.please_enter));
             binding.quantity.requestFocus();
             return false;
         } else {
@@ -431,7 +431,7 @@ public class EditProductSeller extends AppCompatActivity {
     private Boolean validatePrice() {
         String val = binding.priceEdt.getText().toString();
         if (val.isEmpty()) {
-            binding.priceEdt.setError("Vui lòng nhập đầy đủ thông tin");
+            binding.priceEdt.setError(getString(R.string.please_enter));
             binding.priceEdt.requestFocus();
             return false;
         } else {

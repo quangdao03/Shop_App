@@ -95,9 +95,11 @@ public class ChatUserSeller extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
-                chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
-                rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+                if (chatMessageList.size() != 0){
+                    Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
+                    chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
+                    rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+                }
 
                 // Cập nhật Adapter hoặc hiển thị danh sách
             }

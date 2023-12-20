@@ -57,6 +57,7 @@ public class Category_Product extends AppCompatActivity {
         });
         categoryID = getIntent().getStringExtra("name");
         tv_product_name.setText(categoryID);
+
         getBrand();
         getProduct();
 
@@ -113,13 +114,6 @@ public class Category_Product extends AppCompatActivity {
                     productList.clear();
                 }
                 for (DataSnapshot getData : dataSnapshot.getChildren()) {
-//                    Product product = new Product();
-//                    product.setImage(getData.child("image").getValue().toString());
-//                    product.setName(getData.child("name").getValue().toString());
-//                    product.setPrice("Rp " + getData.child("price").getValue().toString());
-//                    product.setQuantity(getData.child("quantity").getValue().toString());
-//                    product.setId(getData.child("id").getValue().toString());
-//                    Log.d("AAA", "" + getData);
 
                     Product product = getData.getValue(Product.class);
                     productList.add(product);

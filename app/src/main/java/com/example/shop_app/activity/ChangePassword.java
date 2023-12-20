@@ -40,7 +40,7 @@ public class ChangePassword extends AppCompatActivity {
         setContentView(R.layout.layout_changepassword);
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText("Change Password");
+        tvTitleToolbar.setText(getString(R.string.change_pass));
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class ChangePassword extends AppCompatActivity {
         });
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getString(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         btn_ChangePass.setOnClickListener(new View.OnClickListener() {
             @Override

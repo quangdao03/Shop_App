@@ -36,8 +36,8 @@ private View mView;
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 DatalocalManager.setFirstInstalled(true);
-
                 getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +45,8 @@ private View mView;
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 DatalocalManager.setFirstInstalled(true);
-
                 getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
 

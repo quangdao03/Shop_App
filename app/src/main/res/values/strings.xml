@@ -161,5 +161,11 @@
     <string name="purchase_your">Purchase your items online</string>
     <string name="bringing">Bringing thousands of products and services to your fingertips</string>
     <string name="All">All</string>
+    <string name="choose_list">Choose the list</string>
+    <string name="add_product">Add product</string>
+    <string name="adding_product">Adding products</string>
+    <string name="add_to_success">Add to success</string>
+    <string name="update_to_success">Update to success</string>
+    <string name="please_enter">Please enter complete information</string>
 
 </resources>
