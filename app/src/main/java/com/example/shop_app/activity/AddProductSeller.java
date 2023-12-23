@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import com.example.shop_app.R;
 import com.example.shop_app.databinding.ActivityAddProductSellerBinding;
 import com.example.shop_app.model.Category;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -65,7 +66,7 @@ public class AddProductSeller extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-
+        SystemUtil.setLocale(this);
         binding = ActivityAddProductSellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         progressDialog = new ProgressDialog(this);

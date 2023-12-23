@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.ViewPagerAdapter;
+import com.example.shop_app.utils.SystemUtil;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -31,6 +32,7 @@ public class OnboardingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
         anhxa();

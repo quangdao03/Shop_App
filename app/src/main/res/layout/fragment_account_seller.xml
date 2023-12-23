@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -139,7 +141,7 @@
             android:layout_width="0dp"
             android:layout_margin="8dp"
             android:layout_weight="9"
-            android:text="Delivery Address"
+            android:text="@string/addres_info"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -209,6 +211,7 @@
         app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/orderContainer3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -245,6 +248,7 @@
     </LinearLayout>
 
     <View
+        android:visibility="gone"
         android:id="@+id/orderLine3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -255,7 +259,7 @@
         app:layout_constraintTop_toBottomOf="@id/ll_MyOrder" />
 
     <LinearLayout
-        android:id="@+id/orderContainer4"
+        android:id="@+id/ln_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp10"

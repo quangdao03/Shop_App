@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.shop_app.R;
 import com.example.shop_app.databinding.ActivityRegisterSellerBinding;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -79,6 +80,7 @@ public class RegisterSeller extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterSellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

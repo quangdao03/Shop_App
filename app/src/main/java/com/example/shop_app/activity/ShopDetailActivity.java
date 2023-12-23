@@ -16,6 +16,7 @@ import com.example.shop_app.adapter.ListProductNew;
 import com.example.shop_app.adapter.ProductAdapterSeller;
 import com.example.shop_app.databinding.ActivityShopDetailBinding;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +33,7 @@ public class ShopDetailActivity extends AppCompatActivity {
     ListProductNew listProductNew;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityShopDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

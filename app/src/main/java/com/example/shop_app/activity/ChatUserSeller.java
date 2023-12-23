@@ -21,6 +21,7 @@ import com.example.shop_app.adapter.ChatUserAdapter;
 import com.example.shop_app.databinding.ActivityChatUserBinding;
 import com.example.shop_app.databinding.ActivityChatUserSellerBinding;
 import com.example.shop_app.model.ChatMessage;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
@@ -51,6 +52,7 @@ public class ChatUserSeller extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityChatUserSellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

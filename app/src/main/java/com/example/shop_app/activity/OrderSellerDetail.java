@@ -24,7 +24,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.OrderItemAdapter;
 import com.example.shop_app.databinding.ActivityOrderDetailSellerBinding;
 import com.example.shop_app.model.OrderItem;
-import com.example.shop_app.utils.CustomToast;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +62,7 @@ public class OrderSellerDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityOrderDetailSellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -85,21 +86,30 @@ public class OrderSellerDetail extends AppCompatActivity {
             }
         });
         ivToolbarRight.setOnClickListener(view -> {
-            String options[] = {"Đang xử lý", "Đã xác nhận", "Đã hủy"};
+            String options[] = {getString(R.string.process), getString(R.string.confirmed), getString(R.string.cancel)};
 
             AlertDialog.Builder builder = new AlertDialog.Builder(OrderSellerDetail.this);
-            builder.setTitle("Chỉnh sửa trạng thái")
+            builder.setTitle(getString(R.string.fillter))
                     .setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String selectedOptions = options[i];
-                            editStatus(selectedOptions);
+                            if (selectedOptions.equals(getString(R.string.process))) {
+                                editStatus("Đang xử lý");
+                            } else if (selectedOptions.equals(getString(R.string.confirmed))) {
+                                editStatus("Đã xác nhận");
+                            } else {
+                                editStatus("Đã hủy");
+                            }
+
 
                         }
                     }).show();
         });
         checkToken();
+
     }
+
 
     public double allTotalPrice = 0.0;
     public double ship = 2.0;
@@ -122,7 +132,6 @@ public class OrderSellerDetail extends AppCompatActivity {
                             allTotalPrice = allTotalPrice + Double.parseDouble(price);
                             tv_price_total.setText(String.valueOf(allTotalPrice));
                         }
-
                         orderItemAdapter = new OrderItemAdapter(OrderSellerDetail.this, orderItemList);
                         rcy_Order.setAdapter(orderItemAdapter);
                     }
@@ -179,7 +188,7 @@ public class OrderSellerDetail extends AppCompatActivity {
     private void editStatus(String selectedOptions) {
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("orderStatus","" + selectedOptions);
+        hashMap.put("orderStatus", "" + selectedOptions);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child("Orders").child(orderId)
@@ -187,19 +196,76 @@ public class OrderSellerDetail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        String message = "Đơn hàng: "+selectedOptions;
+                        String message = getString(R.string.order) + " : " + selectedOptions;
                         Toast.makeText(OrderSellerDetail.this, message, Toast.LENGTH_SHORT).show();
                         prepareNotificationMessage(orderId, message);
+
+                        for (int i = 0; i < orderItemList.size(); i++) {
+                            String productId = orderItemList.get(i).getProductID();
+                            String quantity = orderItemList.get(i).getQuantity();
+                            updateProductQuantity(productId, quantity);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(OrderSellerDetail.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderSellerDetail.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-    private void prepareNotificationMessage(String orderId, String message){
+
+    String quantity_total;
+
+    private void updateProductQuantity(String product_id, String quantity) {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Product");
+        // Read from the database
+        myRef.child(product_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                quantity_total = dataSnapshot.child("quantity").getValue().toString();
+                int updatedQuantity = Integer.parseInt(quantity_total) - Integer.parseInt(quantity);
+
+                if (updatedQuantity > 5) {
+                    updateQuantityAndShowMessage(updatedQuantity,product_id);
+                } else if (updatedQuantity   <= 5 && updatedQuantity > 0) {
+                    Toast.makeText(OrderSellerDetail.this, getString(R.string.there_are), Toast.LENGTH_SHORT).show();
+                    updateQuantityAndShowMessage(updatedQuantity,product_id);
+                } else if (updatedQuantity <= 0) {
+                    Toast.makeText(OrderSellerDetail.this, getString(R.string.there_are_not), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+
+            }
+        });
+
+    }
+    private void updateQuantityAndShowMessage( int updatedQuantity,String product_id) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("quantity", "" + updatedQuantity);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product");
+        reference.child(product_id).updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(OrderSellerDetail.this, "ok", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
+    private void prepareNotificationMessage(String orderId, String message) {
         String NOTIFICATION_TOPIC = token_user;
         String NOTIFICATION_TITLE = "Đơn hàng của bạn " + orderId;
         String NOTIFICATION_MESSAGE = "" + message;
@@ -208,18 +274,18 @@ public class OrderSellerDetail extends AppCompatActivity {
         JSONObject notificationJson = new JSONObject();
         JSONObject notificationBodyJson = new JSONObject();
         try {
-            notificationBodyJson.put("notificationType" , NOTIFICATION_TYPE);
-            notificationBodyJson.put("buyerUid" , orderTo);
-            notificationBodyJson.put("sellerUid" , firebaseAuth.getUid());
-            notificationBodyJson.put("orderId" , orderId);
-            notificationBodyJson.put("notificationTitle" , NOTIFICATION_TITLE);
-            notificationBodyJson.put("notificationMessage" , NOTIFICATION_MESSAGE);
+            notificationBodyJson.put("notificationType", NOTIFICATION_TYPE);
+            notificationBodyJson.put("buyerUid", orderTo);
+            notificationBodyJson.put("sellerUid", firebaseAuth.getUid());
+            notificationBodyJson.put("orderId", orderId);
+            notificationBodyJson.put("notificationTitle", NOTIFICATION_TITLE);
+            notificationBodyJson.put("notificationMessage", NOTIFICATION_MESSAGE);
 
             notificationJson.put("to", NOTIFICATION_TOPIC);
             notificationJson.put("data", notificationBodyJson);
 
-        }catch (Exception e){
-            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         sendFcmNotification(notificationJson);
@@ -234,7 +300,7 @@ public class OrderSellerDetail extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -246,6 +312,7 @@ public class OrderSellerDetail extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+
     private void mapping() {
 
 
@@ -263,12 +330,12 @@ public class OrderSellerDetail extends AppCompatActivity {
 
     }
 
-    private void checkToken(){
+    private void checkToken() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.orderByChild("uid").equalTo(orderBy).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     token_user = (String) dataSnapshot.child("token").getValue();
 
                 }

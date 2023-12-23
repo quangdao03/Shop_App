@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.OrderUserAdapter;
 import com.example.shop_app.model.Order;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +38,7 @@ public class ListDetailOrder extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_detail_order);
         mapping();

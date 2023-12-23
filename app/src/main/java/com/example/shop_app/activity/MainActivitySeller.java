@@ -10,12 +10,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.shop_app.R;
 import com.example.shop_app.databinding.ActivityMainSellerBinding;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivitySeller extends AppCompatActivity {
     private ActivityMainSellerBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
 
 

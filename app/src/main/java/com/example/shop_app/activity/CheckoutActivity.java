@@ -25,6 +25,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.PaymentAdapter;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.example.shop_app.zalo.CreateOrder;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -78,6 +79,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT);

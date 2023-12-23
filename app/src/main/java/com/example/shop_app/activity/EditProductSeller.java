@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.databinding.ActivityEditProductSellerBinding;
 import com.example.shop_app.model.Category;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -66,6 +67,7 @@ public class EditProductSeller extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         binding = ActivityEditProductSellerBinding.inflate(getLayoutInflater());

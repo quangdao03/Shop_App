@@ -19,8 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
+import com.example.shop_app.activity.About;
+import com.example.shop_app.activity.EditUser;
 import com.example.shop_app.activity.LoginActivity;
+import com.example.shop_app.activity.Setting;
 import com.example.shop_app.activity.StatisticalActivity;
+import com.example.shop_app.databinding.FragmentAccountSellerBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,22 +39,25 @@ import java.util.HashMap;
 
 public class AccountFragmentSeller extends Fragment {
     View view;
-    LinearLayout ll_logout,ll_Address,ln_Statistical;
-    TextView tvTitleToolbar,txt_username,txt_userphone,txt_email;
-    ImageView ivToolbarLeft,ivToolbarRight,userImage_ImageView;
+    LinearLayout ll_logout, ll_Address, ln_Statistical;
+    TextView tvTitleToolbar, txt_username, txt_userphone, txt_email;
+    ImageView ivToolbarLeft, ivToolbarRight, userImage_ImageView;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    FragmentAccountSellerBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_account_seller, container,false);
+        binding = FragmentAccountSellerBinding.inflate(getLayoutInflater());
+        view = inflater.inflate(R.layout.fragment_account_seller, container, false);
         init();
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setImageResource(R.drawable.icon_settings__style);
-        tvTitleToolbar.setText("Profile");
+        tvTitleToolbar.setText(getString(R.string.profile));
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getString(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         checkUser();
         ll_logout.setOnClickListener(new View.OnClickListener() {
@@ -62,37 +69,50 @@ public class AccountFragmentSeller extends Fragment {
         ln_Statistical.setOnClickListener(view1 -> {
             startActivity(new Intent(getContext(), StatisticalActivity.class));
         });
-        return  view;
+        binding.llAddress.setOnClickListener(view1 -> {
+            startActivity(new Intent(requireContext(), EditUser.class));
+        });
+        binding.llSetting.setOnClickListener(view1 -> {
+            startActivity(new Intent(requireContext(), Setting.class));
+        });
+        binding.toolbar.ivToolbarRight.setOnClickListener(view1 -> {
+            startActivity(new Intent(requireContext(), Setting.class));
+        });
+        binding.lnAbout.setOnClickListener(view1 -> {
+            startActivity(new Intent(requireContext(), About.class));
+        });
+        return binding.getRoot();
     }
+
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user == null){
+        if (user == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             requireActivity().finishAffinity();
-        }
-        else {
+        } else {
             loadMyInfo();
         }
     }
+
     private void loadMyInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            String name = ""+dataSnapshot.child("name").getValue();
-                            String email = ""+dataSnapshot.child("email").getValue();
-                            String phone = ""+dataSnapshot.child("phone").getValue();
-                            String profileImage = ""+dataSnapshot.child("profileImage").getValue();
-                            String accountType = ""+dataSnapshot.child("accountType").getValue();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String name = "" + dataSnapshot.child("name").getValue();
+                            String email = "" + dataSnapshot.child("email").getValue();
+                            String phone = "" + dataSnapshot.child("phone").getValue();
+                            String profileImage = "" + dataSnapshot.child("profileImage").getValue();
+                            String accountType = "" + dataSnapshot.child("accountType").getValue();
 
                             txt_username.setText(name);
                             txt_email.setText(email);
                             txt_userphone.setText(phone);
                             try {
                                 Glide.with(getActivity()).load(profileImage).placeholder(R.drawable.profile).into(userImage_ImageView);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 userImage_ImageView.setImageResource(R.drawable.profile);
                             }
 
@@ -105,12 +125,13 @@ public class AccountFragmentSeller extends Fragment {
                     }
                 });
     }
-    private void  logOut(){
+
+    private void logOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        builder.setMessage("Bạn có muốn đăng xuất?");
+        builder.setMessage(getString(R.string.log_out));
 
-        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 makeMeOffline();
@@ -118,7 +139,7 @@ public class AccountFragmentSeller extends Fragment {
             }
         });
 
-        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -129,8 +150,8 @@ public class AccountFragmentSeller extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
     private void makeMeOffline() {
-        progressDialog.setMessage("Đang đăng nhập...");
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online", "false");
 
@@ -147,22 +168,21 @@ public class AccountFragmentSeller extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
     private void init() {
-
-
-        ln_Statistical = view.findViewById(R.id.ln_Statistical);
-        ll_logout = view.findViewById(R.id.ll_logout);
-        ll_Address = view.findViewById(R.id.ll_Address);
-        tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);
-        ivToolbarLeft = view.findViewById(R.id.ivToolbarLeft);
-        ivToolbarRight = view.findViewById(R.id.ivToolbarRight);
-        txt_username = view.findViewById(R.id.txt_username);
-        txt_email = view.findViewById(R.id.txt_email);
-        txt_userphone = view.findViewById(R.id.txt_userphone);
-        userImage_ImageView = view.findViewById(R.id.userImage_ImageView);
+        ln_Statistical = binding.lnStatistical;
+        ll_logout = binding.llLogout;
+        ll_Address = binding.llAddress;
+        tvTitleToolbar = binding.toolbar.tvTitleToolbar;
+        ivToolbarLeft = binding.toolbar.ivToolbarLeft;
+        ivToolbarRight = binding.toolbar.ivToolbarRight;
+        txt_username = binding.txtUsername;
+        txt_email = binding.txtEmail;
+        txt_userphone = binding.txtUserphone;
+        userImage_ImageView = binding.userImageImageView;
     }
 }

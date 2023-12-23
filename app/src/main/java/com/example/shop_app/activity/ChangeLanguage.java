@@ -33,6 +33,7 @@ public class ChangeLanguage extends AppCompatActivity {
     String codeLang;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_language);
         mapping();

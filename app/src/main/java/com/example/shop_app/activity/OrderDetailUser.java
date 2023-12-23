@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.shop_app.R;
 import com.example.shop_app.adapter.OrderItemAdapter;
 import com.example.shop_app.model.OrderItem;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,6 +57,7 @@ public class OrderDetailUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail_user);
         mapping();

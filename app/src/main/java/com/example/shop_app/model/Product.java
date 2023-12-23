@@ -17,7 +17,6 @@ public class Product {
     private String desc;
     private String creator;
     private Boolean favourite;
-
     private String category;
     private String uid;
 

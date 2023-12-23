@@ -16,6 +16,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.OrderSellerAdapter;
 import com.example.shop_app.databinding.ActivityBarChartBinding;
 import com.example.shop_app.model.Order;
+import com.example.shop_app.utils.SystemUtil;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -56,6 +57,7 @@ public class BarChartActivity extends AppCompatActivity {
     List<Integer> monthlyOrderSumList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityBarChartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -85,11 +87,11 @@ public class BarChartActivity extends AppCompatActivity {
         entries.add(new BarEntry(11,95f));
         YAxis yAxis = binding.barChart.getAxisLeft();
         yAxis.setAxisMaximum(0f);
-        yAxis.setAxisMaximum(500f);
+        yAxis.setAxisMaximum(2000f);
         yAxis.setAxisLineWidth(2f);
         yAxis.setAxisLineColor(Color.BLACK);
         yAxis.setLabelCount(10);
-        BarDataSet barDataSet = new BarDataSet(entries,"Month");
+        BarDataSet barDataSet = new BarDataSet(entries,"Amount of money by month");
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         BarData barData = new BarData(barDataSet);
         binding.barChart.setData(barData);
@@ -105,7 +107,7 @@ public class BarChartActivity extends AppCompatActivity {
             String options[] = yearList.toArray(new String[0]);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(BarChartActivity.this);
-            builder.setTitle("Sắp xếp")
+            builder.setTitle(getString(R.string.fillter))
                     .setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -227,7 +229,6 @@ public class BarChartActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Xử lý khi có lỗi truy xuất dữ liệu
                     }
                 });
     }
@@ -240,7 +241,7 @@ public class BarChartActivity extends AppCompatActivity {
             entries.add(new BarEntry(i, (float) orderSum));
         }
 
-        BarDataSet barDataSet = new BarDataSet(entries, "Monthly Order Quantity");
+        BarDataSet barDataSet = new BarDataSet(entries, "Amount of money by month");
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         BarData barData = new BarData(barDataSet);
         binding.barChart.setData(barData);

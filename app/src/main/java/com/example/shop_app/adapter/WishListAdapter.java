@@ -154,61 +154,63 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListVi
                 btn_AddToCart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        int quantity_product = Integer.parseInt(quantity);
-//                        if (quantity_product <= 0) {
-//                            Toast.makeText(ProductDetail.this, "Xin lỗi, sản phẩm này là tạm thời hết hàng", Toast.LENGTH_SHORT).show();
-//                        }
-                        dialog.dismiss();
-                        final Dialog dialog = new Dialog(context);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.layout);
-                        dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
+                        int quantity_product = Integer.parseInt(product.getQuantity());
+                        if (quantity_product <= 0) {
+                            Toast.makeText(context, context.getString(R.string.sorry), Toast.LENGTH_SHORT).show();
+                        }else{
+                            dialog.dismiss();
+                            final Dialog dialog = new Dialog(context);
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setContentView(R.layout.layout);
+                            dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
 
-                        Window window = dialog.getWindow();
-                        window.setGravity(Gravity.BOTTOM);
-                        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.setCancelable(true);
-                        Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
-                        TextView tv_tap = dialog.findViewById(R.id.tv_tap);
-                        tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                        String image = url;
-                        String name = tv_dialog_name.getText().toString().trim();
-                        String price_name = price;
-                        String creator = tv_dialog_creator.getText().toString().trim();
-                        String variant = tv_dialog_variant.getText().toString().trim();
-                        String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
-                        String quantity = tv_quantity.getText().toString().trim();
-                        String idProduct = String.valueOf(product.getId());
-
-
-                        CartRoom cartRoom = new CartRoom();
-                        cartRoom.setProductID(idProduct);
-                        cartRoom.setImage(image);
-                        cartRoom.setName(name);
-                        cartRoom.setCreator(creator);
-                        cartRoom.setVariant(variant);
-                        cartRoom.setPrice(price_name);
-                        cartRoom.setPriceEach(totalprice);
-                        cartRoom.setQuantity(quantity);
-                        cartRoom.setShop_id(product.getUid());
-                        CartDatabase.getInstance(context).cartDAO().insertCart(cartRoom);
-
-                        btn_Ok.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
+                            Window window = dialog.getWindow();
+                            window.setGravity(Gravity.BOTTOM);
+                            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.setCancelable(true);
+                            Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
+                            TextView tv_tap = dialog.findViewById(R.id.tv_tap);
+                            tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            String image = url;
+                            String name = tv_dialog_name.getText().toString().trim();
+                            String price_name = price;
+                            String creator = tv_dialog_creator.getText().toString().trim();
+                            String variant = tv_dialog_variant.getText().toString().trim();
+                            String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
+                            String quantity = tv_quantity.getText().toString().trim();
+                            String idProduct = String.valueOf(product.getId());
 
 
-                            }
-                        });
-                        tv_tap.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                            CartRoom cartRoom = new CartRoom();
+                            cartRoom.setProductID(idProduct);
+                            cartRoom.setImage(image);
+                            cartRoom.setName(name);
+                            cartRoom.setCreator(creator);
+                            cartRoom.setVariant(variant);
+                            cartRoom.setPrice(price_name);
+                            cartRoom.setPriceEach(totalprice);
+                            cartRoom.setQuantity(quantity);
+                            cartRoom.setShop_id(product.getUid());
+                            CartDatabase.getInstance(context).cartDAO().insertCart(cartRoom);
 
-                            }
-                        });
-                        dialog.show();
+                            btn_Ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+
+
+                                }
+                            });
+                            tv_tap.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            });
+                            dialog.show();
+                        }
+
                     }
                 });
                 tv_detail.setOnClickListener(view1 -> {

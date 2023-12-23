@@ -14,6 +14,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.ChatListSeller;
 import com.example.shop_app.databinding.ActivityChatUserListBinding;
 import com.example.shop_app.model.Seller;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,7 @@ public class ChatUserList extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityChatUserListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -48,8 +50,6 @@ public class ChatUserList extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.rcyChatSeller.setLayoutManager(linearLayoutManager);
         binding.rcyChatSeller.setHasFixedSize(true);
-        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        binding.rcyChatSeller.addItemDecoration(decoration);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.orderByChild("uid").addValueEventListener(new ValueEventListener() {
             @Override

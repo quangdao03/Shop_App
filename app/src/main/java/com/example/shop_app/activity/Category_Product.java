@@ -20,6 +20,7 @@ import com.example.shop_app.adapter.BrandAdapter;
 import com.example.shop_app.adapter.ListProductAdapter;
 import com.example.shop_app.model.Brand;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +42,7 @@ public class Category_Product extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_wishlist);
         init();

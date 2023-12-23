@@ -26,6 +26,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.ListProductAdapter;
 import com.example.shop_app.adapter.ProductBrandAdapter;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +49,7 @@ public class Product_Brand extends AppCompatActivity {
     String name = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_product_brand);
         mapping();

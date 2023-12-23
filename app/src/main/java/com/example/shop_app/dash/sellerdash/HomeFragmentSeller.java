@@ -48,15 +48,10 @@ public class HomeFragmentSeller extends Fragment {
     ImageView ivToolbarLeft, ivToolbarRight, ivToolbarRight_message;
     RecyclerView rcy_Prodcut_Seller;
     List<Product> productList = new ArrayList<>();
-
     ProductAdapterSeller productAdapter;
-    List<Order> orderList = new ArrayList<>();
     FirebaseAuth firebaseAuth;
     List<CostOrder> costOrderList = new ArrayList<>();
-
     SearchView edt_search;
-
-
     FragmentHomeSellerBinding binding;
 
     @Nullable
@@ -75,7 +70,7 @@ public class HomeFragmentSeller extends Fragment {
 
 
     private void viewClick() {
-        tvTitleToolbar.setText("Product");
+        tvTitleToolbar.setText(getString(R.string.product));
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setImageResource(R.drawable.icons8_add);
         ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +184,6 @@ public class HomeFragmentSeller extends Fragment {
                             Utils.ImageSeller = image;
                             Utils.name_shop = shop_name;
                             binding.tvShopname.setText(requireActivity().getString(R.string.shop_name)+ " : " + shop_name);
-
                         }
                     }
 

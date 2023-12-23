@@ -19,6 +19,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.ProductAdapter;
 import com.example.shop_app.adapter.ProductAllAdapter;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +39,7 @@ public class Product_All extends AppCompatActivity {
     SearchView search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_all);
         mapping();

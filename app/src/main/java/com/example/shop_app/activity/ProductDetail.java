@@ -28,6 +28,7 @@ import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
 import com.example.shop_app.model.Product;
 import com.example.shop_app.utils.CustomToast;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -61,11 +62,12 @@ public class ProductDetail extends AppCompatActivity {
 
     String name_product, price, quantity, creator, variant;
     ImageView img_ava_shop;
-    TextView tv_name_shop,tv_shop_detail,tv_category_product;
+    TextView tv_name_shop, tv_shop_detail, tv_category_product;
     RelativeLayout rl_view_shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         getSupportActionBar().hide();
@@ -147,12 +149,12 @@ public class ProductDetail extends AppCompatActivity {
                 quantity = dataSnapshot.child("quantity").getValue().toString();
                 creator = dataSnapshot.child("creator").getValue().toString();
                 variant = dataSnapshot.child("variant").getValue().toString();
-                if (shop_uid != null){
+                if (shop_uid != null) {
                     getInfoShop();
                     tv_category_product.setText(dataSnapshot.child("category").getValue().toString());
                     tv_shop_detail.setOnClickListener(view -> {
-                        Intent intent = new Intent(ProductDetail.this,ShopDetailActivity.class);
-                        intent.putExtra("uid",shop_uid);
+                        Intent intent = new Intent(ProductDetail.this, ShopDetailActivity.class);
+                        intent.putExtra("uid", shop_uid);
                         startActivity(intent);
                     });
                 }
@@ -166,24 +168,24 @@ public class ProductDetail extends AppCompatActivity {
         });
     }
 
-    private void getInfoShop(){
+    private void getInfoShop() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Users");
         myRef.orderByChild("uid").equalTo(shop_uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String name = ""+dataSnapshot.child("shop_name").getValue();
-                    String email = ""+dataSnapshot.child("email").getValue();
-                    String phone = ""+dataSnapshot.child("phone").getValue();
-                    String profileImage = ""+dataSnapshot.child("profileImage").getValue();
-                    String accountType = ""+dataSnapshot.child("accountType").getValue();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String name = "" + dataSnapshot.child("shop_name").getValue();
+                    String email = "" + dataSnapshot.child("email").getValue();
+                    String phone = "" + dataSnapshot.child("phone").getValue();
+                    String profileImage = "" + dataSnapshot.child("profileImage").getValue();
+                    String accountType = "" + dataSnapshot.child("accountType").getValue();
 
                     tv_name_shop.setText(name);
 
                     try {
                         Glide.with(ProductDetail.this).load(profileImage).placeholder(R.drawable.profile).into(img_ava_shop);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         img_ava_shop.setImageResource(R.drawable.profile);
                     }
 
@@ -196,6 +198,7 @@ public class ProductDetail extends AppCompatActivity {
             }
         });
     }
+
     private void getWishList() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Wishlist");
         reference.child(firebaseAuth.getUid()).child(name).addValueEventListener(new ValueEventListener() {
@@ -336,63 +339,69 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int quantity_product = Integer.parseInt(quantity);
-                if (quantity_product <= 0) {
-                    Toast.makeText(ProductDetail.this, "Xin lỗi, sản phẩm này là tạm thời hết hàng", Toast.LENGTH_SHORT).show();
+                int quantity_final = Integer.parseInt(tv_quantity.getText().toString().trim());
+
+                if (quantity_product > 0) {
+                    if (quantity_final <= quantity_product) {
+                        bottomSheetDialog.dismiss();
+                        final Dialog dialog = new Dialog(ProductDetail.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.layout);
+                        dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
+
+                        Window window = dialog.getWindow();
+                        window.setGravity(Gravity.BOTTOM);
+                        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.setCancelable(true);
+                        Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
+                        TextView tv_tap = dialog.findViewById(R.id.tv_tap);
+                        tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        String image = url;
+                        String name = tv_dialog_name.getText().toString().trim();
+                        String price_name = price;
+                        String creator = tv_dialog_creator.getText().toString().trim();
+                        String variant = tv_dialog_variant.getText().toString().trim();
+                        String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
+                        String quantity = tv_quantity.getText().toString().trim();
+                        String idProduct = IDProduct;
+
+                        CartRoom cartRoom = new CartRoom();
+                        cartRoom.setProductID(idProduct);
+                        cartRoom.setImage(url);
+                        cartRoom.setName(name);
+                        cartRoom.setCreator(creator);
+                        cartRoom.setVariant(variant);
+                        cartRoom.setPrice(price_name);
+                        cartRoom.setPriceEach(totalprice);
+                        cartRoom.setQuantity(quantity);
+                        cartRoom.setShop_id(shop_uid);
+                        CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
+
+
+                        btn_Ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                                CustomToast.makeText(ProductDetail.this, "" + getText(R.string.product_cart), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+                                btn_Add_to_cart.setOnClickListener(null);
+                                btn_Add_to_cart.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_buy_fail));
+                                btn_Add_to_cart.setTextColor(Color.parseColor("#414040"));
+                                btn_Add_to_cart.setText(getString(R.string.added_cart));
+                            }
+                        });
+                        tv_tap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        Toast.makeText(ProductDetail.this, getString(R.string.product_low), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    bottomSheetDialog.dismiss();
-                    final Dialog dialog = new Dialog(ProductDetail.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.layout);
-                    dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Animation_AppCompat_DropDownUp;
-
-                    Window window = dialog.getWindow();
-                    window.setGravity(Gravity.BOTTOM);
-                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.setCancelable(true);
-                    Button btn_Ok = dialog.findViewById(R.id.btn_Ok);
-                    TextView tv_tap = dialog.findViewById(R.id.tv_tap);
-                    tv_tap.setPaintFlags(tv_tap.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    String image = url;
-                    String name = tv_dialog_name.getText().toString().trim();
-                    String price_name = price;
-                    String creator = tv_dialog_creator.getText().toString().trim();
-                    String variant = tv_dialog_variant.getText().toString().trim();
-                    String totalprice = tv_price_product_final.getText().toString().trim().replace("", "");
-                    String quantity = tv_quantity.getText().toString().trim();
-                    String idProduct = IDProduct;
-
-                    CartRoom cartRoom = new CartRoom();
-                    cartRoom.setProductID(idProduct);
-                    cartRoom.setImage(url);
-                    cartRoom.setName(name);
-                    cartRoom.setCreator(creator);
-                    cartRoom.setVariant(variant);
-                    cartRoom.setPrice(price_name);
-                    cartRoom.setPriceEach(totalprice);
-                    cartRoom.setQuantity(quantity);
-                    cartRoom.setShop_id(shop_uid);
-                    CartDatabase.getInstance(ProductDetail.this).cartDAO().insertCart(cartRoom);
-
-
-                    btn_Ok.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                            CustomToast.makeText(ProductDetail.this, "" + getText(R.string.product_cart), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
-                            btn_Add_to_cart.setOnClickListener(null);
-                            btn_Add_to_cart.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_buy_fail));
-                            btn_Add_to_cart.setTextColor(Color.parseColor("#414040"));
-                            btn_Add_to_cart.setText("Đã thêm vào giỏ hàng");
-                        }
-                    });
-                    tv_tap.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                        }
-                    });
-                    dialog.show();
+                    Toast.makeText(ProductDetail.this, getString(R.string.sorry), Toast.LENGTH_SHORT).show();
                 }
             }
         });

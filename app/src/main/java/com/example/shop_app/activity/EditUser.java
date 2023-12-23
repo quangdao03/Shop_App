@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.utils.CustomToast;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,6 +66,7 @@ public class EditUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
         mapping();

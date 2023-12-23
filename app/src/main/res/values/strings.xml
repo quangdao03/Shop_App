@@ -172,5 +172,13 @@
     <string name="resend_code">I didn\'t receive otp code</string>
     <string name="verification">Verification Code</string>
     <string name="please_type">Please type the verification code sent to </string>
+    <string name="sorry">Sorry, this product is temporarily out of stock</string>
+    <string name="added_cart">Added to cart</string>
+    <string name="there_are">There are not many products in stock, please enter more quantity</string>
+    <string name="there_are_not">The number of products in stock is out of stock, please add more products</string>
+    <string name="product_low">Sorry, the quantity of products in stock is low, please reduce the quantity</string>
+    <string name="log_out">Do you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>
