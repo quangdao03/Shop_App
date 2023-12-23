@@ -168,6 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:layout_marginStart="3dp"
             android:fontFamily="@font/readex"
             android:textColor="@color/white"
             android:id="@+id/txt_Create"

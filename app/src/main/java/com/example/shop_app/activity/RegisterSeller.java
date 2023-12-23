@@ -33,8 +33,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.Nullable;
@@ -44,6 +49,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class RegisterSeller extends AppCompatActivity {
 
@@ -68,6 +74,8 @@ public class RegisterSeller extends AppCompatActivity {
     ActivityRegisterSellerBinding binding;
 
     String token;
+    String verification_id;
+    private  PhoneAuthProvider.ForceResendingToken resend;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +105,7 @@ public class RegisterSeller extends AppCompatActivity {
         txt_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegisterSeller.this,LoginActivity.class));
+                onBackPressed();
                 finish();
             }
         });
@@ -125,6 +133,43 @@ public class RegisterSeller extends AppCompatActivity {
                 token = task.getResult();
                 Log.d("token",token);
             }
+        });
+        binding.tvSubmit.setOnClickListener(view -> {
+            try {
+                PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verification_id,binding.otpView.getOTP());
+                signInWithPhoneAuthCredential(phoneAuthCredential);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        binding.tvOtpSendAgain.setOnClickListener(view -> {
+            PhoneAuthOptions options =
+                    PhoneAuthOptions.newBuilder(firebaseAuth)
+                            .setPhoneNumber(phone)       // Phone number to verify
+                            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                            .setActivity(this)
+                            .setForceResendingToken(resend)// (optional) Activity for callback binding
+                            // If no activity is passed, reCAPTCHA verification can not be used.
+                            .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                @Override
+                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                    signInWithPhoneAuthCredential(phoneAuthCredential);
+                                }
+
+                                @Override
+                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                    Toast.makeText(RegisterSeller.this, "Verification Failed", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                    super.onCodeSent(s, forceResendingToken);
+                                    verification_id = s;
+                                    resend = forceResendingToken;
+                                }
+                            })          // OnVerificationStateChangedCallbacks
+                            .build();
+            PhoneAuthProvider.verifyPhoneNumber(options);
         });
     }
 
@@ -231,7 +276,10 @@ public class RegisterSeller extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        saveFireDatabase();
+                        onClickVerifyPhone(phone);
+                        binding.rlViewCreate.setVisibility(View.GONE);
+                        binding.rlOtp.setVisibility(View.VISIBLE);
+                        binding.textNumber.setText(getString(R.string.please_type) + phone);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -452,5 +500,48 @@ public class RegisterSeller extends AppCompatActivity {
         img_Register = findViewById(R.id.img_Register);
         txt_Login = findViewById(R.id.txt_Login);
 
+    }
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            saveFireDatabase();
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(RegisterSeller.this, "This verification code entered was invalid", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void onClickVerifyPhone(String number){
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(firebaseAuth)
+                        .setPhoneNumber(number)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            @Override
+                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                signInWithPhoneAuthCredential(phoneAuthCredential);
+                            }
+
+                            @Override
+                            public void onVerificationFailed(@NonNull FirebaseException e) {
+                                Toast.makeText(RegisterSeller.this, "Verification Failed", Toast.LENGTH_SHORT).show();
+                                Log.e("otp_very",e.getMessage());
+                            }
+
+                            @Override
+                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(s, forceResendingToken);
+                                verification_id = s;
+                            }
+                        })
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 }

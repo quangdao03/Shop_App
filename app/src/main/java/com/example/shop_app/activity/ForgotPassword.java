@@ -37,6 +37,7 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                finish();
             }
         });
         tvTitleToolbar.setText(getText(R.string.forgot_pass));

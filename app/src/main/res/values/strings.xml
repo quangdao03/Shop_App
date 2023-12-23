@@ -3,7 +3,7 @@
     <string name="app_name">Shop App</string>
     <string name="app_home">Home</string>
     <string name="app_favorite">WishList</string>
-    <string name="app_history">Lịch sử</string>
+    <string name="app_history">History</string>
     <string name="app_account">Account</string>
     <string name="app_profile">Account</string>
     <string name="app_password">Change Password</string>
@@ -120,7 +120,7 @@
     <string name="add_wishlist">Added to Wishlist</string>
     <string name="product_cart">The product has been added to cart</string>
     <string name="invalid_email">Invalid email</string>
-    <string name="invalid_pass">Mật khẩu không hợp lệ Ít nhất 6 ký tự và có ít nhất 1 ký tự đặc biệt</string>
+    <string name="invalid_pass">Invalid password At least 6 characters and at least 1 special character</string>
     <string name="creating_account_success">Account successfully created</string>
     <string name="creating_account_fail">Account creation failed</string>
     <string name="creating_account">Creating an account</string>
@@ -167,5 +167,10 @@
     <string name="add_to_success">Add to success</string>
     <string name="update_to_success">Update to success</string>
     <string name="please_enter">Please enter complete information</string>
+    <string name="Submit">Submit</string>
+    <string name="comment">Comment (*)</string>
+    <string name="resend_code">I didn\'t receive otp code</string>
+    <string name="verification">Verification Code</string>
+    <string name="please_type">Please type the verification code sent to </string>
 
 </resources>

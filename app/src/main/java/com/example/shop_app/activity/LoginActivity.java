@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
+
             }
         });
         ll_login.setOnClickListener(new View.OnClickListener() {
@@ -163,13 +164,18 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        if (progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                         makeMeOnline();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
+                        if (progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                         Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -231,5 +237,13 @@ public class LoginActivity extends AppCompatActivity {
         imgShowPassword = findViewById(R.id.imgShowPassword);
         forgotPass = findViewById(R.id.forgotPass);
         ll_login = findViewById(R.id.ll_login);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

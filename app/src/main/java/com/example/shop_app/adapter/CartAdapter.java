@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,7 +23,6 @@ import com.example.shop_app.EventBus.TotalEventCart;
 import com.example.shop_app.R;
 import com.example.shop_app.database.CartDatabase;
 import com.example.shop_app.database.CartRoom;
-import com.example.shop_app.database.MyDatabaseHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -33,23 +31,14 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder> {
     Context context;
     private List<CartRoom> cartList;
-    iClickListener mClick;
-
-    public interface iClickListener {
-        void onClickUpdateItem(CartRoom cart);
-
-        void onClickDeleteItem(CartRoom cart);
-    }
 
     private double cost = 0;
     private double finalCost = 0;
     int quantityProduct = 1;
 
-    public CartAdapter(Context context, List<CartRoom> cartList, iClickListener iClickListener) {
+    public CartAdapter(Context context, List<CartRoom> cartList) {
         this.context = context;
         this.cartList = cartList;
-        this.mClick = iClickListener;
-
     }
 
     @NonNull
@@ -81,7 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
             @Override
             public void onClick(View view) {
 
-                TextView tv_cancel,tv_delete;
+                TextView tv_cancel, tv_delete;
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_delete_item_cart);
@@ -97,7 +86,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
                 tv_delete.setOnClickListener(view1 -> {
                     CartDatabase.getInstance(context).cartDAO().deleteCart(cart);
                     cartList.remove(position);
-                    notifyItemChanged(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, cartList.size());
                     EventBus.getDefault().postSticky(new TotalEventCart());
                     dialog.dismiss();
                 });
@@ -132,7 +122,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
                 double price = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
                 int quantity = Integer.parseInt(cart.getQuantity());
 
-                if (quantity > 1){
+                if (quantity > 1) {
                     quantity--;
                     double pricefinal = quantity * price;
                     cart.setPriceEach(String.valueOf(pricefinal));

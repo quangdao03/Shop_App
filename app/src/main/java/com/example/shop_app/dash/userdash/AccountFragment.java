@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.About;
 import com.example.shop_app.activity.EditUser;
+import com.example.shop_app.activity.HelpActivity;
 import com.example.shop_app.activity.ListDetailOrder;
 import com.example.shop_app.activity.LoginActivity;
 import com.example.shop_app.activity.Setting;
@@ -38,7 +39,7 @@ import java.util.HashMap;
 
 public class AccountFragment extends Fragment {
     View view;
-    LinearLayout ll_logout,ll_Address,ll_MyOrder,ll_about,ll_profile;
+    LinearLayout ll_logout,ll_Address,ll_MyOrder,ll_about,ll_profile,ln_help,ll_setting;
     TextView tvTitleToolbar,txt_username,txt_userphone,txt_email;
     ImageView ivToolbarLeft,ivToolbarRight,userImage_ImageView;
     private FirebaseAuth firebaseAuth;
@@ -92,6 +93,12 @@ public class AccountFragment extends Fragment {
             public void onClick(View view) {
                 startActivity(new Intent(getContext(),EditUser.class));
             }
+        });
+        ln_help.setOnClickListener(view1 -> {
+            startActivity(new Intent(requireActivity(), HelpActivity.class));
+        });
+        ll_setting.setOnClickListener(view1 -> {
+            startActivity(new Intent(getActivity(), Setting.class));
         });
         return view;
     }
@@ -199,5 +206,7 @@ public class AccountFragment extends Fragment {
         txt_email = view.findViewById(R.id.txt_email);
         txt_userphone = view.findViewById(R.id.txt_userphone);
         userImage_ImageView = view.findViewById(R.id.userImage_ImageView);
+        ln_help = view.findViewById(R.id.ln_help);
+        ll_setting = view.findViewById(R.id.ll_setting);
     }
 }

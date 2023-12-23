@@ -59,13 +59,10 @@ public class CartFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         mapping();
         loadCart();
-        tvTitleToolbar.setText("Cart");
+        tvTitleToolbar.setText(requireContext().getString(R.string.cart));
         ivToolbarLeft.setVisibility(View.GONE);
         ivToolbarRight.setVisibility(View.GONE);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( getActivity(), RecyclerView.VERTICAL, false);
-        rcy_Cart.setLayoutManager (linearLayoutManager);
-        rcy_Cart.setHasFixedSize(true);
-        rcy_Cart.setAdapter(cartAdapter);
+
         btn_BuyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,19 +109,15 @@ public class CartFragment extends Fragment {
     }
 
     private void loadCart() {
+        cartList1.clear();
         cartList1 = CartDatabase.getInstance(getContext()).cartDAO().getAllCart();
 
         totalPrice();
-        cartAdapter = new CartAdapter(getContext(), cartList1, new CartAdapter.iClickListener() {
-            @Override
-            public void onClickUpdateItem(CartRoom cart) {
-            }
-
-            @Override
-            public void onClickDeleteItem(CartRoom cart) {
-            }
-        });
-
+        cartAdapter = new CartAdapter(requireActivity(),cartList1);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
+        rcy_Cart.setLayoutManager (linearLayoutManager);
+        rcy_Cart.setHasFixedSize(true);
+        rcy_Cart.setAdapter(cartAdapter);
     }
 
 
@@ -133,7 +126,6 @@ public class CartFragment extends Fragment {
         super.onResume();
         Log.d("resume","resume");
         loadCart();
-        rcy_Cart.setAdapter(cartAdapter);
     }
 
     private void checkUser() {

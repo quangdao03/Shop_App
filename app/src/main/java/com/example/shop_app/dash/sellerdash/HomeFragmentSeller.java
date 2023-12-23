@@ -188,7 +188,7 @@ public class HomeFragmentSeller extends Fragment {
                             String shop_name = "" + dataSnapshot.child("shop_name").getValue();
                             Utils.ImageSeller = image;
                             Utils.name_shop = shop_name;
-                            binding.tvShopname.setText(getString(R.string.shop_name)+ " : " + shop_name);
+                            binding.tvShopname.setText(requireActivity().getString(R.string.shop_name)+ " : " + shop_name);
 
                         }
                     }
