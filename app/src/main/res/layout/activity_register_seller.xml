@@ -25,7 +25,7 @@
         android:src="@drawable/login_2" />
 
     <RelativeLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/rl_view_create"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -236,7 +236,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/rl_otp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
