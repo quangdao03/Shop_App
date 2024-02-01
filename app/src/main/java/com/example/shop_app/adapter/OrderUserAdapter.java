@@ -3,26 +3,21 @@ package com.example.shop_app.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.OrderDetailUser;
-import com.example.shop_app.model.FilterOrderSeller;
+import com.example.shop_app.model.FilterOrderUser;
 import com.example.shop_app.model.Order;
-import com.example.shop_app.model.OrderItem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +28,7 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
     Context context;
 
     public List<Order> orderList, filterList;
-    public FilterOrderSeller filter;
+    public FilterOrderUser filter;
     private double cost = 0;
     private double finalCost = 0;
     private int Qquantity = 1;
@@ -66,15 +61,17 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
         String date = formatDate.format(times);
 
         if (status.equals("Đang xử lý")){
+            holder.tv_Order_Status.setText(context.getString(R.string.process));
             holder.tv_Order_Status.setTextColor(context.getResources().getColor(R.color.primary));
         }else if (status.equals("Đã xác nhận")){
+            holder.tv_Order_Status.setText(context.getString(R.string.confirmed));
             holder.tv_Order_Status.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }else if (status.equals("Đã hủy")){
+            holder.tv_Order_Status.setText(context.getString(R.string.cancel));
             holder.tv_Order_Status.setTextColor(context.getResources().getColor(R.color.red));
         }
 
         holder.tv_order_time.setText(date);
-        holder.tv_Order_Status.setText(status);
         holder.tv_order_id.setText(time);
         holder.tv_Order_Name.setText(order.getOrderNameProduct());
         holder.tv_Order_Cost.setText(cost+" $");
@@ -83,6 +80,7 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderDetailUser.class);
                 intent.putExtra("orderId", time);
+                intent.putExtra("orderTo", orderTo);
                 context.startActivity(intent);
             }
         });
@@ -99,7 +97,7 @@ public class OrderUserAdapter extends RecyclerView.Adapter<OrderUserAdapter.List
     @Override
     public Filter getFilter() {
         if (filter == null){
-            filter = new FilterOrderSeller(this, (ArrayList<Order>) filterList);
+            filter = new FilterOrderUser(this, (ArrayList<Order>) filterList);
         }
         return filter;
     }

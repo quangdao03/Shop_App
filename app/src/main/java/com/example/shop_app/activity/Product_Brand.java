@@ -26,6 +26,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.ListProductAdapter;
 import com.example.shop_app.adapter.ProductBrandAdapter;
 import com.example.shop_app.model.Product;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +49,7 @@ public class Product_Brand extends AppCompatActivity {
     String name = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_product_brand);
         mapping();
@@ -83,14 +85,14 @@ public class Product_Brand extends AppCompatActivity {
 
     private void loadBrand() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Categorys/"+name+"/brand");
+        DatabaseReference myRef = database.getReference("brand");
         // Read from the database
         myRef.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tv_brandname.setText(dataSnapshot.child("name").getValue().toString());
                 tv_desc_brand.setText(dataSnapshot.child("desc").getValue().toString());
-                String url = dataSnapshot.child("url").getValue().toString();
+                String url = dataSnapshot.child("image").getValue().toString();
                 Glide.with(getApplicationContext()).load(url).into(img_brand);
 
             }
@@ -109,8 +111,8 @@ public class Product_Brand extends AppCompatActivity {
         productBrandAdapter = new ProductBrandAdapter(Product_Brand.this,productList);
         rcy_Product_Brand.setAdapter(productBrandAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myProdcut = database.getReference("Categorys/"+name+"/brand/"+id);
-        myProdcut.addValueEventListener(new ValueEventListener() {
+        DatabaseReference myProdcut = database.getReference("Product");
+        myProdcut.orderByChild("creator").equalTo(name).addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@androidx.annotation.NonNull DataSnapshot dataSnapshot) {
@@ -118,13 +120,8 @@ public class Product_Brand extends AppCompatActivity {
                 if (productList != null){
                     productList.clear();
                 }
-                for (DataSnapshot getData : dataSnapshot.child("product").getChildren()){
+                for (DataSnapshot getData : dataSnapshot.getChildren()){
                     Product product = getData.getValue(Product.class);
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice("Rp " +getData.child("price").getValue().toString());
-                    product.setQuantity(getData.child("quantity").getValue().toString());
-
                     productList.add(product);
                 }
                 txt_NumberProduct.setText(productList.size() +" Products");
@@ -163,9 +160,7 @@ public class Product_Brand extends AppCompatActivity {
                 filteredlist.add(item);
             }
         }
-        if (filteredlist.isEmpty()) {
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-        } else {
+        if (!filteredlist.isEmpty()) {
             productBrandAdapter.filterList(filteredlist);
         }
     }

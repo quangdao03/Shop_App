@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.utils.SystemUtil;
 
 public class About extends AppCompatActivity {
     ImageView ivToolbarLeft,ivToolbarRight;
@@ -19,6 +20,7 @@ public class About extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemUtil.setLocale(this);
         setContentView(R.layout.activity_about);
         mapping();
         getSupportActionBar().hide();

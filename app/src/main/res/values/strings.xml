@@ -3,7 +3,7 @@
     <string name="app_name">Shop App</string>
     <string name="app_home">Home</string>
     <string name="app_favorite">WishList</string>
-    <string name="app_history">Lịch sử</string>
+    <string name="app_history">History</string>
     <string name="app_account">Account</string>
     <string name="app_profile">Account</string>
     <string name="app_password">Change Password</string>
@@ -29,7 +29,7 @@
     <string name="change">Change</string>
     <string name="phone">0762132322</string>
     <string name="address">Hà Nội</string>
-    <string name="address_add">+ Thêm địa chỉ cụ thể</string>
+    <string name="address_add">+ Add specific address</string>
     <string name="product_list">Product List</string>
     <string name="purchase_summary">Purchase Summary</string>
     <string name="total_price">Total Price</string>
@@ -120,8 +120,7 @@
     <string name="add_wishlist">Added to Wishlist</string>
     <string name="product_cart">The product has been added to cart</string>
     <string name="invalid_email">Invalid email</string>
-    <string name="invalid_pass">Mật khẩu không hợp lệ
-                    Ít nhất 6 ký tự và có ít nhất 1 ký tự đặc biệt</string>
+    <string name="invalid_pass">Invalid password At least 6 characters and at least 1 special character</string>
     <string name="creating_account_success">Account successfully created</string>
     <string name="creating_account_fail">Account creation failed</string>
     <string name="creating_account">Creating an account</string>
@@ -137,5 +136,49 @@
     <string name="confirm">Confirm</string>
     <string name="confirm_success">Change language successfully</string>
     <string name="chat">Chat</string>
+    <string name="shop_name">Shop Name</string>
+    <string name="name_seller">Register as a seller? </string>
+    <string name="Statistical">Statistical</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="total_revenue">Total revenue: </string>
+    <string name="a_free">A Free &amp; Open Source Android application to download from the Project</string>
+    <string name="develop_by">Developed By</string>
+    <string name="see_more">see more</string>
+    <string name="fillter">Fillter</string>
+    <string name="dont_have">Don\'t have an account? </string>
+    <string name="rate">Rate</string>
+    <string name="are_you">Are you sure want to delete this from your Cart?</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Delete">Delete</string>
+    <string name="Revenue">Revenue</string>
+    <string name="get_the_fast">Get the fastest</string>
+    <string name="deli">Delivery groceries at home</string>
+    <string name="get_your">Ger your groceries in as fast as one hour</string>
+    <string name="get_started">Get Started</string>
+    <string name="choose_checkout">Choose and checkout</string>
+    <string name="unique">Unique products available in the booth</string>
+    <string name="purchase_your">Purchase your items online</string>
+    <string name="bringing">Bringing thousands of products and services to your fingertips</string>
+    <string name="All">All</string>
+    <string name="choose_list">Choose the list</string>
+    <string name="add_product">Add product</string>
+    <string name="adding_product">Adding products</string>
+    <string name="add_to_success">Add to success</string>
+    <string name="update_to_success">Update to success</string>
+    <string name="please_enter">Please enter complete information</string>
+    <string name="Submit">Submit</string>
+    <string name="comment">Comment (*)</string>
+    <string name="resend_code">I didn\'t receive otp code</string>
+    <string name="verification">Verification Code</string>
+    <string name="please_type">Please type the verification code sent to </string>
+    <string name="sorry">Sorry, this product is temporarily out of stock</string>
+    <string name="added_cart">Added to cart</string>
+    <string name="there_are">There are not many products in stock, please enter more quantity</string>
+    <string name="there_are_not">The number of products in stock is out of stock, please add more products</string>
+    <string name="product_low">Sorry, the quantity of products in stock is low, please reduce the quantity</string>
+    <string name="log_out">Do you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

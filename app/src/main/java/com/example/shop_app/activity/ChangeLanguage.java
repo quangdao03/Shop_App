@@ -20,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shop_app.R;
 import com.example.shop_app.utils.LocaleHelper;
+import com.example.shop_app.utils.SystemUtil;
+
+import java.util.Locale;
 
 public class ChangeLanguage extends AppCompatActivity {
     TextView tvTitleToolbar;
@@ -27,32 +30,41 @@ public class ChangeLanguage extends AppCompatActivity {
     Button btn_Vie,btn_En;
     Context context;
     Resources resources;
+    String codeLang;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_language);
         mapping();
         getSupportActionBar().hide();
         tvTitleToolbar.setText(R.string.chang_language);
+        codeLang = Locale.getDefault().getLanguage();
         btn_Vie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context = LocaleHelper.setLocale(ChangeLanguage.this, "vi");
-                resources = context.getResources();
+//                context = LocaleHelper.setLocale(ChangeLanguage.this, "vi");
+//                resources = context.getResources();
 //                btn_Vie.setText(resources.getString(R.string.vie));
+                SystemUtil.saveLocale(getBaseContext(), "vi");
                 dialog();
             }
         });
         btn_En.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context = LocaleHelper.setLocale(ChangeLanguage.this, "en-rGB");
-                resources = context.getResources();
+//                context = LocaleHelper.setLocale(ChangeLanguage.this, "en-rGB");
+//                resources = context.getResources();
+                SystemUtil.saveLocale(getBaseContext(), "en");
                 dialog();
             }
         });
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
+        ivToolbarLeft.setOnClickListener(view -> {
+            onBackPressed();
+            finish();
+        });
     }
 
     private void dialog(){
@@ -72,6 +84,7 @@ public class ChangeLanguage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ChangeLanguage.this,MainActivity.class));
+                finishAffinity();
             }
         });
         dialog.show();

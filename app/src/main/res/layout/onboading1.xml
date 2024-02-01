@@ -12,28 +12,23 @@
         android:src="@drawable/on1" />
 
     <TextView
+        android:gravity="center"
         android:layout_marginTop="@dimen/dp20"
         android:textColor="@color/black"
         android:textSize="28sp"
         android:layout_gravity="center"
-        android:text="Get the fastest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        android:layout_gravity="center"
-        android:text="Delivery groceries at home"
+        android:text="@string/deli"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:gravity="center"
         android:alpha="0.8"
         android:layout_marginTop="@dimen/dp10"
         android:textColor="@color/black"
         android:textSize="@dimen/sp16"
         android:layout_gravity="center"
-        android:text="Ger your groceries in as fast as one hour"
+        android:text="@string/get_your"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -46,9 +41,9 @@
         android:background="@drawable/bg_button_normal_red"
         android:layout_marginTop="50dp"
         android:layout_gravity="bottom|center"
-        android:text="Get Started"
+        android:text="@string/get_started"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="48dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/Theme.Design.NoActionBar"
@@ -59,9 +54,9 @@
         android:id="@+id/btn_login"
         android:layout_marginTop="20dp"
         android:layout_gravity="bottom|center"
-        android:text="Log in"
+        android:text="@string/login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="48dp"/>
 
 
 </LinearLayout>

@@ -12,23 +12,26 @@
 
         <CheckBox
             android:id="@+id/check_item"
-            android:layout_marginEnd="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp5"
             android:layout_width="@dimen/dp30"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-        <com.makeramen.roundedimageview.RoundedImageView
-
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/dp10"
+            app:cardBackgroundColor="#3FA7D6"
             android:layout_gravity="center"
-            android:background="#3FA7D6"
-            app:riv_corner_radius="10dp"
-            android:id="@+id/imag_CartList"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/fram1"
-/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imag_CartList"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/fram1"
+                />
+        </androidx.cardview.widget.CardView>
         <LinearLayout
             android:layout_weight="1"
             android:layout_marginStart="@dimen/dp10"
@@ -85,8 +88,7 @@
                 android:layout_width="@dimen/dp50"
                 android:layout_height="@dimen/dp50"
                 android:layout_gravity="end"
-                android:paddingHorizontal="@dimen/dp12"
-
+                android:padding="@dimen/dp12"
                 android:src="@drawable/ic_delete" />
 
             <LinearLayout
@@ -156,5 +158,5 @@
         android:background="#BBBBBB"
         android:layout_margin="@dimen/dp10"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp2"/>
+        android:layout_height="1dp"/>
 </LinearLayout>

@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shop_app.R;
 import com.example.shop_app.utils.CustomToast;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
@@ -36,11 +37,12 @@ public class ChangePassword extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_changepassword);
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText("Change Password");
+        tvTitleToolbar.setText(getString(R.string.change_pass));
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +53,7 @@ public class ChangePassword extends AppCompatActivity {
         });
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Vui lòng đợi");
+        progressDialog.setTitle(getString(R.string.please_wait));
         progressDialog.setCanceledOnTouchOutside(false);
         btn_ChangePass.setOnClickListener(new View.OnClickListener() {
             @Override

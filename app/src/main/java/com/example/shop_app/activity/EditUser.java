@@ -1,12 +1,5 @@
 package com.example.shop_app.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -24,8 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.utils.CustomToast;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,22 +41,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class EditUser extends AppCompatActivity {
-    ImageView ivToolbarLeft,ivToolbarRight,img_User;
+    ImageView ivToolbarLeft, ivToolbarRight, img_User;
     TextView tvTitleToolbar;
-    EditText edt_UserName,edt_Password,edt_Email,edt_Phone,edt_Address;
+    EditText edt_UserName, edt_Password, edt_Email, edt_Phone, edt_Address;
     Button btn_UpdateUser;
     FirebaseAuth firebaseAuth;
     private static final int LOCATION_REQUEST_CODE = 100;
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 300;
 
-    private static final int IMAGE_PICK_GALLERY_CODE  = 400;
-    private static final int IMAGE_PICK_CAMERA_CODE  = 500;
+    private static final int IMAGE_PICK_GALLERY_CODE = 400;
+    private static final int IMAGE_PICK_CAMERA_CODE = 500;
     private String[] cameraPermissions;
     private String[] storagePermissions;
     private Uri image_uri;
@@ -62,8 +63,10 @@ public class EditUser extends AppCompatActivity {
     private String name, phone, country, city, address;
 
     LinearLayout ll_edit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
         mapping();
@@ -105,21 +108,22 @@ public class EditUser extends AppCompatActivity {
             }
         });
     }
+
     private void onUpdateUser() {
         name = edt_UserName.getText().toString().trim();
         address = edt_Address.getText().toString().trim();
         phone = edt_Phone.getText().toString().trim();
-       updateProfile();
+        updateProfile();
     }
 
     private void updateProfile() {
         progressDialog.setMessage(getText(R.string.update_user));
         progressDialog.show();
-        if (image_uri == null){
+        if (image_uri == null) {
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("name",""+name);
-            hashMap.put("phone",""+phone);
-            hashMap.put("address",""+address);
+            hashMap.put("name", "" + name);
+            hashMap.put("phone", "" + phone);
+            hashMap.put("address", "" + address);
 
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -128,7 +132,7 @@ public class EditUser extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             progressDialog.dismiss();
-                            CustomToast.makeText(EditUser.this,""+getText(R.string.update_user_success),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                            CustomToast.makeText(EditUser.this, "" + getText(R.string.update_user_success), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
                         }
                     })
@@ -136,12 +140,12 @@ public class EditUser extends AppCompatActivity {
                         @Override
                         public void onFailure(@androidx.annotation.NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(EditUser.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditUser.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
-        }else {
-            String filePathAndName = "profile_images/" + ""+firebaseAuth.getUid();
+        } else {
+            String filePathAndName = "profile_images/" + "" + firebaseAuth.getUid();
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
             storageReference.putFile(image_uri)
@@ -149,14 +153,14 @@ public class EditUser extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isSuccessful());
+                            while (!uriTask.isSuccessful()) ;
                             Uri downloadImageUri = uriTask.getResult();
-                            if (uriTask.isSuccessful()){
+                            if (uriTask.isSuccessful()) {
                                 HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("name",""+name);
-                                hashMap.put("phone",""+phone);
-                                hashMap.put("address",""+address);
-                                hashMap.put("profileImage",""+ downloadImageUri);
+                                hashMap.put("name", "" + name);
+                                hashMap.put("phone", "" + phone);
+                                hashMap.put("address", "" + address);
+                                hashMap.put("profileImage", "" + downloadImageUri);
 
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                 reference.child(firebaseAuth.getUid()).updateChildren(hashMap)
@@ -164,7 +168,7 @@ public class EditUser extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 progressDialog.dismiss();
-                                                CustomToast.makeText(EditUser.this,""+getText(R.string.update_user_success),CustomToast.LENGTH_LONG,CustomToast.SUCCESS,true).show();
+                                                CustomToast.makeText(EditUser.this, "" + getText(R.string.update_user_success), CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
 
                                             }
@@ -173,7 +177,7 @@ public class EditUser extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@androidx.annotation.NonNull Exception e) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(EditUser.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(EditUser.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -197,20 +201,20 @@ public class EditUser extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            String name = ""+dataSnapshot.child("name").getValue();
-                            String email = ""+dataSnapshot.child("email").getValue();
-                            String address = ""+dataSnapshot.child("address").getValue();
-                            String phone = ""+dataSnapshot.child("phone").getValue();
-                            String profileImage = ""+dataSnapshot.child("profileImage").getValue();
-                            String accountType = ""+dataSnapshot.child("accountType").getValue();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String name = "" + dataSnapshot.child("name").getValue();
+                            String email = "" + dataSnapshot.child("email").getValue();
+                            String address = "" + dataSnapshot.child("address").getValue();
+                            String phone = "" + dataSnapshot.child("phone").getValue();
+                            String profileImage = "" + dataSnapshot.child("profileImage").getValue();
+                            String accountType = "" + dataSnapshot.child("accountType").getValue();
 
                             edt_UserName.setText(name);
                             edt_Address.setText(address);
                             edt_Phone.setText(phone);
                             try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(img_User);
-                            }catch (Exception e){
+                                Glide.with(EditUser.this).load(profileImage).placeholder(R.drawable.profile).into(img_User);
+                            } catch (Exception e) {
                                 img_User.setImageResource(R.drawable.profile);
                             }
 
@@ -233,28 +237,30 @@ public class EditUser extends AppCompatActivity {
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0){
-                            if (checkCameraPermission()){
+                        if (i == 0) {
+                            if (checkCameraPermission()) {
                                 ImagePickFromCamera();
-                            }else{
+                            } else {
                                 requestCameraPermission();
                             }
-                        }else {
-                            if (checkStoragePermission()){
+                        } else {
+                            if (checkStoragePermission()) {
                                 ImagePickFromGallery();
-                            }else{
+                            } else {
                                 requestStoragePermission();
                             }
                         }
                     }
                 }).show();
     }
-    private void ImagePickFromGallery(){
+
+    private void ImagePickFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
-    private void ImagePickFromCamera(){
+
+    private void ImagePickFromCamera() {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_Image Title");
@@ -266,17 +272,19 @@ public class EditUser extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
     }
-    private boolean checkStoragePermission(){
+
+    private boolean checkStoragePermission() {
         boolean result = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
         return result;
 
     }
 
-    private void requestStoragePermission(){
+    private void requestStoragePermission() {
         ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
     }
-    private boolean checkCameraPermission(){
+
+    private boolean checkCameraPermission() {
         boolean result = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
         boolean result1 = ContextCompat.checkSelfPermission(this,
@@ -285,33 +293,32 @@ public class EditUser extends AppCompatActivity {
 
     }
 
-    private void requestCameraPermission(){
+    private void requestCameraPermission() {
         ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
 
-            case CAMERA_REQUEST_CODE:{
-                if (grantResults.length>0){
+            case CAMERA_REQUEST_CODE: {
+                if (grantResults.length > 0) {
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted && storageAccepted){
+                    if (cameraAccepted && storageAccepted) {
                         ImagePickFromCamera();
-                    }
-                    else{
+                    } else {
                         Toast.makeText(this, "Camera permission is necessary.....", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
             break;
-            case STORAGE_REQUEST_CODE:{
-                if (grantResults.length>0){
+            case STORAGE_REQUEST_CODE: {
+                if (grantResults.length > 0) {
                     boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (storageAccepted){
+                    if (storageAccepted) {
                         ImagePickFromGallery();
-                    }
-                    else{
+                    } else {
                         Toast.makeText(this, "Storage permission is necessary.....", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -320,19 +327,21 @@ public class EditUser extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == RESULT_OK){
-            if (requestCode == IMAGE_PICK_GALLERY_CODE){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 image_uri = data.getData();
                 img_User.setImageURI(image_uri);
-            }else if (requestCode == IMAGE_PICK_CAMERA_CODE){
+            } else if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 img_User.setImageURI(image_uri);
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     private void mapping() {
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
         ivToolbarLeft = findViewById(R.id.ivToolbarLeft);

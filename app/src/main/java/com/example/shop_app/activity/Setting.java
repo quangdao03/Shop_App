@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.utils.SystemUtil;
 
 public class Setting extends AppCompatActivity {
     TextView tvTitleToolbar;
@@ -17,6 +18,7 @@ public class Setting extends AppCompatActivity {
     LinearLayout ll_ChangePass,ll_Change_Language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         mapping();

@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="338dp"
-        android:layout_height="352dp"
-        android:text="Seller Category"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="36dp"
-        tools:ignore="MissingConstraints" />
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_home" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_category"
+        android:layout_marginVertical="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

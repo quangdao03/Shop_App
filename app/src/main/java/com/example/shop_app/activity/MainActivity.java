@@ -7,6 +7,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import com.example.shop_app.R;
 import com.example.shop_app.databinding.ActivityMainBinding;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemUtil.setLocale(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -21,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_wishlist, R.id.nav_cart,R.id.nav_account)
                 .build();

@@ -5,14 +5,16 @@ public class Brand {
     private String image;
 
     private String name;
+    private String desc;
 
     public Brand() {
     }
 
-    public Brand(int id, String image, String name) {
+    public Brand(int id, String image, String name, String desc) {
         this.id = id;
         this.image = image;
         this.name = name;
+        this.desc = desc;
     }
 
     public int getId() {
@@ -37,5 +39,23 @@ public class Brand {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", image='" + image + '\'' +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
     }
 }

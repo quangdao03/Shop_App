@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.model.Product;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,9 +43,8 @@ public class ListProductNew extends RecyclerView.Adapter<ListProductNew.ListView
             return;
         }
         String url;
-        url = product.getUrl();
+        url = product.getImage();
         Glide.with(context).load(url).into(holder.productImage);
-        // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());
         holder.txtname.setText(product.getName());
         holder.txtnumber.setText(product.getQuantity());
@@ -55,7 +53,7 @@ public class ListProductNew extends RecyclerView.Adapter<ListProductNew.ListView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductDetail.class);
-                intent.putExtra("name",product.getName());
+                intent.putExtra("id",product.getId());
                 context.startActivity(intent);
             }
         });

@@ -14,11 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
-import com.example.shop_app.activity.Category_Product;
 import com.example.shop_app.activity.ProductDetail;
 import com.example.shop_app.model.Product;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,21 +31,21 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
     @NonNull
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_danhmuc_home,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_danhmuc_home, parent, false);
         return new ListViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-       Product product = productList.get(position);
-        if (product==null){
+        Product product = productList.get(position);
+        if (product == null) {
             return;
         }
         String url;
-        url = product.getUrl();
+        url = product.getImage();
         Glide.with(context).load(url).into(holder.productImage);
-       // Picasso.get().load(product.getImage()).into(holder.productImage);
+        // Picasso.get().load(product.getImage()).into(holder.productImage);
         holder.txtprice.setText(product.getPrice());
         holder.txtname.setText(product.getName());
         holder.txtnumber.setText(product.getQuantity());
@@ -57,7 +54,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductDetail.class);
-                intent.putExtra("name",product.getName());
+                intent.putExtra("id", product.getId());
                 context.startActivity(intent);
             }
         });
@@ -66,16 +63,16 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
 
     @Override
     public int getItemCount() {
-        if(productList!=null){
+        if (productList != null) {
             return productList.size();
         }
         return 0;
     }
 
-    public static class ListViewHolder extends RecyclerView.ViewHolder{
+    public static class ListViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layout;
         ImageView productImage;
-        TextView productName_TextView,txtname,txtprice,txtnumber;
+        TextView productName_TextView, txtname, txtprice, txtnumber;
 
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);

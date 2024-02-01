@@ -11,13 +11,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.About;
 import com.example.shop_app.activity.EditUser;
+import com.example.shop_app.activity.HelpActivity;
 import com.example.shop_app.activity.ListDetailOrder;
 import com.example.shop_app.activity.LoginActivity;
 import com.example.shop_app.activity.Setting;
@@ -25,19 +29,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class AccountFragment extends Fragment {
     View view;
-    LinearLayout ll_logout,ll_Address,ll_MyOrder,ll_about,ll_profile;
+    LinearLayout ll_logout,ll_Address,ll_MyOrder,ll_about,ll_profile,ln_help,ll_setting;
     TextView tvTitleToolbar,txt_username,txt_userphone,txt_email;
     ImageView ivToolbarLeft,ivToolbarRight,userImage_ImageView;
     private FirebaseAuth firebaseAuth;
@@ -92,6 +94,12 @@ public class AccountFragment extends Fragment {
                 startActivity(new Intent(getContext(),EditUser.class));
             }
         });
+        ln_help.setOnClickListener(view1 -> {
+            startActivity(new Intent(requireActivity(), HelpActivity.class));
+        });
+        ll_setting.setOnClickListener(view1 -> {
+            startActivity(new Intent(getActivity(), Setting.class));
+        });
         return view;
     }
 
@@ -99,6 +107,7 @@ public class AccountFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user == null){
             startActivity(new Intent(getActivity(), LoginActivity.class));
+            requireActivity().finishAffinity();
         }
         else {
             loadMyInfo();
@@ -122,7 +131,7 @@ public class AccountFragment extends Fragment {
                             txt_email.setText(email);
                             txt_userphone.setText(phone);
                             try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(userImage_ImageView);
+                                Glide.with(getContext()).load(profileImage).placeholder(R.drawable.profile).into(userImage_ImageView);
                             }catch (Exception e){
                                 userImage_ImageView.setImageResource(R.drawable.profile);
                             }
@@ -197,5 +206,7 @@ public class AccountFragment extends Fragment {
         txt_email = view.findViewById(R.id.txt_email);
         txt_userphone = view.findViewById(R.id.txt_userphone);
         userImage_ImageView = view.findViewById(R.id.userImage_ImageView);
+        ln_help = view.findViewById(R.id.ln_help);
+        ll_setting = view.findViewById(R.id.ll_setting);
     }
 }

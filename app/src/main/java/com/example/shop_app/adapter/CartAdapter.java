@@ -1,57 +1,57 @@
 package com.example.shop_app.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
+import android.app.Dialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.shop_app.EventBus.TotalEventCart;
 import com.example.shop_app.R;
-import com.example.shop_app.dash.userdash.CartFragment;
-import com.example.shop_app.database.MyDatabaseHelper;
-import com.example.shop_app.model.Cart;
+import com.example.shop_app.database.CartDatabase;
+import com.example.shop_app.database.CartRoom;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder>{
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder> {
     Context context;
-    private List<Cart> cartList;
-    iClickListener mClick;
-    public interface iClickListener {
-        void onClickUpdateItem(Cart cart);
-        void onClickDeleteItem(Cart cart);
-    }
+    private List<CartRoom> cartList;
 
     private double cost = 0;
     private double finalCost = 0;
     int quantityProduct = 1;
-    public CartAdapter(Context context, List<Cart> cartList,iClickListener iClickListener) {
+
+    public CartAdapter(Context context, List<CartRoom> cartList) {
         this.context = context;
         this.cartList = cartList;
-        this.mClick = iClickListener;
-
     }
 
     @NonNull
     @Override
     public CartAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkout_product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkout_product, parent, false);
         return new CartAdapter.ListViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Cart cart = cartList.get(position);
+        CartRoom cart = cartList.get(position);
 
 
         String url = cart.getImage();
@@ -63,16 +63,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         String priceEach = cart.getPriceEach();
 
 
-
         holder.tv_quantity.setText(cart.getQuantity());
 
         quantityProduct = Integer.parseInt(cart.getQuantity());
         holder.item_delete_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickDeleteItem(cart);
-                cartList.remove(position);
-                notifyDataSetChanged();
+
+                TextView tv_cancel, tv_delete;
+                final Dialog dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_delete_item_cart);
+                dialog.getWindow().setGravity(Gravity.CENTER);
+                dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(true);
+                tv_cancel = dialog.findViewById(R.id.tv_cancel);
+                tv_delete = dialog.findViewById(R.id.tv_delete);
+                tv_cancel.setOnClickListener(view1 -> {
+                    dialog.dismiss();
+                });
+                tv_delete.setOnClickListener(view1 -> {
+                    CartDatabase.getInstance(context).cartDAO().deleteCart(cart);
+                    cartList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, cartList.size());
+                    EventBus.getDefault().postSticky(new TotalEventCart());
+                    dialog.dismiss();
+                });
+                dialog.show();
             }
         });
 
@@ -81,18 +100,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         holder.count_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickUpdateItem(cart);
-                finalCost = finalCost + cost;
-                quantityProduct++;
-                holder.tv_price_cart.setText(""+finalCost);
-                holder.tv_quantity.setText(""+quantityProduct);
-                String rowID = cart.getCart_ID();
-                String productID = cart.getProductID();
-                String name = holder.tv_name_cart.getText().toString().trim();
-                String creator = holder.tv_creator_cart.getText().toString().trim();
-                String variant = cart.getVariant();
-                String priceEach = holder.tv_price_cart.getText().toString().trim();
-                updateData(rowID,productID,url,name,creator,variant,price,priceEach, String.valueOf(quantityProduct));
+                double price = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
+                int quantity = Integer.parseInt(cart.getQuantity());
+                quantity++;
+                double pricefinal = quantity * price;
+                cart.setPriceEach(String.valueOf(pricefinal));
+                cart.setQuantity(String.valueOf(quantity));
+                holder.tv_price_cart.setText("" + pricefinal);
+                holder.tv_quantity.setText("" + quantity);
+                CartDatabase.getInstance(context).cartDAO().updateCart(cart);
+                notifyItemChanged(position);
+                EventBus.getDefault().postSticky(new TotalEventCart());
             }
         });
 
@@ -100,42 +118,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
         holder.count_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (quantityProduct>1) {
-                    finalCost = finalCost - cost;
-                    quantityProduct--;
-                    holder.tv_price_cart.setText(""+finalCost);
-                    holder.tv_quantity.setText(""+quantityProduct);
-                }
-                String rowID = cart.getCart_ID();
-                String productID = cart.getProductID();
-                String name = holder.tv_name_cart.getText().toString().trim();
-                String creator = holder.tv_creator_cart.getText().toString().trim();
-                String variant = cart.getVariant();
-                String priceEach = holder.tv_price_cart.getText().toString().trim();
-                updateData(rowID,productID,url,name,creator,variant,price,priceEach, String.valueOf(quantityProduct));
 
+                double price = Double.parseDouble(cart.getPrice().replaceAll("$", ""));
+                int quantity = Integer.parseInt(cart.getQuantity());
+
+                if (quantity > 1) {
+                    quantity--;
+                    double pricefinal = quantity * price;
+                    cart.setPriceEach(String.valueOf(pricefinal));
+                    cart.setQuantity(String.valueOf(quantity));
+                    holder.tv_price_cart.setText("" + pricefinal);
+                    holder.tv_quantity.setText("" + quantity);
+                    CartDatabase.getInstance(context).cartDAO().updateCart(cart);
+                    notifyItemChanged(position);
+                }
+                EventBus.getDefault().postSticky(new TotalEventCart());
             }
         });
     }
 
-
-    public void updateData(String row_id, String productID, String image, String name, String creator, String variant, String price, String priceEach, String quantity){
-        MyDatabaseHelper myDatabaseHelper = new MyDatabaseHelper(context);
-        myDatabaseHelper.updateData(row_id,productID,image,name,creator,variant,price,priceEach,quantity);
-    }
-
     @Override
     public int getItemCount() {
-        if(cartList!=null){
+        if (cartList != null) {
             return cartList.size();
         }
         return 0;
     }
 
-    public static class ListViewHolder extends RecyclerView.ViewHolder{
+    public static class ListViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imag_CartList, item_delete_cart, count_down,count_add;
-        TextView tv_name_cart,tv_creator_cart,tv_price_cart,tv_quantity;
+        ImageView imag_CartList, item_delete_cart, count_down, count_add;
+        TextView tv_name_cart, tv_creator_cart, tv_price_cart, tv_quantity;
         CheckBox check_item;
 
         public ListViewHolder(@NonNull View itemView) {
@@ -149,7 +162,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ListViewHolder
             tv_price_cart = itemView.findViewById(R.id.tv_price_cart);
             tv_quantity = itemView.findViewById(R.id.tv_quantity);
             check_item = itemView.findViewById(R.id.check_item);
-
 
 
         }

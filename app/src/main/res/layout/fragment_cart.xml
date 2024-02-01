@@ -76,7 +76,7 @@
                     android:id="@+id/txt_Price"
                     style="@style/TextViewBase"
                     android:layout_marginTop="@dimen/dp10"
-                    android:text="@string/price"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp16"
                     android:textStyle="bold" />
@@ -102,7 +102,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="@dimen/dp82"
             android:background="@drawable/bg_buy_now"
-            android:text="Buy"
+            android:text="@string/buy"
             android:textColor="@color/white"
             android:textSize="@dimen/sp16" />
 

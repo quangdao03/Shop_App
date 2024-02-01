@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop_app.R;
+import com.example.shop_app.adapter.OrderSellerAdapter;
 import com.example.shop_app.adapter.OrderUserAdapter;
 import com.example.shop_app.model.Order;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,7 @@ public class OrderFragmentSeller extends Fragment {
     ImageView ivToolbarLeft,ivToolbarRight;
     RecyclerView rcy_List_Order;
 
-    OrderUserAdapter orderUserAdapter;
+    OrderSellerAdapter orderSellerAdapter;
 
     List<Order> orderList = new ArrayList<>();
     FirebaseAuth firebaseAuth;
@@ -51,20 +52,29 @@ public class OrderFragmentSeller extends Fragment {
         tv_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String options[] = {"All", "Đang xử lý", "Đã xác nhận", "Đã hủy"};
+                String options[] = {getString(R.string.All), getString(R.string.process), getString(R.string.confirmed), getString(R.string.cancel)};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Sắp xếp")
+                builder.setTitle(getString(R.string.fillter))
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (i == 0){
-                                    tv_sort.setText("All");
-                                    orderUserAdapter.getFilter().filter("");
+                                    tv_sort.setText(getString(R.string.All));
+                                    orderSellerAdapter.getFilter().filter("");
                                 }else  {
                                     String optionClicked = options[i];
-                                    tv_sort.setText(optionClicked);
-                                    orderUserAdapter.getFilter().filter(optionClicked);
+                                    if (optionClicked.equals(getString(R.string.process))){
+                                        tv_sort.setText(getString(R.string.process));
+                                        orderSellerAdapter.getFilter().filter("Đang xử lý");
+                                    } else if (optionClicked.equals(getString(R.string.confirmed))) {
+                                        tv_sort.setText(getString(R.string.confirmed));
+                                        orderSellerAdapter.getFilter().filter("Đã xác nhận");
+                                    }else {
+                                        tv_sort.setText(getString(R.string.cancel));
+                                        orderSellerAdapter.getFilter().filter("Đã hủy");
+                                    }
+
                                 }
                             }
                         }).show();
@@ -78,7 +88,7 @@ public class OrderFragmentSeller extends Fragment {
         rcy_List_Order.setHasFixedSize(true);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child("Orders")
+        ref.child("Orders").orderByChild("shop_uid").equalTo(firebaseAuth.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,8 +99,8 @@ public class OrderFragmentSeller extends Fragment {
                             Order orderSeller = ds.getValue(Order.class);
                             orderList.add(0,orderSeller);
                         }
-                        orderUserAdapter = new OrderUserAdapter(getContext(), orderList);
-                        rcy_List_Order.setAdapter(orderUserAdapter);
+                        orderSellerAdapter = new OrderSellerAdapter(getContext(), orderList);
+                        rcy_List_Order.setAdapter(orderSellerAdapter);
                     }
 
                     @Override

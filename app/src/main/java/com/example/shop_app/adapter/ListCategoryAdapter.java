@@ -49,7 +49,6 @@ public class ListCategoryAdapter extends RecyclerView.Adapter<ListCategoryAdapte
         String url = category.getImage();
 
         Glide.with(context).load(url).placeholder(R.drawable.ic_hoa1).into(holder.productImage);
-//        Picasso.get().load(url).placeholder(R.drawable.ic_hoa1).into(holder.productImage);
 
         holder.productName_TextView.setText(category.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -29,7 +29,6 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.splash_layout);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        getSupportActionBar().hide();
         loadData();
     }
     private  void loadData(){

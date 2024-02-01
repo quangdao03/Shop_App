@@ -19,6 +19,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.ChatUserAdapter;
 import com.example.shop_app.databinding.ActivityChatUserBinding;
 import com.example.shop_app.model.ChatMessage;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
@@ -40,20 +41,27 @@ public class ChatActivityUser extends AppCompatActivity {
     RecyclerView rcy_Chat;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
-    public static String ID_Seller;
+    String ID_Seller;
     ChatUserAdapter chatUserAdapter;
     List<ChatMessage> chatMessageList = new ArrayList<>();
     ProgressDialog progressDialog;
+
+    String shop_name;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         binding = ActivityChatUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         firebaseAuth = FirebaseAuth.getInstance();
         mapping();
         getSupportActionBar().hide();
-        tvTitleToolbar.setText(R.string.chat);
+        ID_Seller = getIntent().getStringExtra("id");
+        shop_name = getIntent().getStringExtra("name");
+        tvTitleToolbar.setText(shop_name);
+
+
         ivToolbarRight.setVisibility(View.GONE);
         ivToolbarLeft.setImageResource(R.drawable.ic_left);
         ivToolbarLeft.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +85,11 @@ public class ChatActivityUser extends AppCompatActivity {
         binding.edtMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
-                chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
-                rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+                if (chatMessageList.size() != 0){
+                    Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
+                    chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
+                    rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+                }
             }
         });
 
@@ -105,28 +115,17 @@ public class ChatActivityUser extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
-                chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
-                rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
-                // Cập nhật Adapter hoặc hiển thị danh sách
+                if (chatMessageList.size() != 0){
+                    Collections.sort(chatMessageList,(obj1,obj2)-> obj1.dateObj.compareTo(obj2.dateObj));
+                    chatUserAdapter.notifyItemRangeInserted(chatMessageList.size(),chatMessageList.size());
+                    rcy_Chat.smoothScrollToPosition(chatMessageList.size()-1);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setTitle(getText(R.string.please_wait));
-//        progressDialog.setCancelable(false);
-//        progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.create();
-//        progressDialog.show();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                progressDialog.dismiss();
-//            }
-//        },2000);
     }
 
     @Override
@@ -162,7 +161,7 @@ public class ChatActivityUser extends AppCompatActivity {
         }else {
             HashMap<String,Object> message = new HashMap<>();
             message.put(Utils.SENDID,String.valueOf(firebaseAuth.getUid()));
-            message.put(Utils.RECEIVEDID,Utils.SELLERID);
+            message.put(Utils.RECEIVEDID,ID_Seller);
             message.put(Utils.MESS,edtMessage);
             message.put(Utils.DATETIME,new Date());
             message.put(Utils.IMAGE,Utils.Image);
@@ -174,10 +173,10 @@ public class ChatActivityUser extends AppCompatActivity {
 
         db.collection(Utils.PATH_CHAT)
                 .whereEqualTo(Utils.SENDID,String.valueOf(firebaseAuth.getUid()))
-                .whereEqualTo(Utils.RECEIVEDID,Utils.SELLERID)
+                .whereEqualTo(Utils.RECEIVEDID,ID_Seller)
                 .addSnapshotListener(eventListener);
         db.collection(Utils.PATH_CHAT)
-                .whereEqualTo(Utils.SENDID,Utils.SELLERID)
+                .whereEqualTo(Utils.SENDID,ID_Seller)
                 .whereEqualTo(Utils.RECEIVEDID,String.valueOf(firebaseAuth.getUid()))
                 .addSnapshotListener(eventListener);
 

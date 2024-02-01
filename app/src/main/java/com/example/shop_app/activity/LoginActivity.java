@@ -17,14 +17,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shop_app.R;
+import com.example.shop_app.utils.SystemUtil;
 import com.example.shop_app.utils.Utils;
 import com.google.android.gms.common.internal.Objects;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -47,9 +52,11 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String email, password;
     Boolean ishowpass = false;
-    LinearLayout ll_login;
+    RelativeLayout ll_login;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
@@ -100,12 +107,24 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
+
             }
         });
         ll_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Utils.hideSoftKeyboard(LoginActivity.this);
+            }
+        });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    Log.d("token","FCM fail",task.getException());
+                    return;
+                }
+                token = task.getResult();
+                Log.d("token",token);
             }
         });
     }
@@ -147,13 +166,18 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        if (progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                         makeMeOnline();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
+                        if (progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                         Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -163,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.login_user_success));
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online", "true");
+        hashMap.put("token",token);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(firebaseAuth.getUid()).updateChildren(hashMap)
@@ -190,11 +215,10 @@ public class LoginActivity extends AppCompatActivity {
                             String accountType = ""+ds.child("accountType").getValue();
                             if (accountType.equals("User")){
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
                             }else {
                                 startActivity(new Intent(LoginActivity.this,MainActivitySeller.class));
                             }
-
+                            finish();
                         }
                     }
 
@@ -215,5 +239,13 @@ public class LoginActivity extends AppCompatActivity {
         imgShowPassword = findViewById(R.id.imgShowPassword);
         forgotPass = findViewById(R.id.forgotPass);
         ll_login = findViewById(R.id.ll_login);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

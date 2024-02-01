@@ -25,6 +25,7 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.shop_app.R;
 import com.example.shop_app.activity.ChatActivityUser;
+import com.example.shop_app.activity.ChatUserList;
 import com.example.shop_app.activity.LoginActivity;
 import com.example.shop_app.activity.MainActivity;
 import com.example.shop_app.activity.MainActivitySeller;
@@ -36,6 +37,8 @@ import com.example.shop_app.model.Category;
 import com.example.shop_app.model.Product;
 
 import com.example.shop_app.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +46,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.util.ArrayList;
@@ -107,11 +110,23 @@ public class HomeFragment extends Fragment {
         ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), ChatActivityUser.class));
+                startActivity(new Intent(getContext(), ChatUserList.class));
             }
         });
         checkUserType();
         getObjectUser();
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    Log.d("token","FCM fail",task.getException());
+                    return;
+                }
+                String token = task.getResult();
+                Log.d("token",token);
+            }
+        });
         return  view;
     }
 
@@ -163,8 +178,7 @@ public class HomeFragment extends Fragment {
         rcyProduct.setAdapter(listProductAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myProdcut = database.getReference("Product");
-        Query query = myProdcut.orderByChild("rate").startAfter(3);
-        query.addValueEventListener(new ValueEventListener() {
+        myProdcut.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -174,15 +188,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-//                    Product product = getData.getValue(Product.class);
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString()+" $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("("+quantity+")");
-                    Log.d("AAA",""+getData);
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
 
                 }
@@ -222,14 +228,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (DataSnapshot getData : dataSnapshot.getChildren()){
-//                    Product product = getData.getValue(Product.class);
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString()+ " $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("("+quantity+")");
+                    Product product = getData.getValue(Product.class);
                     productNewList.add(product);
 
                 }
@@ -254,6 +253,7 @@ public class HomeFragment extends Fragment {
                             String accountType = ""+ds.child("accountType").getValue();
                             if (accountType.equals("Seller")){
                                 Utils.SELLERID = ds.getKey();
+                                Log.d("key_seller",ds.getKey());
                             }
                         }
                     }

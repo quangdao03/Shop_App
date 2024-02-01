@@ -1,11 +1,5 @@
 package com.example.shop_app.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,21 +21,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.shop_app.R;
-import com.example.shop_app.utils.Utils;
+import com.example.shop_app.databinding.ActivityRegisterUserBinding;
+import com.example.shop_app.utils.SystemUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -63,11 +71,19 @@ public class RegisterUser extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     LinearLayout ll_register_user;
+
+    ActivityRegisterUserBinding binding;
+    private final String TAG = RegisterUser.class.getName();
+    String token;
+    String verification_id;
+    private  PhoneAuthProvider.ForceResendingToken resend;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_user);
+        binding = ActivityRegisterUserBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         init();
         getSupportActionBar().hide();
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -91,8 +107,13 @@ public class RegisterUser extends AppCompatActivity {
         txt_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegisterUser.this,LoginActivity.class));
+                onBackPressed();
+                finish();
             }
+        });
+        binding.txtRegisterSeller.setOnClickListener(view -> {
+            startActivity(new Intent(RegisterUser.this,RegisterSeller.class));
+            finish();
         });
         View.OnTouchListener touchListener = new View.OnTouchListener() {
             @Override
@@ -108,6 +129,56 @@ public class RegisterUser extends AppCompatActivity {
             }
         };
         ll_register_user.setOnTouchListener(touchListener);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    Log.d(TAG,"FCM fail",task.getException());
+                    return;
+                }
+                token = task.getResult();
+                Log.d(TAG,token);
+            }
+        });
+        binding.tvSubmit.setOnClickListener(view -> {
+            try {
+                PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verification_id,binding.otpView.getOTP());
+                signInWithPhoneAuthCredential(phoneAuthCredential);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        binding.tvOtpSendAgain.setOnClickListener(view -> {
+            PhoneAuthOptions options =
+                    PhoneAuthOptions.newBuilder(firebaseAuth)
+                            .setPhoneNumber(phone)       // Phone number to verify
+                            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                            .setActivity(this)
+                            .setForceResendingToken(resend)// (optional) Activity for callback binding
+                            // If no activity is passed, reCAPTCHA verification can not be used.
+                            .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                @Override
+                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                    signInWithPhoneAuthCredential(phoneAuthCredential);
+                                }
+
+                                @Override
+                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                    Toast.makeText(RegisterUser.this, "Verification Failed", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                    super.onCodeSent(s, forceResendingToken);
+                                    verification_id = s;
+                                    resend = forceResendingToken;
+                                }
+                            })          // OnVerificationStateChangedCallbacks
+                            .build();
+            PhoneAuthProvider.verifyPhoneNumber(options);
+        });
+
     }
 
 
@@ -200,7 +271,12 @@ public class RegisterUser extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        saveFireDatabase();
+                        progressDialog.dismiss();
+//                        saveFireDatabase();
+                        onClickVerifyPhone(phone);
+                        binding.rlViewCreate.setVisibility(View.GONE);
+                        binding.rlOtp.setVisibility(View.VISIBLE);
+                        binding.textNumber.setText(getString(R.string.please_type) + phone);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -225,6 +301,7 @@ public class RegisterUser extends AppCompatActivity {
             hashMap.put("accountType", "User");
             hashMap.put("online", "true");
             hashMap.put("profileImage", "");
+            hashMap.put("token",token);
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
             reference.child(firebaseAuth.getUid()).setValue(hashMap)
@@ -234,6 +311,7 @@ public class RegisterUser extends AppCompatActivity {
                             Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterUser.this, MainActivity.class));
                             finish();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -268,6 +346,7 @@ public class RegisterUser extends AppCompatActivity {
                                 hashMap.put("accountType", "User");
                                 hashMap.put("online", "true");
                                 hashMap.put("profileImage", "" + downloadImageUri);
+                                hashMap.put("token",token);
 
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                 reference.child(firebaseAuth.getUid()).setValue(hashMap)
@@ -277,6 +356,11 @@ public class RegisterUser extends AppCompatActivity {
                                                 Toast.makeText(RegisterUser.this, ""+getText(R.string.creating_account_success), Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(RegisterUser.this, MainActivity.class));
                                                 finish();
+
+//                                                onClickVerifyPhone(phone);
+//                                                binding.rlViewCreate.setVisibility(View.GONE);
+//                                                binding.rlOtp.setVisibility(View.VISIBLE);
+//                                                binding.textNumber.setText("Please type the verification code sent to "+ phone);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -418,4 +502,54 @@ public class RegisterUser extends AppCompatActivity {
         txt_Login = findViewById(R.id.txt_Login);
 
     }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+//                            startActivity(new Intent(RegisterUser.this, MainActivity.class));
+//                            finish();
+                            saveFireDatabase();
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(RegisterUser.this, "This verification code entered was invalid", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void onClickVerifyPhone(String number){
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(firebaseAuth)
+                        .setPhoneNumber(number)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            @Override
+                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                signInWithPhoneAuthCredential(phoneAuthCredential);
+                            }
+
+                            @Override
+                            public void onVerificationFailed(@NonNull FirebaseException e) {
+                                Toast.makeText(RegisterUser.this, "Verification Failed", Toast.LENGTH_SHORT).show();
+                                Log.e("otp_very",e.getMessage());
+                            }
+
+                            @Override
+                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(s, forceResendingToken);
+                                verification_id = s;
+                            }
+                        })
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+
 }

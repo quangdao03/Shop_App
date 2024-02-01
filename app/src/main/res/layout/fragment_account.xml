@@ -208,7 +208,7 @@
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground"
         android:padding="@dimen/dp5"
-        android:id="@+id/orderContainer3"
+        android:id="@+id/ln_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp10"

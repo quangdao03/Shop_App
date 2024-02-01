@@ -17,6 +17,7 @@ import com.example.shop_app.R;
 import com.example.shop_app.adapter.ChatSellerAdapter;
 import com.example.shop_app.adapter.ChatUserAdapter;
 import com.example.shop_app.adapter.User;
+import com.example.shop_app.utils.SystemUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +34,7 @@ public class ChatActivitySeller extends AppCompatActivity {
     ChatSellerAdapter chatSellerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SystemUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_seller);
         mapping();

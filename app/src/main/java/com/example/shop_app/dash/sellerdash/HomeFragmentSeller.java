@@ -4,85 +4,109 @@ package com.example.shop_app.dash.sellerdash;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.shop_app.R;
+import com.example.shop_app.activity.AddProductSeller;
 import com.example.shop_app.activity.ChatActivitySeller;
-import com.example.shop_app.adapter.ProductAdapter;
+import com.example.shop_app.adapter.ProductAdapterSeller;
+import com.example.shop_app.databinding.FragmentHomeSellerBinding;
 import com.example.shop_app.model.CostOrder;
 import com.example.shop_app.model.Order;
 import com.example.shop_app.model.Product;
 import com.example.shop_app.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class HomeFragmentSeller extends Fragment {
-    View view;
 
-    TextView tvTitleToolbar,txt_PriceAll;
-    ImageView ivToolbarLeft,ivToolbarRight,ivToolbarRight_message;
+
+    TextView tvTitleToolbar, txt_PriceAll;
+    ImageView ivToolbarLeft, ivToolbarRight, ivToolbarRight_message;
     RecyclerView rcy_Prodcut_Seller;
     List<Product> productList = new ArrayList<>();
-    ProductAdapter productAdapter;
-    List<Order> orderList = new ArrayList<>();
+    ProductAdapterSeller productAdapter;
     FirebaseAuth firebaseAuth;
     List<CostOrder> costOrderList = new ArrayList<>();
-    int a;
+    SearchView edt_search;
+    FragmentHomeSellerBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home_seller, container,false);
+        binding = FragmentHomeSellerBinding.inflate(getLayoutInflater());
         mapping();
         firebaseAuth = FirebaseAuth.getInstance();
-        tvTitleToolbar.setText("Product");
-        ivToolbarLeft.setVisibility(View.GONE);
-        ivToolbarRight.setImageResource(R.drawable.icons8_add);
+        getObjectUser();
+        viewClick();
         getProductSeller();
         loadAllOrder();
+        return binding.getRoot();
+    }
+
+
+
+    private void viewClick() {
+        tvTitleToolbar.setText(getString(R.string.product));
+        ivToolbarLeft.setVisibility(View.GONE);
+        ivToolbarRight.setImageResource(R.drawable.icons8_add);
         ivToolbarRight_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),ChatActivitySeller.class));
+                startActivity(new Intent(getContext(), ChatActivitySeller.class));
             }
         });
-        getObjectUser();
-        return  view;
+
+        edt_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+        binding.toolbar.ivToolbarRight.setOnClickListener(view -> {
+            startActivity(new Intent(requireActivity(), AddProductSeller.class));
+        });
     }
 
     private void loadAllOrder() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/Orders");
-        Query query = ref.orderByChild("orderCost");
-
-        query.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("shop_uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (costOrderList!= null){
+                        if (costOrderList != null) {
                             costOrderList.clear();
                         }
-                        for (DataSnapshot ds: snapshot.getChildren()){
+                        for (DataSnapshot ds : snapshot.getChildren()) {
                             Order orderSeller = ds.getValue(Order.class);
                             CostOrder costOrder = ds.getValue(CostOrder.class);
                             costOrderList.add(costOrder);
@@ -90,10 +114,10 @@ public class HomeFragmentSeller extends Fragment {
 
                         List<CostOrder> myList1 = costOrderList;
                         int sum = 0;
-                        for (int i = 0 ; i<myList1.size();i++){
+                        for (int i = 0; i < myList1.size(); i++) {
                             sum += Integer.parseInt(myList1.get(i).getOrderCost());
                         }
-                        txt_PriceAll.setText(sum+" $");
+                        txt_PriceAll.setText(": "+ sum + " $");
                     }
 
                     @Override
@@ -104,34 +128,28 @@ public class HomeFragmentSeller extends Fragment {
     }
 
     private void getProductSeller() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager( getContext(),2, GridLayoutManager.VERTICAL, false);
-
-        rcy_Prodcut_Seller.setLayoutManager (gridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rcy_Prodcut_Seller.setLayoutManager(linearLayoutManager);
         rcy_Prodcut_Seller.setHasFixedSize(true);
 
-        productAdapter = new ProductAdapter(getContext(),productList);
-        rcy_Prodcut_Seller.setAdapter(productAdapter);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myProdcut = database.getReference("Product");
 
-        myProdcut.addValueEventListener(new ValueEventListener() {
+        myProdcut.orderByChild("uid").equalTo(firebaseAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (productList != null){
+                if (productList != null) {
                     productList.clear();
                 }
-                for (DataSnapshot getData : dataSnapshot.getChildren()){
-                    Product product = new Product();
-                    product.setUrl(getData.child("image").getValue().toString());
-                    product.setName(getData.child("name").getValue().toString());
-                    product.setPrice(getData.child("price").getValue().toString()+" $");
-                    String quantity = "";
-                    quantity = getData.child("quantity").getValue().toString();
-                    product.setQuantity("("+quantity+")");
+                for (DataSnapshot getData : dataSnapshot.getChildren()) {
+                    Product product = getData.getValue(Product.class);
                     productList.add(product);
                 }
+                productAdapter = new ProductAdapterSeller(getContext(), productList);
+                rcy_Prodcut_Seller.setAdapter(productAdapter);
                 productAdapter.notifyDataSetChanged();
             }
 
@@ -141,15 +159,31 @@ public class HomeFragmentSeller extends Fragment {
             }
         });
     }
+
+    private void filter(String text) {
+        ArrayList<Product> filteredlist = new ArrayList<>();
+        for (Product item : productList) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
+        }
+        if (!filteredlist.isEmpty()) {
+            productAdapter.filterList(filteredlist);
+        }
+    }
+
     private void getObjectUser() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            String image = ""+dataSnapshot.child("profileImage").getValue();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String image = "" + dataSnapshot.child("profileImage").getValue();
+                            String shop_name = "" + dataSnapshot.child("shop_name").getValue();
                             Utils.ImageSeller = image;
+                            Utils.name_shop = shop_name;
+                            binding.tvShopname.setText(requireActivity().getString(R.string.shop_name)+ " : " + shop_name);
                         }
                     }
 
@@ -159,12 +193,14 @@ public class HomeFragmentSeller extends Fragment {
                     }
                 });
     }
+
     private void mapping() {
-        rcy_Prodcut_Seller = view.findViewById(R.id.rcy_Prodcut_Seller);
-        tvTitleToolbar = view.findViewById(R.id.tvTitleToolbar);
-        ivToolbarLeft = view.findViewById(R.id.ivToolbarLeft);
-        ivToolbarRight = view.findViewById(R.id.ivToolbarRight);
-        txt_PriceAll = view.findViewById(R.id.txt_PriceAll);
-        ivToolbarRight_message = view.findViewById(R.id.ivToolbarRight_message);
+        rcy_Prodcut_Seller = binding.rcyProdcutSeller;
+        tvTitleToolbar = binding.toolbar.tvTitleToolbar;
+        ivToolbarLeft = binding.toolbar.ivToolbarLeft;
+        ivToolbarRight = binding.toolbar.ivToolbarRight;
+        txt_PriceAll = binding.txtPriceAll;
+        ivToolbarRight_message = binding.toolbar.ivToolbarRightMessage;
+        edt_search = binding.edtSearch;
     }
 }
